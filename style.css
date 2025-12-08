@@ -1,0 +1,31 @@
+#hairstyle-gallery {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.style-option {
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+    transition: border 0.2s;
+}
+
+.style-option:hover {
+    border-color: #ccc; /* Light border on hover */
+}
+
+.style-option.selected {
+    border-color: #007bff; /* Highlight selected style */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.style-thumbnail {
+    width: 120px; /* Adjust size as needed */
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+}
