@@ -1,0 +1,7 @@
+[build]
+  publish = "/"
+  functions = "netlify/functions"
+
+[functions]
+  # Ensure your Node.js code is treated as a function
+  node_bundler = "esbuild"
