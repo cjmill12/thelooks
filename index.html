@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Hairstyle Try-On</title>
+    <title>AR Hairstyle Try-On Studio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,13 +17,28 @@
     <canvas id="hidden-canvas" style="display: none;"></canvas>
 
     <div id="controls">
-        <label for="hairstyle-select">Choose Hairstyle:</label>
-        <select id="hairstyle-select">
-            <option value="long straight blonde">Long Straight Blonde</option>
-            <option value="wavy shoulder-length brown">Wavy Shoulder-Length Brown</option>
-            <option value="short trendy pixie cut">Short Trendy Pixie Cut</option>
-        </select>
-        <button id="try-on-btn" disabled>✨ Try On!</button>
+        <h3>Choose Your Hairstyle:</h3>
+        
+        <div id="hairstyle-gallery">
+            
+            <div class="style-option" data-prompt="textured, medium length forward fringe hairstyle, light brown color" data-name="Forward Fringe">
+                <img src="/styles/forward fringe.jpeg" alt="Textured Forward Fringe Hairstyle" class="style-thumbnail">
+                <p>Forward Fringe</p>
+            </div>
+
+            <div class="style-option" data-prompt="short, high-volume spiked hairstyle, dark brown color" data-name="Spiked Charm">
+                <img src="/styles/spiked charm.jpeg" alt="Short Spiked Hairstyle" class="style-thumbnail">
+                <p>Spiked Charm</p>
+            </div>
+            
+            <div class="style-option" data-prompt="high volume natural short curls, dark brown color" data-name="Natural Curls">
+                <img src="/styles/natural curls.jpeg" alt="High Volume Natural Curls Hairstyle" class="style-thumbnail">
+                <p>Natural Curls</p>
+            </div>
+            
+        </div>
+        
+        <button id="try-on-btn" disabled>✨ Try On Selected Hairstyle</button>
     </div>
 
     <div id="results">
