@@ -66,6 +66,8 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            width: 100%; /* Important for full width */
+            box-sizing: border-box; /* Include padding in width calculation */
         }
 
         .app-screen.active {
@@ -75,7 +77,7 @@
         /* --- Step 1: Camera --- */
         #camera-view {
             width: 100%;
-            max-height: 100%;
+            aspect-ratio: 4 / 3; /* Standard video aspect ratio */
             position: relative;
             background: #000;
             border-radius: 10px;
@@ -105,7 +107,9 @@
         /* --- Step 2: Selection --- */
         #selfie-preview {
             width: 100%;
-            height: 200px;
+            max-width: 350px; /* Constrain size */
+            height: auto;
+            aspect-ratio: 4 / 3; 
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -126,20 +130,14 @@
             aspect-ratio: 1 / 1;
             border-radius: 10px;
             background-color: #ddd;
-            background-size: cover;
+            background-size: 300% 300%; /* For inspiration grid thumbnails */
             background-position: center;
             border: 3px solid transparent;
             cursor: pointer;
             position: relative;
             transition: border-color 0.2s;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: white;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+            overflow: hidden;
         }
 
         .style-option.selected {
@@ -156,6 +154,7 @@
             border-radius: 5px;
             padding: 2px 5px;
             font-size: 0.7rem;
+            z-index: 2;
         }
         
         .pro-banner {
@@ -177,7 +176,8 @@
         #result-canvas {
             width: 100%;
             max-width: 100%;
-            height: 400px;
+            height: auto;
+            aspect-ratio: 4 / 3;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
@@ -235,31 +235,27 @@
 
     <script>
         // --- 1. CONFIGURATION & STATE ---
-        // NOTE: These URLs MUST be replaced with links to TRANSPARENT PNGs (hair only, no background).
-        // I have used the inspiration image as a placeholder for the thumbnails (thumb), 
-        // but the 'img' property needs your cropped, transparent PNGs for the generation step.
-        const INSPIRATION_IMAGE_URL = 'https://i.imgur.com/gK9qQ6A.jpg'; // Placeholder for the full inspiration grid (used for thumbnails)
+        
+        // CRITICAL: Replace the following URLs with your hosted image links.
+        const INSPIRATION_IMAGE_URL = 'PASTE_YOUR_HOSTED_GRID_IMAGE_URL_HERE'; 
 
         const styles = [
-            // Top Row Styles
             { id: 1, name: 'Slick Back', img: 'REPLACE_WITH_SLICK_BACK_PNG_URL', isPro: false, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '0 0' },
             { id: 2, name: 'Short Crop', img: 'REPLACE_WITH_SHORT_CROP_PNG_URL', isPro: false, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-33% 0' },
             { id: 3, name: 'Side Part', img: 'REPLACE_WITH_SIDE_PART_PNG_URL', isPro: false, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-66% 0' },
-            // Middle Row Styles
             { id: 4, name: 'Buzz Cut', img: 'REPLACE_WITH_BUZZ_CUT_PNG_URL', isPro: false, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '0 -33%' },
-            { id: 5, name: 'Curly Look', img: 'REPLACE_WITH_CURLY_PNG_URL', isPro: true, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-33% -33%' }, // Pro Feature
+            { id: 5, name: 'Curly Look', img: 'REPLACE_WITH_CURLY_PNG_URL', isPro: true, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-33% -33%' }, 
             { id: 6, name: 'Quiff', img: 'REPLACE_WITH_QUIFF_PNG_URL', isPro: false, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-66% -33%' },
-            // Bottom Row Styles
             { id: 7, name: 'Long Bob', img: 'REPLACE_WITH_LONGBOB_PNG_URL', isPro: false, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '0 -66%' },
-            { id: 8, name: 'Long Waves', img: 'REPLACE_WITH_LONGWAVES_PNG_URL', isPro: true, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-33% -66%' }, // Pro Feature
-            { id: 9, name: 'Afro', img: 'REPLACE_WITH_AFRO_PNG_URL', isPro: true, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-66% -66%' } // Pro Feature
+            { id: 8, name: 'Long Waves', img: 'REPLACE_WITH_LONGWAVES_PNG_URL', isPro: true, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-33% -66%' },
+            { id: 9, name: 'Afro', img: 'REPLACE_WITH_AFRO_PNG_URL', isPro: true, thumb: INSPIRATION_IMAGE_URL, thumb_pos: '-66% -66%' }
         ];
 
         let appState = {
             step: 1,
             isProUser: false,
             selfieDataURL: null,
-            selectedStyle: styles[0] // Default to the first style (Slick Back)
+            selectedStyle: styles[0] 
         };
         
         const STEP_TITLES = {
@@ -273,15 +269,14 @@
         async function startCamera() {
             const video = document.getElementById('video-feed');
             try {
-                // Stop any previous streams
-                if (video.srcObject) {
-                    video.srcObject.getTracks().forEach(track => track.stop());
+                // Check if camera is already running before trying to get media
+                if (!video.srcObject || video.srcObject.getVideoTracks().length === 0) {
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { facingMode: 'user' }, 
+                        audio: false 
+                    });
+                    video.srcObject = stream;
                 }
-                const stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: 'user' }, 
-                    audio: false 
-                });
-                video.srcObject = stream;
             } catch (err) {
                 alert("Please allow camera access to use HairFlow.");
                 console.error("Camera error:", err);
@@ -291,30 +286,34 @@
         function stopCamera() {
             const video = document.getElementById('video-feed');
             if (video.srcObject) {
-                video.srcObject.getTracks().forEach(track => track.stop());
+                // IMPORTANT: Stop all tracks to fully release the camera resource
+                video.srcObject.getTracks().forEach(track => {
+                    track.stop();
+                });
+                video.srcObject = null;
             }
         }
 
         function goToStep(stepNumber) {
-            // Stop camera if leaving step 1
+            // FIX: Ensure camera stops when leaving step 1
             if (appState.step === 1 && stepNumber !== 1) {
                 stopCamera();
             }
             
-            appState.step = stepNumber;
-            document.getElementById('step-title').innerText = STEP_TITLES[stepNumber];
-
-            // Hide all and show current step
+            // FIX: Always hide all screens before showing the target screen
             document.querySelectorAll('.app-screen').forEach(screen => {
                 screen.classList.remove('active');
             });
+            
+            appState.step = stepNumber;
+            document.getElementById('step-title').innerText = STEP_TITLES[stepNumber];
             document.getElementById(`step-${stepNumber}`).classList.add('active');
 
             if (stepNumber === 1) {
-                startCamera(); // Restart camera if going back to step 1
+                startCamera(); // Restart camera
             } else if (stepNumber === 2) {
                 document.getElementById('selfie-preview').src = appState.selfieDataURL;
-                renderStyles(); // Render styles and selection borders
+                renderStyles(); 
             } else if (stepNumber === 3) {
                 generateResultImage();
             }
@@ -322,6 +321,12 @@
 
         function captureSelfie() {
             const video = document.getElementById('video-feed');
+            // FIX: Check if video is actually loaded before capturing
+            if (!video.srcObject || video.videoWidth === 0) {
+                alert("Camera feed not ready yet. Please wait a moment or allow camera access.");
+                return;
+            }
+            
             const canvas = document.createElement('canvas');
             
             // Set canvas size to video frame size
@@ -352,10 +357,9 @@
                 const div = document.createElement('div');
                 div.className = `style-option`;
                 
-                // Set the background image and position to display the correct style from the grid
+                // Set the background image and position for the thumbnail
                 div.style.backgroundImage = `url(${style.thumb})`;
                 div.style.backgroundPosition = style.thumb_pos;
-                div.style.backgroundSize = '300% 300%'; // Ensures the grid is tiled 3x3
 
                 // Set lock status
                 if (style.isPro && !appState.isProUser) {
@@ -396,7 +400,9 @@
             const selfieImg = new Image();
             const hairImg = new Image();
             
-            // Show a temporary loading indicator (optional but good UX)
+            // Clear and show generating message
+            canvas.width = 400; // Default size for loading screen
+            canvas.height = 300;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#f0f2f5';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -418,9 +424,10 @@
                 // Load the hair overlay image
                 hairImg.onload = () => {
                     // Current simplified placement:
-                    const headWidth = canvas.width * 0.7; // 70% of canvas width
+                    // This is the part that needs TensorFlow.js for accuracy.
+                    const headWidth = canvas.width * 0.7; 
                     const x = (canvas.width - headWidth) / 2;
-                    const y = canvas.height * 0.1; // 10% from the top
+                    const y = canvas.height * 0.1; 
                     const heightRatio = hairImg.height / hairImg.width;
                     const h = headWidth * heightRatio;
 
@@ -458,3 +465,17 @@
             btn.innerText = "Processing...";
             
             setTimeout(() => {
+                appState.isProUser = true;
+                closeProModal();
+                alert("Welcome to Nano Banana Pro! 🍌 All styles unlocked.");
+                renderStyles();
+            }, 1500);
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            goToStep(1);
+        };
+    </script>
+</body>
+</html>
