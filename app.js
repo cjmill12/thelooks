@@ -4,16 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hidden-canvas');
     const takeSelfieBtn = document.getElementById('take-selfie-btn');
     const tryOnBtn = document.getElementById('try-on-btn');
-    
-    // Get all style options from the new visual gallery
     const styleOptions = document.querySelectorAll('.style-option'); 
+    
+    // 🚨 LOADING INDICATOR ELEMENT
+    const spinner = document.getElementById('loading-spinner');
     
     const originalSelfieImg = document.getElementById('original-selfie');
     const aiResultImg = document.getElementById('ai-result');
     const statusMessage = document.getElementById('status-message');
     
-    let capturedImageBase64 = null; // Stores the selfie data
-    let selectedPrompt = null; // Stores the AI prompt from the clicked gallery item
+    let capturedImageBase64 = null; 
+    let selectedPrompt = null; 
 
     // --- Start Camera ---
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -39,10 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.height = videoFeed.videoHeight;
         const context = canvas.getContext('2d');
         
-        // Draw the current video frame onto the canvas
         context.drawImage(videoFeed, 0, 0, canvas.width, canvas.height);
         
-        // Get the image data URL and strip the prefix to send raw Base64
         const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
         capturedImageBase64 = dataUrl.split(',')[1]; 
 
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         originalSelfieImg.style.display = 'inline';
         aiResultImg.style.display = 'none';
 
-        // ONLY enable the Try On button if a style is already selected
         if (selectedPrompt) {
             tryOnBtn.disabled = false;
         }
@@ -60,16 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Style Selection Logic ---
     styleOptions.forEach(option => {
         option.addEventListener('click', () => {
-            // 1. Remove 'selected' class from all options
             styleOptions.forEach(opt => opt.classList.remove('selected'));
-            
-            // 2. Add 'selected' class to the clicked option (requires CSS)
             option.classList.add('selected');
             
-            // 3. Store the AI prompt from the data attribute
             selectedPrompt = option.getAttribute('data-prompt');
             
-            // 4. Enable the Try On button only if a selfie has been taken
             if (capturedImageBase64) {
                 tryOnBtn.disabled = false;
             }
@@ -78,26 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- Call Netlify Function for AI Processing ---
-tryOnBtn.addEventListener('click', async () => {
-    // ... validation code ...
-    
-    // Get the spinner element
-    const spinner = document.getElementById('loading-spinner');
+    // --- Call Netlify Function for AI Processing (with Loading Indicator) ---
+    tryOnBtn.addEventListener('click', async () => {
+        if (!capturedImageBase64 || !selectedPrompt) {
+            statusMessage.textContent = "Please take a selfie AND select a style!";
+            return;
+        }
 
-    statusMessage.textContent = `Applying your selected style... This may take a moment.`;
-    tryOnBtn.disabled = true;
-    spinner.style.display = 'inline-block'; // SHOW SPINNER
-
-    try {
-        // ... (fetch logic) ...
-    } catch (error) {
-        // ... (error handling) ...
-    } finally {
-        tryOnBtn.disabled = false;
-        spinner.style.display = 'none'; // HIDE SPINNER
-    }
-});
+        statusMessage.textContent = `Applying your selected style... This may take a moment.`;
+        tryOnBtn.disabled = true;
+        spinner.style.display = 'inline-block'; // 🚨 SHOW SPINNER
 
         try {
             const response = await fetch('/.netlify/functions/tryon', {
@@ -105,7 +88,7 @@ tryOnBtn.addEventListener('click', async () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     baseImage: capturedImageBase64,
-                    // Use the stored selectedPrompt variable
+                    // Use the stored, refined selectedPrompt variable
                     prompt: `Apply a high-quality, photorealistic ${selectedPrompt} to the person in the image. Maintain natural shadows and lighting.`
                 })
             });
@@ -117,16 +100,16 @@ tryOnBtn.addEventListener('click', async () => {
 
             const data = await response.json();
             
-            // Display the AI-generated image
             aiResultImg.src = `data:image/jpeg;base64,${data.generatedImageBase64}`;
             aiResultImg.style.display = 'inline';
             statusMessage.textContent = `Done! Your new look is ready.`;
 
         } catch (error) {
             console.error('AI Processing Error:', error);
-            statusMessage.textContent = `Error during AI try-on: ${error.message}. Please try again.`;
+            statusMessage.textContent = `Error during AI try-on: ${error.message}. Please check your console/Netlify logs.`;
         } finally {
             tryOnBtn.disabled = false;
+            spinner.style.display = 'none'; // 🚨 HIDE SPINNER
         }
     });
 });
