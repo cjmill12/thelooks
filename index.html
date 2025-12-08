@@ -9,56 +9,60 @@
 <body>
     <h1>Virtual Hairstyle Studio</h1>
     
-    <div id="camera-container">
-        <video id="video-feed" autoplay playsinline></video>
-        <button id="take-selfie-btn">📸 Take Selfie</button>
-    </div>
-
-    <canvas id="hidden-canvas" style="display: none;"></canvas>
-
-    <div id="controls">
-        <h3>Choose Your Hairstyle:</h3>
+    <div id="main-app-container">
+        <div id="camera-and-controls">
+            <div id="camera-container">
+                <video id="video-feed" autoplay playsinline></video>
+                <button id="take-selfie-btn">📸 Take Selfie</button>
+            </div>
         
-        <div id="hairstyle-gallery">
-            
-            <div class="style-option" data-prompt="textured, medium length forward fringe hairstyle, light brown color" data-name="Forward Fringe">
-                <img src="/styles/forward fringe.jpeg" alt="Textured Forward Fringe Hairstyle" class="style-thumbnail">
-                <p>Forward Fringe</p>
-            </div>
+            <canvas id="hidden-canvas" style="display: none;"></canvas>
 
-            <div class="style-option" data-prompt="short, high-volume spiked hairstyle, dark brown color" data-name="Spiked Charm">
-                <img src="/styles/spiked charm.jpeg" alt="Short Spiked Hairstyle" class="style-thumbnail">
-                <p>Spiked Charm</p>
-            </div>
-            
-            <div class="style-option" data-prompt="high volume natural short curls, dark brown color" data-name="Natural Curls">
-                <img src="/styles/natural curls.jpeg" alt="High Volume Natural Curls Hairstyle" class="style-thumbnail">
-                <p>Natural Curls</p>
-            </div>
-            
-        </div>
-        
-        <button id="try-on-btn" disabled>
-    <span id="try-on-btn-content">
-        <div id="loading-spinner" class="loading-indicator"></div>
-        <span>✨ Try On Selected Hairstyle</span>
-    </span>
-</button>
-    </div>
+            <div id="controls">
+                <h3>Choose Your Hairstyle:</h3>
+                
+                <div id="hairstyle-gallery">
+                    
+                    <div class="style-option" data-prompt="high quality, perfectly masked, natural textured, medium length forward fringe hairstyle, light golden brown color, studio lighting" data-name="Forward Fringe">
+                        <img src="/styles/forward fringe.jpeg" alt="Textured Forward Fringe Hairstyle" class="style-thumbnail">
+                        <p>Forward Fringe</p>
+                    </div>
 
-    <div id="results">
-        <h2>Results:</h2>
-        <div class="image-comparison">
-            <div class="result-box">
-                <h4>Original Selfie</h4>
-                <img id="original-selfie" alt="Original Selfie" style="display: none;">
-            </div>
-            <div class="result-box">
-                <h4>Virtual Try-On</h4>
-                <img id="ai-result" alt="AI Hairstyle Result" style="display: none;">
+                    <div class="style-option" data-prompt="perfectly masked, extremely realistic short, high-volume spiked hairstyle with fade, rich dark brown color, cinematic portrait lighting" data-name="Spiked Charm">
+                        <img src="/styles/spiked charm.jpeg" alt="Short Spiked Hairstyle" class="style-thumbnail">
+                        <p>Spiked Charm</p>
+                    </div>
+                    
+                    <div class="style-option" data-prompt="seamlessly blended, ultra-realistic high volume natural short curls, dark espresso brown color, soft studio light, photo-quality" data-name="Natural Curls">
+                        <img src="/styles/natural curls.jpeg" alt="High Volume Natural Curls Hairstyle" class="style-thumbnail">
+                        <p>Natural Curls</p>
+                    </div>
+                    
+                </div>
+                
+                <button id="try-on-btn" disabled>
+                    <span id="try-on-btn-content">
+                        <div id="loading-spinner" class="loading-indicator"></div>
+                        <span>✨ Try On Selected Hairstyle</span>
+                    </span>
+                </button>
             </div>
         </div>
-        <p id="status-message">Click "Take Selfie" to begin.</p>
+
+        <div id="results">
+            <h2>Results:</h2>
+            <div class="image-comparison">
+                <div class="result-box">
+                    <h4>Original Selfie</h4>
+                    <img id="original-selfie" alt="Original Selfie" style="display: none;">
+                </div>
+                <div class="result-box">
+                    <h4>Virtual Try-On</h4>
+                    <img id="ai-result" alt="AI Hairstyle Result" style="display: none;">
+                </div>
+            </div>
+            <p id="status-message">Click "Take Selfie" to begin.</p>
+        </div>
     </div>
 
     <script src="app.js"></script>
