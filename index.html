@@ -1,18 +1,3 @@
-<div id="hairstyle-gallery">
-                
-                <div class="style-option" data-prompt="Photorealistic inpainting, perfect masking, highly detailed natural texture, medium forward fringe, light golden brown, 4K resolution." data-name="Style 1: Fringe">
-                    <img src="/styles/forward fringe.jpeg" alt="Style 1: Forward Fringe" class="style-thumbnail">
-                    <p>Fringe</p>
-                </div>
-                </div> ```
-
-You need to re-insert the **other eight style options** into that HTML section.
-
-## 🛠️ The Fix: Complete `index.html` Gallery
-
-Here is the complete and final `index.html` file. Please replace your current file entirely with the code below, which includes all nine style options and their correct image paths and photorealism prompts.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +14,7 @@ Here is the complete and final `index.html` file. Please replace your current fi
     <div id="single-screen-app">
         
         <div id="central-viewport">
-            <video id="video-feed" autoplay playsinline></video>
+            <video id="video-feed" autoplay playsinline style="display: none;"></video>
             
             <img id="ai-result" alt="AI Hairstyle Result" style="display: none;">
 
@@ -42,7 +27,7 @@ Here is the complete and final `index.html` file. Please replace your current fi
             
             <button id="take-selfie-btn" class="main-action-btn">▶️ Start Camera</button>
             
-            <button id="try-on-btn" disabled class="main-action-btn">
+            <button id="try-on-btn" disabled class="main-action-btn" style="display: none;">
                 <span id="try-on-btn-content">
                     <div id="loading-spinner" class="loading-indicator"></div>
                     <span>✨ Try On Selected Hairstyle</span>
