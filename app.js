@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor quality, bad anatomy.";
     
     
-    // --- Camera Initialization Function (Includes Mobile Fix) ---
+    // --- Camera Initialization Function (Simplified and Robust) ---
     function startCamera() {
         if (cameraStarted) return;
         
@@ -28,29 +28,36 @@ document.addEventListener('DOMContentLoaded', () => {
             statusMessage.textContent = "Attempting to access camera...";
             takeSelfieBtn.disabled = true;
 
-            // 🚨 Mobile Compatibility: Ensure playsinline is set for iOS Safari
+            // Mobile Compatibility: Ensure playsinline is set
             videoFeed.setAttribute('playsinline', ''); 
 
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     videoFeed.srcObject = stream;
                     
-                    // 🚨 CRITICAL MOBILE FIX: Explicitly call play() to bypass auto-play restrictions
-                    return videoFeed.play(); 
-                })
-                .then(() => {
-                    // This block executes only after video playback successfully starts
-                    cameraStarted = true;
+                    // Simple logic: Set properties, then try to play.
                     videoFeed.style.display = 'block'; 
                     aiResultImg.style.display = 'none'; 
                     
-                    // Update button state
-                    takeSelfieBtn.textContent = "📸 Take Selfie"; 
-                    takeSelfieBtn.disabled = false;
-                    statusMessage.textContent = "Camera ready. Click 'Take Selfie'!";
+                    // Attempt to play and handle the result asynchronously
+                    videoFeed.play().then(() => {
+                        // Success block
+                        cameraStarted = true;
+                        takeSelfieBtn.textContent = "📸 Take Selfie"; 
+                        takeSelfieBtn.disabled = false;
+                        statusMessage.textContent = "Camera ready. Click 'Take Selfie'!";
+                    }).catch(playError => {
+                        // Handle failure of the play() promise (e.g., user denies permission mid-stream)
+                        console.error("Video play failed (often due to permission or policy):", playError);
+                        takeSelfieBtn.disabled = false;
+                        takeSelfieBtn.textContent = "Error: Camera Access Failed";
+                        statusMessage.textContent = "Error: Camera access denied or blocked.";
+                    });
+
                 })
                 .catch(err => {
-                    console.error("Camera access error:", err);
+                    // Handle failure of the getUserMedia promise
+                    console.error("Camera access error (getUserMedia failed):", err);
                     takeSelfieBtn.disabled = false; 
                     takeSelfieBtn.textContent = "Error: Camera Access Failed";
                     statusMessage.textContent = "Error: Cannot access camera. Check browser permissions.";
@@ -64,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tryOnBtn.style.display = 'none'; 
     videoFeed.style.display = 'none'; 
 
-    // --- Capture Selfie/Camera Activation ---
+    // --- Capture Selfie/Camera Activation (Logic remains the same) ---
     takeSelfieBtn.addEventListener('click', () => {
         // First Click: Start Camera
         if (!cameraStarted) {
@@ -75,10 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Second Click: Take Photo
         if (videoFeed.readyState !== 4) { 
             statusMessage.textContent = "Camera feed not ready yet. Please wait a moment.";
-            return;
+            return; 
         }
         
-        // 1. Capture Logic
+        // 1. Capture Logic (remains the same)
         canvas.width = videoFeed.videoWidth;
         canvas.height = videoFeed.videoHeight;
         const context = canvas.getContext('2d');
@@ -86,12 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
         capturedImageBase64 = dataUrl.split(',')[1]; 
         
-        // 2. State Transition (Camera -> Captured Image)
+        // 2. State Transition (remains the same)
         takeSelfieBtn.style.display = 'none'; 
         tryOnBtn.style.display = 'block'; 
         videoFeed.style.display = 'none'; 
         
-        // 3. Display captured image in the viewport (as the base for the AI output)
+        // 3. Display captured image (remains the same)
         aiResultImg.src = dataUrl;
         aiResultImg.style.display = 'block'; 
 
@@ -101,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.textContent = "Selfie captured! Now, select a hairstyle below.";
     });
 
-    // --- Style Selection Logic ---
+    // --- Style Selection Logic (remains the same) ---
     styleOptions.forEach(option => {
         option.addEventListener('click', () => {
             // Highlight selected style
@@ -120,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- Call Netlify Function for AI Processing ---
+    // --- Call Netlify Function for AI Processing (remains the same) ---
     tryOnBtn.addEventListener('click', async () => {
         if (!capturedImageBase64 || !selectedPrompt) {
             statusMessage.textContent = "Please take a selfie AND select a style!";
@@ -158,4 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('AI Processing Error:', error);
             statusMessage.textContent = `Error during AI try-on: ${error.message}. Please check your console/Netlify logs.`;
         } finally {
-            try
+            tryOnBtn.disabled = false;
+            spinner.style.display = 'none'; 
+            
+            // State Transition (Result -> Ready to Take New Selfie)
+            takeSelfieBtn.style.display = 'block';
+            takeSelfieBtn.textContent = "📸 Take New Selfie"; 
+            cameraStarted = false; 
+            tryOnBtn.style.display = 'none';
+        }
+    });
+});
