@@ -1,111 +1,78 @@
-/* --- Global Colors --- */
-:root {
-    --primary-color: #1D2124; 
-    --text-on-dark: #FFFFFF; 
-    --background-color: #f4f7f6;
-    --text-color: #333; 
-    --highlight-color: #28a745; 
-    --thumbnail-size: 60px;
-    --gallery-gap: 10px; 
-    --sidebar-width: 200px; 
-    --header-height: 40px;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-/* --- Header and Logo Styling (MINIMAL BANNER) --- */
-#app-header {
-    padding: 0; 
-    background-color: #FFFFFF;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
-    margin-bottom: 0; 
-    height: var(--header-height); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: sticky; 
-    top: 0;
-    z-index: 100;
-}
-#main-logo {
-    max-width: 100px !important; 
-    height: 35px !important; 
-    object-fit: contain; 
-}
-
-/* ================================================== */
-/* 🚨 NEW LAYOUT: TWO-COLUMN STRUCTURE */
-/* ================================================== */
-
-#two-column-layout {
-    display: flex;
-    max-width: 1200px; 
-    margin: 0 auto;
-    height: calc(100vh - var(--header-height)); 
-}
-
-/* --- 1. Filter Sidebar (LEFT) --- */
-#filter-sidebar {
-    width: var(--sidebar-width);
-    flex-shrink: 0; 
-    background-color: #fff;
-    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
-    padding: 10px;
-    overflow-y: auto; 
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- 2. Main Content (RIGHT) --- */
-#main-content {
-    flex-grow: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto; 
-}
-
-/* --- FILTER SECTION STYLES (Sidebar appearance) --- */
+/* --- FILTER SECTION STYLES (Sidebar appearance - STOPLIGHT BUTTONS) --- */
 
 .filter-section {
     width: 100%;
-    margin: 0 0 10px 0; /* Reduced margin */
-    padding: 0; /* Removing main section padding */
-    background-color: #f9f9f9;
+    margin: 0 0 10px 0; 
+    padding: 0;
+    background-color: #fff;
     border-radius: 6px;
     text-align: left; 
 }
 
-/* 🚨 Accordion Button Style */
+/* 🚨 Accordion Button Style: This is now the circle/pill button */
 .filter-section h3 {
     font-size: 0.9em; 
     font-weight: bold;
-    color: var(--primary-color);
     margin: 0; 
-    padding: 8px 10px; /* Padding makes the button area larger */
+    padding: 8px 10px;
     text-transform: uppercase;
-    border-bottom: 1px solid #ddd;
     display: flex;
     justify-content: space-between; 
     align-items: center;
-    cursor: pointer; /* Makes it look like a button */
+    cursor: pointer;
     background-color: #fff;
-    border-radius: 6px 6px 0 0;
+    border-radius: 6px; /* Default pill shape */
+    transition: all 0.2s ease-in-out;
 }
 
-/* Caret Icon for Collapse */
+/* --- COLLAPSED (Stoplight Circle Appearance) --- */
+.filter-section.collapsed h3 {
+    background-color: #f0f0f0; /* Light gray background when collapsed */
+    color: #666;
+    border-radius: 50%; /* Force circle shape */
+    height: 40px; /* Define height for circle */
+    width: 40px; /* Define width for circle */
+    padding: 0; /* Remove padding */
+    justify-content: center;
+    overflow: hidden; /* Hide the text */
+    margin: 0 auto 10px auto; /* Center the button and add spacing */
+}
+
+/* Hide text content within the circle button */
+.filter-section.collapsed h3 span {
+    display: none;
+}
+
+/* Show only the first letter when collapsed (optional, helps identification) */
+/* If you prefer just a colored circle, remove this entire block */
+.filter-section.collapsed h3::first-letter {
+    display: block;
+    color: var(--primary-color);
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+
+/* Hide the caret icon for collapsed circle buttons */
+.filter-section.collapsed h3::after {
+    content: none;
+}
+
+/* --- EXPANDED (Pill/Block Appearance) --- */
+.filter-section.expanded h3 {
+    background-color: var(--primary-color); /* Highlight color when active/expanded */
+    color: var(--text-on-dark);
+    border-radius: 6px 6px 0 0; /* Flat top for content below */
+    height: auto;
+    width: 100%;
+    padding: 8px 10px;
+    margin: 0;
+}
+
+/* Caret Icon for Collapse/Expand */
 .filter-section h3::after {
-    content: '▶'; /* Right pointing arrow (collapsed) */
+    content: '▶'; 
     font-size: 0.8em;
     margin-left: 5px;
     transition: transform 0.2s;
@@ -113,10 +80,12 @@ body {
 }
 
 .filter-section.expanded h3::after {
-    content: '▼'; /* Down pointing arrow (expanded) */
+    content: '▼'; 
+    color: var(--text-on-dark);
 }
 
-/* 🚨 Hiding the content group when collapsed */
+
+/* Hiding the content group when collapsed */
 .filter-content-group {
     padding: 5px 10px 10px 10px;
     background-color: #f9f9f9;
@@ -125,148 +94,4 @@ body {
 
 .filter-section.collapsed .filter-content-group {
     display: none;
-}
-
-
-/* Filter options group */
-.filter-options-group {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 8px; 
-    justify-content: flex-start; 
-    margin-top: 5px; 
-}
-
-/* Gender/General Option Buttons (Adapted for sidebar) */
-.gender-option {
-    padding: 8px 10px;
-    border: 1px solid #ccc; 
-    font-size: 0.85em;
-    flex-grow: 1; 
-    max-width: 100%; 
-}
-
-.gender-option.selected {
-    background-color: var(--primary-color);
-    color: var(--text-on-dark);
-    border-color: var(--primary-color);
-}
-
-/* Complexion Tiles (Circular & Compact) */
-#complexion-options-group {
-    justify-content: flex-start; 
-    gap: 6px; 
-}
-
-.complexion-tile {
-    width: 30px; 
-    height: 30px; 
-    border: 2px solid transparent; 
-    flex-shrink: 0; 
-}
-
-.complexion-tile p {
-    display: none; 
-}
-
-.complexion-tile.selected {
-    border-color: var(--highlight-color);
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); 
-}
-
-/* --- Hairstyle Gallery (Adapted for sidebar) --- */
-/* The filter-options-group styles here handle the scrolling carousel */
-#hairstyle-gallery {
-    padding: 0;
-}
-#hairstyle-gallery .filter-content-group {
-     padding: 10px 5px; /* Adjust padding inside content area */
-}
-#hairstyle-gallery .filter-options-group {
-    white-space: nowrap; 
-    overflow-x: scroll; 
-    overflow-y: hidden; 
-    scroll-snap-type: x mandatory;
-    gap: 8px;
-    padding-bottom: 5px; 
-}
-
-.style-thumbnail {
-    width: 45px; 
-    height: 45px; 
-}
-
-.style-option p {
-    font-size: 0.75em;
-    white-space: normal;
-    word-break: break-word;
-}
-
-/* ================================================== */
-/* RIGHT COLUMN ELEMENTS (Viewport and Controls) */
-/* ================================================== */
-/* ... (No functional changes here) ... */
-#central-viewport {
-    width: 100%;
-    max-width: 500px; 
-    min-height: 350px; 
-    max-height: 60vh;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#central-viewport.active {
-    display: block; 
-}
-
-#controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-}
-
-#take-selfie-btn, #try-on-btn {
-    width: 100%;
-    max-width: 400px;
-}
-
-/* ================================================== */
-/* 📱 MOBILE MEDIA QUERY (Collapse sidebar below 768px) */
-/* ================================================== */
-
-@media (max-width: 768px) {
-    
-    #two-column-layout {
-        flex-direction: column; 
-        height: auto;
-    }
-    
-    #filter-sidebar {
-        width: 100%;
-        min-height: auto;
-        padding: 10px 0;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-    
-    #main-content {
-        padding: 10px;
-    }
-    
-    .filter-section {
-        margin: 8px 10px;
-        padding: 0;
-        background-color: #fff;
-    }
-    
-    /* Re-show the label text for the complexion tiles on the stacked mobile layout */
-    .complexion-tile p {
-        display: block; 
-        font-size: 0.6em;
-        margin-top: 25px;
-    }
 }
