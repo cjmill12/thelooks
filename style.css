@@ -1,3 +1,155 @@
+/* --- Global Colors --- */
+:root {
+    --primary-color: #1D2124; 
+    --text-on-dark: #FFFFFF; 
+    --background-color: #f4f7f6;
+    --text-color: #333; 
+    --highlight-color: #28a745; 
+    --thumbnail-size: 60px;
+    --gallery-gap: 15px; 
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* --- Header and Logo Styling (MINIMAL BANNER) --- */
+#app-header {
+    padding: 0; 
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+    margin-bottom: 2px; 
+    /* Force compact header size */
+    height: 40px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#main-logo {
+    /* Force the logo size to be small */
+    max-width: 100px !important; 
+    height: 35px !important; 
+    object-fit: contain; 
+}
+
+/* --- NEW LAYOUT: Single Screen Focused --- */
+#single-screen-app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 10px; 
+    /* Use calc for height to prevent scrollbar flicker, adjusting for header height */
+    height: calc(100vh - 42px); 
+}
+
+/* 1. Central Image/Video Viewport (Initially Hidden) */
+#central-viewport {
+    position: relative; 
+    width: 95vw;
+    max-width: 400px; 
+    margin-bottom: 10px; 
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #eee;
+    flex-shrink: 0; 
+    min-height: 250px; 
+    max-height: 45vh; 
+    display: none; /* Starts hidden */
+}
+
+/* Class to show the viewport when camera starts */
+#central-viewport.active {
+    display: block;
+}
+
+#video-feed, #ai-result {
+    width: 100%;
+    height: 100%; 
+    display: block;
+    object-fit: cover;
+}
+
+/* Status message overlay (Compact) */
+#status-message {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 5px;
+    margin: 0;
+    font-size: 0.85em;
+    text-align: center;
+    z-index: 10;
+}
+
+/* 2. Controls Area (Scrollable if necessary) */
+#controls-and-gallery {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; 
+    padding-bottom: 20px;
+}
+
+/* Style for action buttons */
+.main-action-btn {
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px; 
+    transition: all 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+    transform: translateY(0);
+}
+
+/* Circular "Start Camera" button */
+#take-selfie-btn {
+    width: 70px; 
+    height: 70px;
+    padding: 0;
+    border-radius: 50%; 
+    background-color: var(--primary-color);
+    color: var(--text-on-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px; 
+    line-height: 1;
+}
+
+/* Standard square style for the "Try On" button */
+#try-on-btn {
+    width: 95%; 
+    max-width: 400px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: var(--text-on-dark);
+}
+
+.main-action-btn:hover:not(:disabled) {
+    background-color: #33393e; 
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+#try-on-btn:disabled {
+    background-color: #555c63; 
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 /* --- Filter Section Styles (Always Expanded) --- */
 
 .filter-section {
@@ -11,31 +163,54 @@
     text-align: left; 
 }
 
-/* ... (H3 styles remain the same) ... */
+.filter-section h3 {
+    font-size: 1em; 
+    color: var(--primary-color);
+    margin: 0; 
+    text-align: left; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    pointer-events: none; 
+}
 
-/* 🚨 Filter options group must allow wrapping for safety on small screens */
+/* Filter options are always displayed */
 .filter-options-group {
     display: flex;
     flex-wrap: wrap; 
-    gap: 10px; /* Reduced gap */
+    gap: 10px;
     justify-content: center;
     margin-top: 10px; 
 }
 
-/* Gender/General Option Buttons (No Change) */
-/* ... */
-
-/* Complexion Tiles (Circular & Compact) */
-#complexion-options-group {
-    /* Changed from space-between to center to ensure better grouping */
-    justify-content: center; 
-    gap: 8px; /* Further reduction in gap */
+/* Gender/General Option Buttons */
+.gender-option {
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    background-color: #f9f9f9;
+    color: var(--text-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-grow: 1;
+    max-width: 190px;
+}
+.gender-option.selected {
+    background-color: var(--primary-color);
+    color: var(--text-on-dark);
+    border-color: var(--primary-color);
 }
 
-/* 🚨 KEY CHANGE: Reduced Size */
+/* Complexion Tiles (Circular & Compact) - UPDATED FOR SMALLER SIZE */
+#complexion-options-group {
+    justify-content: center; 
+    gap: 8px; 
+}
+
 .complexion-tile {
-    width: 45px; /* Reduced from 65px */
-    height: 45px; /* Reduced from 65px */
+    /* Reduced Size */
+    width: 45px; 
+    height: 45px; 
     aspect-ratio: 1 / 1; 
     display: flex;
     flex-direction: column;
@@ -48,17 +223,16 @@
     position: relative;
     box-sizing: border-box;
     transition: border-color 0.2s;
-    /* Allow tiles to shrink slightly if space is tight */
     flex-shrink: 1; 
 }
 
-/* 🚨 KEY CHANGE: Reduced label size and repositioned */
 .complexion-tile p {
+    /* Reduced label font size and repositioned */
     color: #fff; 
-    font-size: 0.6em; /* Reduced label font size */
+    font-size: 0.6em; 
     font-weight: bold;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-    margin-top: 30px; /* Repositioned to fit the smaller circle */
+    margin-top: 30px; 
     position: absolute;
     width: 100px; 
 }
@@ -68,4 +242,94 @@
     box-shadow: 0 0 8px rgba(40, 167, 69, 0.5); 
 }
 
-/* --- Rest of CSS (Hairstyle Gallery, Media Queries, etc.) remains the same --- */
+/* --- Hairstyle Gallery: Scroll Snapping & Circular Thumbnails --- */
+#hairstyle-gallery {
+    width: 95%;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 15px 5%;
+    background-color: white; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+    display: block; 
+}
+
+#hairstyle-gallery .filter-options-group {
+    display: flex;
+    white-space: nowrap; 
+    overflow-x: scroll; 
+    overflow-y: hidden; 
+    scroll-snap-type: x mandatory;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--gallery-gap);
+    
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding-bottom: 5px; 
+}
+#hairstyle-gallery .filter-options-group::-webkit-scrollbar {
+    display: none;
+}
+
+.style-option {
+    cursor: pointer;
+    border-radius: 50%; 
+    border: 3px solid transparent; 
+    padding: 0; 
+    text-align: center;
+    transition: all 0.2s;
+    
+    flex: 0 0 auto; 
+    
+    scroll-snap-align: start; 
+    
+    display: inline-flex; 
+    flex-direction: column;
+    align-items: center;
+}
+
+.style-option p {
+    display: block; 
+    font-size: 0.8em;
+    margin-top: 5px;
+    color: var(--text-color);
+    white-space: normal;
+}
+
+
+.style-thumbnail {
+    width: var(--thumbnail-size);
+    height: var(--thumbnail-size); 
+    object-fit: cover; 
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.style-option.selected {
+    border-color: var(--highlight-color); 
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.4); 
+    transform: none; 
+}
+
+/* --- Media Query (Mobile Optimization) --- */
+@media (max-width: 600px) {
+    #single-screen-app {
+        padding: 0;
+    }
+    .filter-section {
+        border-radius: 0; 
+    }
+    
+    #video-feed, #ai-result {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0; 
+    }
+    
+    .main-action-btn {
+        width: 95%; 
+        max-width: 95%;
+    }
+}
