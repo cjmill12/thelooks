@@ -43,13 +43,13 @@ body {
 }
 
 /* ================================================== */
-/* NEW LAYOUT: TWO-COLUMN STRUCTURE */
+/* DESKTOP LAYOUT: TWO-COLUMN STRUCTURE */
 /* ================================================== */
 
 #two-column-layout {
     display: flex;
-    max-width: 1200px; 
-    margin: 0 auto;
+    width: 100%;
+    margin: 0; 
     height: calc(100vh - var(--header-height)); 
 }
 
@@ -106,9 +106,8 @@ body {
 .filter-section.collapsed h3 {
     background-color: #f0f0f0; 
     color: #666;
-    border-radius: 20px; /* Creates the pill shape (half of 40px height) */
+    border-radius: 20px; 
     
-    /* KEY CHANGE: Increased size to fit text horizontally */
     height: 40px; 
     width: 90%; 
     max-width: 180px; 
@@ -119,11 +118,11 @@ body {
     margin: 0 auto 10px auto; 
 }
 
-/* KEY CHANGE: Ensure the full text is visible when collapsed */
+/* Ensure the full text is visible when collapsed */
 .filter-section.collapsed h3 span {
     display: inline;
     font-size: 1.0em; 
-    line-height: 40px; /* Vertically center the text */
+    line-height: 40px; 
 }
 
 /* Hide the caret icon for collapsed buttons */
@@ -250,7 +249,7 @@ body {
 #central-viewport {
     position: relative; 
     width: 100%;
-    max-width: 500px; 
+    max-width: 600px; 
     min-height: 350px; 
     max-height: 60vh;
     margin-bottom: 20px;
@@ -325,37 +324,61 @@ body {
 }
 
 /* ================================================== */
-/* MOBILE MEDIA QUERY */
+/* 📱 MOBILE MEDIA QUERY (Stacking Layout) */
 /* ================================================== */
 
 @media (max-width: 768px) {
     
     #two-column-layout {
-        flex-direction: column; 
+        flex-direction: column; /* Stack camera/main content above filters */
         height: auto;
     }
     
     #filter-sidebar {
-        width: 100%;
+        width: 100%; /* Filters take full width */
         min-height: auto;
-        padding: 10px 0;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 10px; /* Padding for entire section */
+        box-shadow: none; /* Remove side shadow */
+        order: 1; /* Place filters below main content */
     }
-    
+
     #main-content {
+        width: 100%;
         padding: 10px;
+        order: 0; /* Place camera content first */
     }
-    
+
+    /* Filters (The Pills) on Mobile */
     .filter-section {
-        margin: 8px 10px;
+        margin: 8px auto; /* Center the filter sections */
         padding: 0;
         background-color: #fff;
+        max-width: 95%; /* Keep controls within reasonable bounds */
     }
     
-    /* Re-show the label text for the complexion tiles on the stacked mobile layout */
+    /* Ensure pills remain centered and at a readable width */
+    .filter-section.collapsed h3 {
+        width: 90%; 
+        max-width: 300px; /* Allow wider pill for finger tapping */
+    }
+
+    /* Complexion tiles must show text labels on mobile as space is limited */
+    .complexion-tile {
+        width: 40px; 
+        height: 40px;
+    }
     .complexion-tile p {
         display: block; 
         font-size: 0.6em;
-        margin-top: 25px;
+        margin-top: 45px; /* Push label below the larger circle */
+        text-align: center;
+        width: 40px;
+        white-space: normal;
+    }
+
+    /* Hairstyle Gallery on Mobile */
+    #hairstyle-gallery .filter-content-group {
+        padding: 10px;
+        overflow-x: auto; /* Ensure horizontal scrolling for the thumbnails */
     }
 }
