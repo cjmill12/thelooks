@@ -11,28 +11,12 @@
         <img src="/assets/Minimalist 'Looks' Logo with Hair Strand Design (1).png" alt="Looks App Logo" id="main-logo">
     </header>
     
-    <div id="single-screen-app">
+    <div id="two-column-layout">
         
-        <div id="central-viewport">
-            <video id="video-feed" autoplay playsinline style="display: none;"></video>
-            <img id="ai-result" alt="AI Hairstyle Result" style="display: none;">
-            <canvas id="hidden-canvas" style="display: none;"></canvas>
-            <p id="status-message">Click the Play icon to begin.</p>
-        </div>
-
-        <div id="controls-and-gallery">
-            
-            <button id="take-selfie-btn" class="main-action-btn">▶️</button>
-            
-            <button id="try-on-btn" disabled class="main-action-btn" style="display: none;">
-                <span id="try-on-btn-content">
-                    <div id="loading-spinner" class="loading-indicator"></div>
-                    <span>✨ Try On Selected Hairstyle</span>
-                </span>
-            </button>
+        <aside id="filter-sidebar">
             
             <div id="gender-selector" class="filter-section">
-                <h3>1. Select Your Style Category</h3>
+                <h3>Gender</h3>
                 <div class="filter-options-group">
                     <button class="gender-option" data-gender="male">Male Styles</button>
                     <button class="gender-option" data-gender="female">Female Styles</button>
@@ -40,19 +24,40 @@
             </div>
 
             <div id="complexion-selector" class="filter-section">
-                <h3>2. Select Your Skin Complexion</h3>
+                <h3>Complexion</h3>
                 <div class="filter-options-group" id="complexion-options-group">
                     </div>
             </div>
             
-            <div id="hairstyle-gallery" class="filter-section">
-                <h3>3. Select Your Inspiration Style</h3> 
+            <div id="hairstyle-gallery" class="filter-section filter-inspiration">
+                <h3>Inspiration</h3> 
                 <div class="filter-options-group">
                     </div>
             </div>
-
-        </div> 
+            
+        </aside>
         
+        <main id="main-content">
+            
+            <div id="central-viewport">
+                <video id="video-feed" autoplay playsinline style="display: none;"></video>
+                <img id="ai-result" alt="AI Hairstyle Result" style="display: none;">
+                <canvas id="hidden-canvas" style="display: none;"></canvas>
+                <p id="status-message">Click the Play icon to begin.</p>
+            </div>
+
+            <div id="controls">
+                <button id="take-selfie-btn" class="main-action-btn">▶️</button>
+                
+                <button id="try-on-btn" disabled class="main-action-btn" style="display: none;">
+                    <span id="try-on-btn-content">
+                        <div id="loading-spinner" class="loading-indicator"></div>
+                        <span>✨ Try On Selected Hairstyle</span>
+                    </span>
+                </button>
+            </div>
+            
+        </main>
     </div>
 
     <script src="app.js"></script>
