@@ -218,8 +218,8 @@ body {
 /* --- Hairstyle Gallery (INSPIRATION) --- */
 #hairstyle-gallery {
     padding: 0;
-    width: 100%; /* Take full width of main content area */
-    margin-top: 20px; /* Space from controls */
+    width: 100%; 
+    margin-top: 20px; 
 }
 #hairstyle-gallery .filter-content-group {
      padding: 10px 5px; 
@@ -248,13 +248,13 @@ body {
 /* RIGHT COLUMN ELEMENTS (Viewport and Controls) */
 /* ================================================== */
 
-/* 🚨 KEY CHANGE: Fixed size and circular shape for the viewport */
+/* Desktop Circular Viewport */
 #central-viewport {
     position: relative; 
     width: var(--viewport-size); 
     height: var(--viewport-size);
-    min-height: auto; /* Remove minimum height constraint */
-    max-width: none; /* Remove max width constraint */
+    min-height: auto; 
+    max-width: none; 
     max-height: none;
     margin-bottom: 20px;
     border-radius: 50%; /* MAKE IT A CIRCLE */
@@ -274,7 +274,6 @@ body {
 }
 
 #status-message {
-    /* Adjusted z-index to be higher than controls for visibility */
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -284,7 +283,7 @@ body {
     margin: 0;
     font-size: 0.85em;
     text-align: center;
-    z-index: 100; /* Ensure visibility over the circle */
+    z-index: 100; 
 }
 
 #controls {
@@ -306,7 +305,6 @@ body {
 }
 
 #take-selfie-btn {
-    /* Positioned relative to controls, not inside the circle */
     width: 70px; 
     height: 70px;
     padding: 0;
@@ -330,7 +328,7 @@ body {
 }
 
 /* ================================================== */
-/* 📱 MOBILE MEDIA QUERY (Stacking Layout) */
+/* 📱 MOBILE MEDIA QUERY (Optimized Stacking Layout) */
 /* ================================================== */
 
 @media (max-width: 768px) {
@@ -341,63 +339,82 @@ body {
     }
     
     #filter-sidebar {
+        /* PUSHED BELOW MAIN CONTENT */
         width: 100%; 
         padding: 10px; 
         box-shadow: none; 
         order: 1; 
-        /* Sidebar is now 100% width, filter sections need padding/margin */
     }
 
     #main-content {
+        /* PUSHED ABOVE FILTERS */
         width: 100%;
         padding: 10px;
         order: 0; 
     }
     
-    /* Center the circular viewport */
+    /* 🚨 MOBILE VIEWPORT OPTIMIZATION */
     #central-viewport {
         margin-left: auto;
         margin-right: auto;
-        width: 90vw; /* Use viewport width for better scaling */
-        height: 90vw;
-        max-width: var(--viewport-size);
-        max-height: var(--viewport-size);
+        /* Maximize viewport size on small screens */
+        width: 95vw; 
+        height: 95vw;
+        max-width: 450px; /* Cap size on tablets */
+        max-height: 450px;
+        margin-top: 10px;
     }
 
 
-    /* Filters (The Pills) on Mobile */
+    /* 🚨 MOBILE FILTER PILLS (FULL WIDTH) */
     .filter-section {
         margin: 8px auto; 
         padding: 0;
         background-color: #fff;
-        max-width: 95%; 
+        max-width: 95%; /* Constrain to screen width */
+        width: 100%; /* Take up the maximum allowed width */
     }
     
     .filter-section.collapsed h3 {
-        width: 90%; 
-        max-width: 300px; 
+        width: 100%; /* Pill takes full width of its container (95% of screen) */
+        max-width: none; /* Remove desktop max width constraint */
+        border-radius: 20px; /* Maintain pill shape */
+        margin: 0 auto;
     }
-
-    /* Complexion tiles must show text labels on mobile as space is limited */
+    
+    /* Complexion tiles must show text labels on mobile */
     .complexion-tile {
-        width: 40px; 
-        height: 40px;
+        width: 50px; /* Slightly larger targets */
+        height: 50px;
     }
     .complexion-tile p {
         display: block; 
         font-size: 0.6em;
-        margin-top: 45px; 
+        margin-top: 55px; /* Push label below the larger circle */
         text-align: center;
-        width: 40px;
+        width: 50px;
         white-space: normal;
     }
-
-    /* Hairstyle Gallery on Mobile */
+    
+    /* 🚨 INSPIRATION GALLERY OPTIMIZATION (Horizontal Scroll is key) */
     #hairstyle-gallery {
-        margin-top: 10px; /* Reduced margin */
+        margin-top: 10px; 
+        padding-bottom: 20px;
     }
-    #hairstyle-gallery .filter-content-group {
-        padding: 10px;
-        overflow-x: auto; 
+    
+    #hairstyle-gallery .filter-options-group {
+        /* This is already set correctly for horizontal scrolling, 
+           just ensuring mobile visibility */
+        overflow-x: scroll;
+        padding-bottom: 5px; 
+    }
+
+    .style-thumbnail {
+        width: 65px; /* Larger tap targets */
+        height: 65px; 
+    }
+
+    .style-option p {
+        font-size: 0.8em;
     }
 }
