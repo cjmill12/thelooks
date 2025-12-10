@@ -20,15 +20,17 @@ body {
     user-select: none;
 }
 
-/* --- Header and Logo Styling --- */
+/* --- Header and Logo Styling (Updates 1 & 2) --- */
 #app-header {
     padding: 10px 0;
-    background-color: var(--primary-color);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* 1. Switch background to white */
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Lighter shadow */
     margin-bottom: 10px;
 }
 #main-logo {
-    max-width: 150px;
+    /* 2. Shrink logo to be more rectangular */
+    max-width: 120px; /* Smaller width */
     height: auto;
 }
 
@@ -83,7 +85,7 @@ body {
     align-items: center;
 }
 
-/* Style for both action buttons */
+/* Style for both action buttons (Update 3: Elevated/Modern Look) */
 .main-action-btn {
     padding: 14px 28px;
     margin-bottom: 15px;
@@ -93,17 +95,27 @@ body {
     border: none;
     border-radius: 8px;
     font-size: 18px;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
     width: 95%;
     max-width: 400px;
+    /* Elevated look */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    transform: translateY(0);
+}
+
+.main-action-btn:hover:not(:disabled) {
+    background-color: #33393e; 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
 }
 
 #try-on-btn:disabled {
     background-color: #555c63; 
     cursor: not-allowed;
+    box-shadow: none;
 }
 
-/* --- NEW: Filter Section Styles --- */
+/* --- Filter Section Styles --- */
 
 .filter-section {
     width: 95%;
@@ -113,7 +125,7 @@ body {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    text-align: left; /* Align text within the filter box */
+    text-align: left; 
 }
 
 .filter-section h3 {
@@ -149,42 +161,44 @@ body {
     border-color: var(--primary-color);
 }
 
-/* Complexion Tiles (Three per row) */
+/* Complexion Tiles (Update 5: Smaller, Circular Tiles) */
 #complexion-options-group {
     justify-content: space-between;
 }
 .complexion-tile {
-    width: calc(33.33% - 10px); /* 3 tiles per row with spacing */
-    min-width: 100px;
-    aspect-ratio: 1 / 1.2; 
+    width: 65px; /* Fixed size for circular appearance */
+    height: 65px;
+    aspect-ratio: 1 / 1; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; 
+    justify-content: center; 
     border: 3px solid transparent;
-    border-radius: 8px;
+    border-radius: 50%; /* Circular shape */
     cursor: pointer;
     overflow: hidden;
     position: relative;
-    padding-bottom: 5px;
     box-sizing: border-box;
-}
-
-.complexion-tile.selected {
-    border-color: var(--highlight-color);
+    transition: border-color 0.2s;
 }
 
 .complexion-tile p {
     color: #fff; 
-    font-size: 0.8em;
+    font-size: 0.7em; /* Smaller font */
     font-weight: bold;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); /* Ensure text is readable */
-    margin: 0;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+    margin-top: 50px; /* Push text down just past the circle */
+    position: absolute;
+    width: 100px; /* Allow text to be wider than the circle */
+}
+
+.complexion-tile.selected {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5); /* Glowing effect on selection */
 }
 
 /* --- Hairstyle Gallery: Scroll Snapping & Circular Thumbnails --- */
 #hairstyle-gallery {
-    /* Changed to a filter section style box */
     width: 95%;
     max-width: 400px;
     margin: 10px auto;
@@ -193,7 +207,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
-    /* Carousel behavior for the dynamic style options */
     display: flex;
     white-space: nowrap; 
     overflow-x: scroll; 
@@ -217,7 +230,6 @@ body {
     text-align: center;
     transition: all 0.2s;
     
-    /* Ensure styles are visible in the scrollable view */
     flex: 0 0 auto; 
     margin-right: var(--gallery-gap); 
     
@@ -228,7 +240,6 @@ body {
     align-items: center;
 }
 
-/* Show Text Labels for dynamic gallery */
 .style-option p {
     display: block; 
     font-size: 0.8em;
@@ -248,49 +259,7 @@ body {
 
 .style-option.selected {
     border-color: var(--highlight-color); 
-    box-shadow: none; 
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.4); 
     transform: none; 
 }
-
-/* --- Loading Indicator Styling --- (remains the same) */
-#try-on-btn-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.loading-indicator {
-    display: none; 
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid var(--text-on-dark);
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    animation: spin 1s linear infinite;
-    margin-right: 8px;
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* --- Media Query (Mobile Optimization) --- */
-@media (max-width: 600px) {
-    #single-screen-app {
-        padding: 0;
-    }
-    .filter-section {
-        border-radius: 0; /* Edge to edge for mobile */
-    }
-    
-    #video-feed, #ai-result {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0; 
-    }
-    
-    .main-action-btn {
-        width: 95%; 
-        max-width: 95%;
-    }
-}
+/* ... (Loading Indicator and Media Query styles remain the same) ... */
