@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     // --- NEW: The AI Prompt Database (Populated for Male styles for testing) ---
+    // NOTE: This database structure remains critical and requires your full data set.
     const promptDatabase = {
         male: {
             // NOTE: Using a single style for all to demonstrate functionality. EXPAND THIS!
@@ -157,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 selectedComplexion = e.currentTarget.getAttribute('data-complexion');
                 
-                // Transition to the final gallery step
+                // Transition to the final gallery step (Step 3)
                 renderFinalGallery();
             });
         });
@@ -166,13 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- FINAL STEP: Render the Filtered Gallery ---
+    // --- FINAL STEP 3: Render the Filtered Gallery ---
     function renderFinalGallery() {
         if (!selectedGender || !selectedComplexion) return;
 
         galleryContainer.innerHTML = '';
         
-        // Safely access the filtered styles based on selection
         const filteredStyles = promptDatabase[selectedGender] && promptDatabase[selectedGender][selectedComplexion] 
                              ? promptDatabase[selectedGender][selectedComplexion]
                              : [];
@@ -183,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Loop through the filtered array and create the style options
         filteredStyles.forEach(style => {
             const optionDiv = document.createElement('div');
             optionDiv.classList.add('style-option');
@@ -208,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Show the final gallery
         galleryContainer.style.display = 'flex'; 
+        // 🚨 Step 4 change: Status message reflects Step 3
         statusMessage.textContent = "3. Select your final style and click 'Try On Selected Hairstyle'.";
     }
 
@@ -221,7 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Enable the Try On button if a selfie has already been taken
         if (capturedImageBase64) {
             tryOnBtn.disabled = false;
-            // Ensure the main button area is set up for the final action
             takeSelfieBtn.style.display = 'none';
             tryOnBtn.style.display = 'block';
             statusMessage.textContent = `Style selected: ${e.currentTarget.getAttribute('data-name')}. Click 'Try On Selected Hairstyle' above!`;
@@ -267,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusMessage.textContent = "Selfie captured! Click 'Try On Selected Hairstyle' above.";
         } else {
             tryOnBtn.disabled = true; 
-            statusMessage.textContent = "Selfie captured! Now, complete steps 1 & 2 to select your style.";
+            statusMessage.textContent = "Selfie captured! Now, complete steps 1, 2, and 3 to select your style.";
         }
     });
 
