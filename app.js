@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Get DOM elements (remains the same)
+    // 1. Get DOM elements
     const videoFeed = document.getElementById('video-feed');
     const aiResultImg = document.getElementById('ai-result');
     const canvas = document.getElementById('hidden-canvas');
@@ -11,24 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const statusMessage = document.getElementById('status-message');
     
-    // NEW: Filter elements (remains the same)
+    // NEW: Filter elements
     const genderSelector = document.getElementById('gender-selector');
     const complexionSelector = document.getElementById('complexion-selector');
     const complexionGroup = document.getElementById('complexion-options-group');
     const galleryContainer = document.getElementById('hairstyle-gallery');
     
-    // State tracking variables (remains the same)
+    // State tracking variables
     let capturedImageBase64 = null; 
     let selectedPrompt = null; 
     let cameraStarted = false; 
     let selectedGender = null;
     let selectedComplexion = null;
 
-    // --- CONSTANTS (remains the same) ---
+    // --- CONSTANTS ---
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor quality, bad anatomy.";
     
-    // --- Complexion Data and Prompt Database (remains the same) ---
-    // ... (Your complexionData and promptDatabase arrays here) ...
+    // --- Complexion Data and Prompt Database ---
     const complexionData = [
         { id: 'fair', name: 'Fair', color: '#F0E6D2' },
         { id: 'medium', name: 'Medium', color: '#E0C79A' },
@@ -93,15 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .then(() => {
                     cameraStarted = true;
-                    // Changed button content to reflect its new icon/role
-                    takeSelfieBtn.textContent = "📷"; 
+                    // Changed button content to the camera icon
+                    takeSelfieBtn.textContent = "📸"; 
                     takeSelfieBtn.disabled = false;
                     statusMessage.textContent = "Camera ready. Tap the camera icon to capture!";
                 })
                 .catch(err => {
                     console.error("Camera access error (getUserMedia or play failed):", err);
                     takeSelfieBtn.disabled = false; 
-                    // Changed button content to reflect its new icon/role
+                    // Changed button content to an error icon
                     takeSelfieBtn.textContent = "❌";
                     statusMessage.textContent = "Error: Cannot access camera. Check browser permissions.";
                 });
@@ -109,9 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // 🚨 INITIAL STATE SETUP
-    // Set the button text to 'Start Camera' initially (non-circular state)
-    takeSelfieBtn.textContent = "▶️ Start Camera"; 
-    statusMessage.textContent = "Click 'Start Camera' to begin the virtual try-on.";
+    // Use the Play/Start icon as the initial button content
+    takeSelfieBtn.textContent = "▶️"; 
+    statusMessage.textContent = "Click the Play icon to begin the virtual try-on.";
     tryOnBtn.style.display = 'none'; 
     videoFeed.style.display = 'none'; 
     tryOnBtn.disabled = true;
@@ -221,22 +220,21 @@ document.addEventListener('DOMContentLoaded', () => {
             statusMessage.textContent = `Style selected: ${e.currentTarget.getAttribute('data-name')}. Click 'Try On Selected Hairstyle' above!`;
         } else {
             tryOnBtn.disabled = true;
-            statusMessage.textContent = `Style selected. Click 'Start Camera' to take your selfie!`;
+            statusMessage.textContent = `Style selected. Click the Play icon to start your camera!`;
         }
     }
 
 
     // --- Capture Selfie/Camera Activation ---
     takeSelfieBtn.addEventListener('click', () => {
-        // 🚨 NEW LOGIC: If camera hasn't started, start it first.
+        // NEW LOGIC: If camera hasn't started, start it first.
         if (!cameraStarted) {
-            // Temporarily change button text for a clear call to action while loading
-            takeSelfieBtn.textContent = "⌛"; 
+            takeSelfieBtn.textContent = "⏳"; // Show loading icon
             startCamera(); 
             return; 
         }
         
-        // 🚨 Existing logic for taking a photo only runs if cameraStarted is true
+        // Existing logic for taking a photo only runs if cameraStarted is true
         if (videoFeed.readyState !== 4) { 
             statusMessage.textContent = "Camera feed not ready yet. Please wait a moment.";
             return; 
