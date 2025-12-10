@@ -9,20 +9,19 @@
     --gallery-gap: 10px; 
     --sidebar-width: 200px; 
     --header-height: 40px;
-    --viewport-size: 300px; /* New fixed size for circular viewport */
+    --viewport-size: 300px; /* Desktop circular viewport size */
 }
 
 body {
     font-family: Arial, sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
-    /* 🚨 MOBILE FIX 1: Ensure zero padding/margin on body */
     margin: 0;
     padding: 0; 
     text-align: center;
     -webkit-user-select: none;
     user-select: none;
-    overflow-x: hidden; /* 🚨 Prevent horizontal scrolling artifact */
+    overflow-x: hidden; 
 }
 
 /* --- Header and Logo Styling (MINIMAL BANNER) --- */
@@ -259,7 +258,7 @@ body {
     max-width: none; 
     max-height: none;
     margin-bottom: 20px;
-    border-radius: 50%; /* MAKE IT A CIRCLE */
+    border-radius: 50%; 
     overflow: hidden;
     background-color: #eee;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
@@ -330,7 +329,7 @@ body {
 }
 
 /* ================================================== */
-/* 📱 MOBILE MEDIA QUERY (Final Edge-to-Edge Optimization) */
+/* 📱 MOBILE MEDIA QUERY (Smaller Camera, Compact Filters) */
 /* ================================================== */
 
 @media (max-width: 768px) {
@@ -338,71 +337,70 @@ body {
     #two-column-layout {
         flex-direction: column; 
         height: auto;
-        padding: 0; /* 🚨 Ensure wrapper has no padding */
+        padding: 0; 
         margin: 0;
     }
     
     #filter-sidebar {
         width: 100%; 
-        padding: 10px 0; /* 🚨 Padding only top/bottom for full width sections */
+        padding: 10px 0; 
         box-shadow: none; 
         order: 1; 
     }
 
     #main-content {
         width: 100%;
-        padding: 10px 0; /* 🚨 Padding only top/bottom for max width camera */
+        padding: 10px 0; 
         order: 0; 
     }
     
-    /* MOBILE VIEWPORT OPTIMIZATION */
+    /* 🚨 MOBILE VIEWPORT OPTIMIZATION: Shrink the circle */
     #central-viewport {
         margin-left: auto;
         margin-right: auto;
-        /* Use a slightly smaller percentage for safety */
-        width: 90vw; 
-        height: 90vw;
-        max-width: 450px; 
-        max-height: 450px;
+        /* KEY CHANGE: Reduced size to 65vw */
+        width: 65vw; 
+        height: 65vw;
+        max-width: 300px; 
+        max-height: 300px;
         margin-top: 10px;
     }
 
-
-    /* MOBILE FILTER PILLS (Center and use fixed percentage) */
+    /* MOBILE FILTER PILLS (Centering and using fixed percentage for compactness) */
     .filter-section {
-        /* Centered block container */
         margin: 8px auto; 
         padding: 0;
         background-color: #fff;
-        width: 98%; /* 🚨 Use 98% for container width */
-        max-width: 450px; /* Cap size on tablets */
+        /* Reduce max width for a more centralized/compact look */
+        width: 90%; 
+        max-width: 350px; 
     }
     
     .filter-section.collapsed h3 {
-        /* Pill width relative to its 98% container */
-        width: 98%; 
+        /* Keep pill width constrained */
+        width: 95%; 
         max-width: none; 
         border-radius: 20px; 
         margin: 0 auto;
     }
 
-    /* Expanded Content Group within the 98% width container */
+    /* Expanded Content Group within the filter section */
     .filter-section.expanded .filter-content-group {
         width: 100%;
-        box-sizing: border-box; /* Include padding in the width calculation */
+        box-sizing: border-box; 
     }
     
     /* Complexion tiles must show text labels on mobile */
     .complexion-tile {
-        width: 50px; 
-        height: 50px;
+        width: 40px; 
+        height: 40px; /* Reduced size slightly */
     }
     .complexion-tile p {
         display: block; 
         font-size: 0.6em;
-        margin-top: 55px; 
+        margin-top: 45px; /* Push label below the circle */
         text-align: center;
-        width: 50px;
+        width: 40px;
         white-space: normal;
     }
     
@@ -411,15 +409,12 @@ body {
         margin-top: 10px; 
         padding-bottom: 20px;
         width: 100%; 
-        max-width: none; /* Ensure it respects the container width */
+        max-width: none; 
     }
     
-    /* Ensure the horizontal scroll container is edge-to-edge if necessary, 
-       but its parent (.filter-section) handles the main width. */
     #hairstyle-gallery .filter-options-group {
         overflow-x: scroll;
         padding-bottom: 5px; 
-        /* 🚨 Add padding to the left and right of the scroll view itself */
         padding-left: 10px; 
         padding-right: 10px;
     }
