@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('hidden-canvas');
     const centralViewport = document.getElementById('central-viewport');
     const statusMessage = document.getElementById('status-message');
+    // 🚨 NEW: Get the loading overlay
+    const loadingOverlay = document.getElementById('loading-overlay');
     
     // Controls
     const captureBtn = document.getElementById('capture-btn');
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeFilterContent = null; 
 
     // --- Complexion Data and Prompt Database (Simplified for brevity) ---
+    // NOTE: Ensure your project has images at these paths
     const complexionData = [
         { id: 'fair', name: 'Fair', color: '#F0E6D2' },
         { id: 'medium', name: 'Medium', color: '#E0C79A' },
@@ -43,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     const promptDatabase = {
-        // NOTE: Ensure your project has images at these paths
         male: {
             fair: [
                 { name: 'Fringe', prompt: 'medium forward fringe, light golden brown', img: '/styles/forward fringe.jpeg' },
@@ -270,11 +272,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // State Transition: Captured Image
             videoFeed.style.display = 'none'; 
-            aiResultImg.src = dataUrl; // <--- This holds the captured image
+            aiResultImg.src = dataUrl; 
             aiResultImg.style.display = 'block'; 
             
-            captureBtn.textContent = '🔄'; // Capture button becomes Restart
-            generateBtn.classList.remove('hidden-btn'); // Show Generate button
+            captureBtn.textContent = '🔄'; 
+            generateBtn.classList.remove('hidden-btn'); 
             
             statusMessage.textContent = "Selfie captured! Tap the sparkle button (✨) to 'Try On'.";
             
@@ -284,11 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (captureBtn.textContent === '🔄') {
             capturedImageBase64 = null;
             videoFeed.style.display = 'block';
-            aiResultImg.src = ''; // Clear result image source
+            aiResultImg.src = ''; 
             aiResultImg.style.display = 'none';
             
-            captureBtn.textContent = '📸'; // Restart button becomes Capture
-            generateBtn.classList.add('hidden-btn'); // Hide Generate button
+            captureBtn.textContent = '📸'; 
+            generateBtn.classList.add('hidden-btn'); 
             
             statusMessage.textContent = "Camera ready for a new look! Select a style and capture!";
         }
@@ -296,30 +298,35 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 2. GENERATE / TRY ON
     generateBtn.addEventListener('click', () => {
-        // Only run if the Generate button is visible and a capture has happened
         if (generateBtn.classList.contains('hidden-btn')) return;
 
         // State D: Captured Image -> AI Processing (✨ button)
         statusMessage.textContent = `Applying your selected style... This may take a moment.`;
         captureBtn.disabled = true;
         generateBtn.disabled = true;
-        generateBtn.textContent = '⏳'; // Show loading indicator
+        generateBtn.textContent = '⏳'; 
+        
+        // 🚨 SHOW LOADING OVERLAY
+        loadingOverlay.classList.remove('hidden-btn');
         
         // ** Simulating the AI call **
         setTimeout(() => {
             
-            // --- SUCCESS BLOCK (FIXED: Use the selected style's thumbnail for demonstration) ---
+            // --- SUCCESS BLOCK (Image Swap) ---
             const styleImgElement = document.querySelector('.style-option.selected .style-thumbnail');
             if (styleImgElement) {
                 // FORCE the final result image source swap here.
                 aiResultImg.src = styleImgElement.src; 
             }
             
+            // 🚨 HIDE LOADING OVERLAY
+            loadingOverlay.classList.add('hidden-btn');
+
             // State Transition: AI Result Ready
-            generateBtn.textContent = '✨'; // Reset Generate text
-            generateBtn.classList.add('hidden-btn'); // Hide Generate button
+            generateBtn.textContent = '✨'; 
+            generateBtn.classList.add('hidden-btn'); 
             captureBtn.disabled = false;
-            captureBtn.textContent = "🔄"; // Show Restart button
+            captureBtn.textContent = "🔄"; 
             
             statusMessage.textContent = `Done! Your new look is ready. Tap the restart button (🔄) to take a new selfie.`;
             
