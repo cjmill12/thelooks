@@ -90,7 +90,6 @@ body {
 
 /* Style for action buttons */
 .main-action-btn {
-    /* 🚨 Removed width/max-width for button uniformity */
     margin-bottom: 10px;
     cursor: pointer;
     border: none;
@@ -100,10 +99,10 @@ body {
     transform: translateY(0);
 }
 
-/* 🚨 New styles for circular "Start Camera" button */
+/* 🚨 Refined styles for circular "Start Camera" button */
 #take-selfie-btn {
-    width: 60px; /* Define the size */
-    height: 60px;
+    width: 70px; /* Increased size slightly */
+    height: 70px;
     padding: 0;
     border-radius: 50%; /* Make it a circle */
     background-color: var(--primary-color);
@@ -111,8 +110,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px; /* Larger icon/text for visibility */
-    /* Remove text wrap and show only the icon/symbol if possible */
+    font-size: 30px; /* Larger icon/text for visibility */
     line-height: 1;
 }
 
@@ -139,7 +137,7 @@ body {
 }
 
 /* --- Filter Section Styles (Compact) --- */
-
+/* ... (All other styles remain the same) ... */
 .filter-section {
     width: 95%;
     max-width: 400px;
@@ -286,5 +284,23 @@ body {
     transform: none; 
 }
 
-/* --- Loading Indicator and Media Query (remains the same) --- */
-/* ... */
+/* --- Media Query (Mobile Optimization) --- */
+@media (max-width: 600px) {
+    #single-screen-app {
+        padding: 0;
+    }
+    .filter-section {
+        border-radius: 0; 
+    }
+    
+    #video-feed, #ai-result {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0; 
+    }
+    
+    .main-action-btn {
+        width: 95%; 
+        max-width: 95%;
+    }
+}
