@@ -75,7 +75,7 @@ body {
     overflow-y: auto; 
 }
 
-/* --- FILTER SECTION STYLES (Stoplight Button Appearance) --- */
+/* --- FILTER SECTION STYLES (Larger Pill Buttons) --- */
 
 .filter-section {
     width: 100%;
@@ -102,39 +102,36 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-/* --- COLLAPSED (Stoplight Circle Appearance) --- */
+/* --- COLLAPSED (Pill Appearance) --- */
 .filter-section.collapsed h3 {
     background-color: #f0f0f0; 
     color: #666;
-    border-radius: 50%; /* Force circle shape */
+    border-radius: 20px; /* Creates the pill shape (half of 40px height) */
+    
+    /* KEY CHANGE: Increased size to fit text horizontally */
     height: 40px; 
-    width: 40px; 
-    padding: 0; 
+    width: 90%; 
+    max-width: 180px; 
+    padding: 0 10px; 
+    
     justify-content: center;
     overflow: hidden; 
     margin: 0 auto 10px auto; 
 }
 
-/* Hide text content within the circle button */
+/* KEY CHANGE: Ensure the full text is visible when collapsed */
 .filter-section.collapsed h3 span {
-    display: none;
+    display: inline;
+    font-size: 1.0em; 
+    line-height: 40px; /* Vertically center the text */
 }
 
-/* Show only the first letter when collapsed */
-.filter-section.collapsed h3::first-letter {
-    display: block;
-    color: var(--primary-color);
-    font-size: 1.2em;
-    font-weight: bold;
-    line-height: 40px;
-}
-
-/* Hide the caret icon for collapsed circle buttons */
+/* Hide the caret icon for collapsed buttons */
 .filter-section.collapsed h3::after {
     content: none;
 }
 
-/* --- EXPANDED (Pill/Block Appearance) --- */
+/* --- EXPANDED (Active Pill/Block Appearance) --- */
 .filter-section.expanded h3 {
     background-color: var(--primary-color); 
     color: var(--text-on-dark);
@@ -143,6 +140,7 @@ body {
     width: 100%;
     padding: 8px 10px;
     margin: 0;
+    justify-content: space-between; 
 }
 
 /* Caret Icon for Collapse/Expand */
@@ -158,7 +156,6 @@ body {
     content: '▼'; 
     color: var(--text-on-dark);
 }
-
 
 /* Hiding the content group when collapsed */
 .filter-content-group {
