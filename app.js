@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- Camera Initialization Function (No Change) ---
+    // --- Camera Initialization Function ---
     function startCamera() {
         if (cameraStarted) return;
         
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     videoFeed.style.display = 'none'; 
     tryOnBtn.disabled = true;
 
-    // CRITICAL: Render Step 2 and Step 3 content immediately on load.
+    // Render Step 2 and Step 3 content immediately on load.
     renderComplexionSelector(); 
     renderFinalGallery();
 
@@ -278,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- CORRECTED TRY ON BUTTON LOGIC ---
     tryOnBtn.addEventListener('click', async () => {
         if (!capturedImageBase64 || !selectedPrompt) {
             statusMessage.textContent = "Error: Please take a selfie AND select a style!";
@@ -306,23 +307,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             
+            // --- SUCCESS BLOCK ---
             aiResultImg.src = `data:image/jpeg;base64,${data.generatedImageBase64}`;
             aiResultImg.style.display = 'block';
-            statusMessage.textContent = `Done! Your new look is ready.`;
-
-        } catch (error) {
-            console.error('AI Processing Error:', error);
-            statusMessage.textContent = `Error during AI try-on: ${error.message}. Please check your console/Netlify logs.`;
-        } finally {
+            statusMessage.textContent = `Done! Your new look is ready. Click the Play button to take a new selfie.`;
+            
+            // Cleanup on successful completion (Ready for next action)
             tryOnBtn.disabled = true; 
             spinner.style.display = 'none'; 
-            
-            // State Transition (Result -> Ready to Take New Selfie)
-            takeSelfieBtn.style.display = 'block';
-            takeSelfieBtn.textContent = "▶️"; 
-            cameraStarted = false; 
             tryOnBtn.style.display = 'none';
-            centralViewport.classList.remove('active'); 
+            takeSelfieBtn.style.display = 'block'; 
+            takeSelfieBtn.textContent = "▶️"; 
+            
+            // We leave the centralViewport active and the aiResultImg visible
+            
+        } catch (error) {
+            // --- ERROR BLOCK ---
+            console.error('AI Processing Error:', error);
+            statusMessage.textContent = `Error during AI try-on: ${error.message}. Please try again.`;
+            
+            // Cleanup on error: keep image visible, restore try-on button or take-selfie button
+            tryOnBtn.disabled = false; // Re-enable Try On button in case the error was temporary
+            spinner.style.display = 'none'; 
+            tryOnBtn.style.display = 'block';
+            takeSelfieBtn.style.display = 'none'; // Keep camera button hidden if try-on is re-enabled
+
         }
     });
 });
