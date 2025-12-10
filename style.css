@@ -22,14 +22,12 @@ body {
 
 /* --- Header and Logo Styling (Banner Update) --- */
 #app-header {
-    /* White/Transparent Background */
     padding: 8px 0; 
     background-color: #FFFFFF;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
     margin-bottom: 5px; 
 }
 #main-logo {
-    /* 🚨 Rectangular Banner Size */
     max-width: 100px; 
     height: auto;
 }
@@ -90,21 +88,42 @@ body {
     padding-bottom: 20px;
 }
 
-/* Main Action Buttons (Elevated Look) */
+/* Style for action buttons */
 .main-action-btn {
-    padding: 12px 24px; 
+    /* 🚨 Removed width/max-width for button uniformity */
     margin-bottom: 10px;
     cursor: pointer;
-    background-color: var(--primary-color); 
-    color: var(--text-on-dark); 
     border: none;
-    border-radius: 8px;
     font-size: 16px; 
     transition: all 0.2s;
-    width: 95%;
-    max-width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
     transform: translateY(0);
+}
+
+/* 🚨 New styles for circular "Start Camera" button */
+#take-selfie-btn {
+    width: 60px; /* Define the size */
+    height: 60px;
+    padding: 0;
+    border-radius: 50%; /* Make it a circle */
+    background-color: var(--primary-color);
+    color: var(--text-on-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; /* Larger icon/text for visibility */
+    /* Remove text wrap and show only the icon/symbol if possible */
+    line-height: 1;
+}
+
+/* Standard square style for the "Try On" button */
+#try-on-btn {
+    width: 95%; 
+    max-width: 400px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: var(--text-on-dark);
 }
 
 .main-action-btn:hover:not(:disabled) {
@@ -266,23 +285,6 @@ body {
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.4); 
     transform: none; 
 }
-/* --- Media Query (Mobile Optimization) --- */
-@media (max-width: 600px) {
-    #single-screen-app {
-        padding: 0;
-    }
-    .filter-section {
-        border-radius: 0; 
-    }
-    
-    #video-feed, #ai-result {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 0; 
-    }
-    
-    .main-action-btn {
-        width: 95%; 
-        max-width: 95%;
-    }
-}
+
+/* --- Loading Indicator and Media Query (remains the same) --- */
+/* ... */
