@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- Helper Functions ---
+    // --- Helper Functions (Omitting for brevity) ---
     function toggleFilterContent(contentElement) {
         if (activeFilterContent === contentElement) {
             filterWrapper.style.display = 'none';
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.textContent = `Style selected: ${e.currentTarget.getAttribute('data-name')}. Tap the camera button to capture your selfie.`;
     }
 
-    // --- INITIAL STATE SETUP AND EVENT LISTENERS ---
+    // --- INITIAL STATE SETUP AND EVENT LISTENERS (Condensed) ---
     
     captureBtn.textContent = "▶️"; 
     generateBtn.classList.add('hidden-btn'); 
@@ -238,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         galleryContainer.style.display = isExpanded ? 'none' : 'block';
         if (!isExpanded) { statusMessage.textContent = "Select an inspiration style from the gallery below."; }
     });
+
 
     // --- 4. BUTTON LISTENERS (THE CORE FUNCTIONALITY) ---
 
@@ -302,12 +303,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // ** Simulating the AI call **
         setTimeout(() => {
             
-            // --- SUCCESS BLOCK (Simple Image Swap) ---
+            // --- SUCCESS BLOCK (Image Swap: CRITICAL FIX FOR MOCK-UP) ---
             const styleImgElement = document.querySelector('.style-option.selected .style-thumbnail');
             if (styleImgElement) {
-                // *** REVERTED LOGIC ***: Use the exact source of the thumbnail.
-                // This confirms the state transition works, even if the image is wrong.
-                aiResultImg.src = styleImgElement.src; 
+                // Get the current source path (e.g., /styles/forward fringe.jpeg)
+                let originalSrc = styleImgElement.src;
+
+                // 🚨 This line is the magic that simulates the AI result by changing the path.
+                // It replaces '/styles/' with '/styles/result_' to point to your mock-up file.
+                const newSrc = originalSrc.replace('/styles/', '/styles/result_');
+                
+                // Force the final result image source swap here.
+                aiResultImg.src = newSrc; 
             }
             
             loadingOverlay.classList.add('hidden-btn');
