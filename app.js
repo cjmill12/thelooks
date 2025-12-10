@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'deep', name: 'Deep', color: '#442C2E' },
     ];
     
-    // NOTE: In a real app, this database would be larger, but we'll use a subset for functionality.
+    // Placeholder image paths (Assume these exist in your project structure)
     const promptDatabase = {
         male: {
             fair: [
@@ -69,27 +69,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Helper function to manage filter content visibility ---
     function toggleFilterContent(contentElement) {
-        // Close all filters if the same one is clicked, or if a different one is clicked
+        // If the same content is clicked, close it.
         if (activeFilterContent === contentElement) {
             filterWrapper.style.display = 'none';
             contentElement.classList.add('hidden');
             activeFilterContent = null;
         } else {
-            // Hide all other content and open the new one
+            // Hide all others, show the new one.
             document.querySelectorAll('.selector-content').forEach(c => c.classList.add('hidden'));
 
             filterWrapper.style.display = 'block';
             contentElement.classList.remove('hidden');
             activeFilterContent = contentElement;
         }
+        
+        // Ensure Inspiration gallery is collapsed when Gender/Complexion opens
+        inspirationToggle.classList.add('collapsed');
+        inspirationToggle.classList.remove('expanded');
+        galleryContainer.style.display = 'none';
     }
     
     // --- Helper function to manage filter pill active state ---
     function updatePillState() {
         if (selectedGender) {
             genderPill.classList.add('selected');
+            genderPill.textContent = selectedGender === 'male' ? 'M' : 'F';
         } else {
             genderPill.classList.remove('selected');
+            genderPill.textContent = 'M/F';
         }
 
         if (selectedComplexion) {
@@ -132,31 +139,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- INITIAL STATE SETUP ---
-    takeSelfieBtn.textContent = "▶️"; 
+    takeSelfieBtn.textContent = "▶️"; // Initial state: Play icon to start camera
     statusMessage.textContent = "Select your Gender (M/F) and Complexion (🎨) to begin.";
     
-    // Hide all expanded content on load
     filterWrapper.style.display = 'none';
     
-    // Ensure Inspiration starts collapsed
     inspirationToggle.classList.add('collapsed');
     inspirationToggle.classList.remove('expanded');
-    galleryContainer.style.display = 'none'; // Hide the horizontal gallery
+    galleryContainer.style.display = 'none'; 
     
     renderComplexionSelector(); 
-    renderFinalGallery(); // Initialize the gallery to show placeholder/empty state
+    renderFinalGallery(); 
 
 
     // --- 2. Floating Pill Click Handlers (Gender & Complexion) ---
 
     // GENDER PILL
     genderPill.addEventListener('click', (e) => {
-        // Close Complexion, Open Gender content
         toggleFilterContent(genderContent);
-        // Ensure Inspiration is closed
-        inspirationToggle.classList.remove('expanded');
-        galleryContainer.style.display = 'none';
-        
         statusMessage.textContent = "Select a style gender (Male or Female) below.";
     });
 
@@ -164,15 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
     complexionPill.addEventListener('click', (e) => {
         if (!selectedGender) {
             statusMessage.textContent = "Please select a Gender first!";
-            genderPill.click(); // Force open the Gender selector
+            genderPill.click(); 
             return;
         }
-        // Close Gender, Open Complexion content
         toggleFilterContent(complexionContent);
-        // Ensure Inspiration is closed
-        inspirationToggle.classList.remove('expanded');
-        galleryContainer.style.display = 'none';
-
         statusMessage.textContent = "Select your desired complexion below.";
     });
 
@@ -191,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             updatePillState();
             
-            // Auto-close Gender content and prompt user for Complexion
             toggleFilterContent(genderContent); 
             complexionPill.click(); // Automatically open Complexion
             
@@ -220,9 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 updatePillState();
                 renderFinalGallery();
 
-                // Auto-close Complexion content and auto-expand Inspiration
                 toggleFilterContent(complexionContent);
-                inspirationToggle.click(); // Simulate click on inspiration to expand
+                inspirationToggle.click(); // Auto-expand Inspiration
             });
         });
         
@@ -255,7 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const galleryOptionsGroup = galleryContainer.querySelector('.filter-options-group');
         galleryOptionsGroup.innerHTML = ''; 
         
-        // If not ready, show placeholder
         if (!selectedGender || !selectedComplexion) {
             galleryOptionsGroup.innerHTML = '<p style="text-align: center; width: 100%; color: #666;">Complete the steps above to see styles.</p>';
             return;
@@ -287,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
             optionDiv.addEventListener('click', handleStyleSelection);
         });
         
-        // Set the header text dynamically
         const genderText = selectedGender.charAt(0).toUpperCase() + selectedGender.slice(1);
         const complexionText = selectedComplexion.charAt(0).toUpperCase() + selectedComplexion.slice(1);
         document.getElementById('inspiration-toggle-header').querySelector('span').textContent = `Inspiration (${genderText} - ${complexionText})`;
@@ -300,16 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
         
         selectedPrompt = e.currentTarget.getAttribute('data-prompt');
         
-        // Close Inspiration gallery
         inspirationToggle.classList.remove('expanded');
         inspirationToggle.classList.add('collapsed');
         galleryContainer.style.display = 'none';
 
-        // Update the main button text
-        takeSelfieBtn.textContent = '📸'; 
-        takeSelfieBtn.style.display = 'flex'; // Ensure camera button is visible
+        // Set the button to the 'Try On' action once a style is selected
+        takeSelfieBtn.textContent = (videoFeed.style.display === 'block') ? '📸' : '✨';
+        takeSelfieBtn.style.display = 'flex'; 
         
-        statusMessage.textContent = `Style selected: ${e.currentTarget.getAttribute('data-name')}. Tap the camera button to begin.`;
+        statusMessage.textContent = `Style selected: ${e.currentTarget.getAttribute('data-name')}. Tap the button to capture your selfie.`;
     }
 
 
@@ -317,12 +307,12 @@ document.addEventListener('DOMContentLoaded', () => {
     takeSelfieBtn.addEventListener('click', () => {
         if (!selectedPrompt) {
             statusMessage.textContent = "Please select a style from the Inspiration gallery first!";
-            inspirationToggle.click(); // Auto-open inspiration
+            inspirationToggle.click(); 
             return;
         }
 
         if (!cameraStarted) {
-            takeSelfieBtn.textContent = "▶️"; // Change to play icon for camera start
+            // State: Initial Load -> Start Camera
             startCamera(); 
             return; 
         }
@@ -339,14 +329,14 @@ document.addEventListener('DOMContentLoaded', () => {
             capturedImageBase64 = dataUrl.split(',')[1]; 
             
             // 2. State Transition (Live Camera -> Captured Image)
-            takeSelfieBtn.textContent = '✨'; // Change to Try On icon (star/sparkle)
+            takeSelfieBtn.textContent = '✨'; // Change to Try On icon
             videoFeed.style.display = 'none'; 
-            aiResultImg.src = dataUrl;
+            aiResultImg.src = dataUrl; // Show the captured image
             aiResultImg.style.display = 'block'; 
             
             statusMessage.textContent = "Selfie captured! Tap the sparkle button to 'Try On' the hairstyle.";
             
-        } else if (capturedImageBase64) {
+        } else if (aiResultImg.style.display === 'block' && takeSelfieBtn.textContent === '✨') {
              // State: Captured Image -> AI Processing (Try On)
 
             statusMessage.textContent = `Applying your selected style... This may take a moment.`;
@@ -354,18 +344,29 @@ document.addEventListener('DOMContentLoaded', () => {
             takeSelfieBtn.textContent = '⏳'; // Show loading indicator
             
             // ** Simulating the AI call **
-            // NOTE: In a real app, the tryon API call would go here.
             setTimeout(() => {
-                // For demonstration, revert the image and button after a delay
-                
-                // --- SUCCESS BLOCK (SIMULATED) ---
                 // In a real app, aiResultImg.src would be updated with the AI result
                 
-                takeSelfieBtn.textContent = "🔄"; // Change to Re-try/Re-capture icon
+                // For demonstration, we'll swap the image to one of the placeholder results 
+                // to visually demonstrate a change has happened.
+                const styleImg = document.querySelector('.style-option.selected img');
+                if (styleImg) {
+                    aiResultImg.src = styleImg.src; // Use the thumbnail as the 'result'
+                }
+
+                // --- SUCCESS BLOCK (SIMULATED) ---
+                takeSelfieBtn.textContent = "🔄"; // Change to Re-capture icon
                 takeSelfieBtn.disabled = false;
-                statusMessage.textContent = `Done! Your new look is ready. Tap the button to take a new selfie.`;
+                statusMessage.textContent = `Done! Your new look is ready. Tap the button to start over with a new style.`;
             }, 3000);
             
+        } else if (takeSelfieBtn.textContent === '🔄') {
+            // State: AI Result -> Start Camera/Re-capture
+            capturedImageBase64 = null;
+            videoFeed.style.display = 'block';
+            aiResultImg.style.display = 'none';
+            takeSelfieBtn.textContent = '📸'; 
+            statusMessage.textContent = "Camera ready for a new look! Select a style and capture!";
         }
     });
 
