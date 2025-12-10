@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const centralViewport = document.getElementById('central-viewport');
     const statusMessage = document.getElementById('status-message');
     
-    // Controls (Updated)
+    // Controls
     const captureBtn = document.getElementById('capture-btn');
     const generateBtn = document.getElementById('generate-btn');
 
-    // Filter elements (Pills in viewport)
+    // Filter elements
     const genderPill = document.getElementById('gender-button-mobile');
     const complexionPill = document.getElementById('complexion-button-mobile');
 
@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     const promptDatabase = {
+        // NOTE: Ensure your project has images at these paths
         male: {
             fair: [
                 { name: 'Fringe', prompt: 'medium forward fringe, light golden brown', img: '/styles/forward fringe.jpeg' },
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- Helper function to manage filter content visibility ---
+    // --- Helper Functions ---
     function toggleFilterContent(contentElement) {
         if (activeFilterContent === contentElement) {
             filterWrapper.style.display = 'none';
@@ -72,18 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
             activeFilterContent = null;
         } else {
             document.querySelectorAll('.selector-content').forEach(c => c.classList.add('hidden'));
-
             filterWrapper.style.display = 'block';
             contentElement.classList.remove('hidden');
             activeFilterContent = contentElement;
         }
-        
         inspirationToggle.classList.add('collapsed');
         inspirationToggle.classList.remove('expanded');
         galleryContainer.style.display = 'none';
     }
     
-    // --- Helper function to manage filter pill active state ---
     function updatePillState() {
         if (selectedGender) {
             genderPill.classList.add('selected');
@@ -100,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Camera Initialization Function ---
     function startCamera() {
         if (cameraStarted) return;
         
@@ -133,8 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- INITIAL STATE SETUP ---
-    captureBtn.textContent = "▶️"; // Initial state: Play icon to start camera
-    generateBtn.classList.add('hidden-btn'); // Hide generate button initially
+    captureBtn.textContent = "▶️"; 
+    generateBtn.classList.add('hidden-btn'); 
     statusMessage.textContent = "Select your Gender (M/F) and Complexion (🎨) to begin.";
     
     filterWrapper.style.display = 'none';
@@ -146,115 +143,69 @@ document.addEventListener('DOMContentLoaded', () => {
     renderComplexionSelector(); 
     renderFinalGallery(); 
 
-
-    // --- Filter Pill Click Handlers ---
-
-    genderPill.addEventListener('click', (e) => {
-        toggleFilterContent(genderContent);
-        statusMessage.textContent = "Select a style gender (Male or Female) below.";
-    });
-
-    complexionPill.addEventListener('click', (e) => {
-        if (!selectedGender) {
-            statusMessage.textContent = "Please select a Gender first!";
-            genderPill.click(); 
-            return;
-        }
+    // --- Filter Listeners ---
+    genderPill.addEventListener('click', () => { toggleFilterContent(genderContent); statusMessage.textContent = "Select a style gender (Male or Female) below."; });
+    complexionPill.addEventListener('click', () => {
+        if (!selectedGender) { statusMessage.textContent = "Please select a Gender first!"; genderPill.click(); return; }
         toggleFilterContent(complexionContent);
         statusMessage.textContent = "Select your desired complexion below.";
     });
-
-
-    // --- Filter Option Click Handlers ---
 
     genderContent.addEventListener('click', (e) => {
         if (e.target.classList.contains('gender-option')) {
             genderContent.querySelectorAll('.gender-option').forEach(btn => btn.classList.remove('selected'));
             e.target.classList.add('selected');
-
             selectedGender = e.target.getAttribute('data-gender');
             selectedComplexion = null; 
             selectedPrompt = null; 
-            
             updatePillState();
-            
             toggleFilterContent(genderContent); 
             complexionPill.click(); 
-            
             statusMessage.textContent = "Gender set. Now select your Complexion (🎨)";
         }
     });
 
-
-    // COMPLEXION TILES
     function renderComplexionSelector() {
         complexionGroup.innerHTML = ''; 
-        
         complexionData.forEach(c => {
             const tile = document.createElement('div');
             tile.classList.add('complexion-tile');
             tile.setAttribute('data-complexion', c.id);
             tile.style.backgroundColor = c.color;
             complexionGroup.appendChild(tile);
-            
             tile.addEventListener('click', (e) => {
                 complexionGroup.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
                 e.currentTarget.classList.add('selected');
-                
                 selectedComplexion = e.currentTarget.getAttribute('data-complexion');
-                
                 updatePillState();
                 renderFinalGallery();
-
                 toggleFilterContent(complexionContent);
                 inspirationToggle.click(); 
             });
         });
-        
     }
 
-
-    // --- INSPIRATION TOGGLE ---
     inspirationToggle.addEventListener('click', () => {
-        if (!selectedGender || !selectedComplexion) {
-            statusMessage.textContent = "Please select Gender (M/F) and Complexion (🎨) first!";
-            return;
-        }
-
+        if (!selectedGender || !selectedComplexion) { statusMessage.textContent = "Please select Gender (M/F) and Complexion (🎨) first!"; return; }
         const isExpanded = inspirationToggle.classList.contains('expanded');
-        
         inspirationToggle.classList.toggle('expanded', !isExpanded);
         inspirationToggle.classList.toggle('collapsed', isExpanded);
-        
         filterWrapper.style.display = 'none'; 
         activeFilterContent = null;
-
         galleryContainer.style.display = isExpanded ? 'none' : 'block';
-
-        if (!isExpanded) {
-             statusMessage.textContent = "Select an inspiration style from the gallery below.";
-        }
+        if (!isExpanded) { statusMessage.textContent = "Select an inspiration style from the gallery below."; }
     });
 
-
-    // --- Render the Filtered Gallery ---
     function renderFinalGallery() {
         const galleryOptionsGroup = galleryContainer.querySelector('.filter-options-group');
         galleryOptionsGroup.innerHTML = ''; 
-        
-        if (!selectedGender || !selectedComplexion) {
-            galleryOptionsGroup.innerHTML = '<p style="text-align: center; width: 100%; color: #666;">Complete the steps above to see styles.</p>';
-            return;
-        }
+        if (!selectedGender || !selectedComplexion) { galleryOptionsGroup.innerHTML = '<p style="text-align: center; width: 100%; color: #666;">Complete the steps above to see styles.</p>'; return; }
         
         const filteredStyles = promptDatabase[selectedGender] && promptDatabase[selectedGender][selectedComplexion] 
                              ? promptDatabase[selectedGender][selectedComplexion]
                              : [];
         
-        if (filteredStyles.length === 0) {
-            galleryOptionsGroup.innerHTML = '<p style="text-align: center; width: 100%; color: #666;">No styles found for this combination.</p>';
-            return;
-        }
+        if (filteredStyles.length === 0) { galleryOptionsGroup.innerHTML = '<p style="text-align: center; width: 100%; color: #666;">No styles found for this combination.</p>'; return; }
 
         filteredStyles.forEach(style => {
             const optionDiv = document.createElement('div');
@@ -269,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             optionDiv.appendChild(img);
             galleryOptionsGroup.appendChild(optionDiv);
-            
             optionDiv.addEventListener('click', handleStyleSelection);
         });
         
@@ -278,13 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('inspiration-toggle-header').querySelector('span').textContent = `Inspiration (${genderText} - ${complexionText})`;
     }
 
-    // --- Style Selection Handler ---
     function handleStyleSelection(e) {
         document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
         e.currentTarget.classList.add('selected');
-        
         selectedPrompt = e.currentTarget.getAttribute('data-prompt');
-        
         inspirationToggle.classList.remove('expanded');
         inspirationToggle.classList.add('collapsed');
         galleryContainer.style.display = 'none';
@@ -302,11 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 1. CAPTURE / START CAMERA / RESTART
     captureBtn.addEventListener('click', () => {
-        if (!selectedPrompt) {
-            statusMessage.textContent = "Please select a style from the Inspiration gallery first!";
-            inspirationToggle.click(); 
-            return;
-        }
+        if (!selectedPrompt) { statusMessage.textContent = "Please select a style from the Inspiration gallery first!"; inspirationToggle.click(); return; }
 
         // State A: Initial Load -> Start Camera (▶️ button)
         if (!cameraStarted) {
@@ -327,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // State Transition: Captured Image
             videoFeed.style.display = 'none'; 
-            aiResultImg.src = dataUrl; // Show the captured image
+            aiResultImg.src = dataUrl; // <--- This holds the captured image
             aiResultImg.style.display = 'block'; 
             
             captureBtn.textContent = '🔄'; // Capture button becomes Restart
@@ -341,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (captureBtn.textContent === '🔄') {
             capturedImageBase64 = null;
             videoFeed.style.display = 'block';
+            aiResultImg.src = ''; // Clear result image source
             aiResultImg.style.display = 'none';
             
             captureBtn.textContent = '📸'; // Restart button becomes Capture
@@ -367,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- SUCCESS BLOCK (FIXED: Use the selected style's thumbnail for demonstration) ---
             const styleImgElement = document.querySelector('.style-option.selected .style-thumbnail');
             if (styleImgElement) {
-                // Use the style thumbnail as the final result image
+                // FORCE the final result image source swap here.
                 aiResultImg.src = styleImgElement.src; 
             }
             
