@@ -237,9 +237,10 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
 }
 
+/* --- MODIFIED: SHRINK CAMERA BUTTON --- */
 #take-selfie-btn {
-    width: 70px; 
-    height: 70px;
+    width: 50px; /* Reduced from 70px */
+    height: 50px; /* Reduced from 70px */
     padding: 0;
     border-radius: 50%; 
     background-color: var(--primary-color);
@@ -247,7 +248,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px; 
+    font-size: 24px; /* Reduced icon size */
     line-height: 1;
 }
 
@@ -262,7 +263,7 @@ body {
     font-size: 1.1em;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
-    margin-top: 5px; /* Tighter spacing below camera */
+    margin-top: 5px; 
     margin-bottom: 10px;
 }
 
@@ -389,7 +390,7 @@ body {
 /* --- Hairstyle Gallery (INSPIRATION) --- */
 #hairstyle-gallery {
     padding: 0;
-    margin-bottom: 5px; /* Tighter spacing above camera */
+    margin-bottom: 5px; 
 }
 #hairstyle-gallery .filter-content-group {
      padding: 10px 5px; 
@@ -413,28 +414,29 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    /* BASE SIZE */
-    width: 65px; 
+    /* MODIFIED: Increased width for larger image */
+    width: 85px; 
     flex-shrink: 0;
     border: 2px solid transparent; 
-    transition: all 0.3s ease-out; /* Enable smooth transition */
+    transition: all 0.3s ease-out; 
     cursor: pointer;
 }
 
 .style-option.selected {
     border-color: var(--highlight-color);
-    border-radius: 8px;
+    border-radius: 10px; /* Slightly adjusted to look good with circle */
     box-shadow: 0 0 10px rgba(40, 167, 69, 0.7); 
-    transform: scale(1.15); /* ENLARGEMENT EFFECT */
+    transform: scale(1.1); /* Slightly smaller enlargement effect */
     z-index: 10; 
 }
 
-
+/* --- MODIFIED: LARGER, CIRCULAR THUMBNAILS --- */
 .style-thumbnail {
-    width: 65px; 
-    height: 65px; 
-    border-radius: 6px;
+    width: 80px; /* Increased size from 65px */
+    height: 80px; /* Increased size from 65px */
+    border-radius: 50%; /* Made circular */
     object-fit: cover;
+    margin-bottom: 4px; /* Space between image and text */
 }
 
 .style-option p {
@@ -508,12 +510,14 @@ body {
     }
     
     .style-option {
-        width: 65px; 
+        /* MODIFIED: Larger mobile option width */
+        width: 85px; 
         flex-shrink: 0;
     }
     .style-thumbnail {
-        width: 65px; 
-        height: 65px; 
+        /* MODIFIED: Larger mobile thumbnail size */
+        width: 80px; 
+        height: 80px; 
     }
 
     .style-option p {
