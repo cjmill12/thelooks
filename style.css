@@ -28,7 +28,7 @@ body {
 #app-header {
     padding: 0; 
     background-color: #FFFFFF;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
     margin-bottom: 0; 
     height: var(--header-height); 
     display: flex;
@@ -38,393 +38,446 @@ body {
     top: 0;
     z-index: 100;
 }
+
 #main-logo {
-    max-width: 100px !important; 
-    height: 35px !important; 
-    object-fit: contain; 
+    height: 30px; 
+    width: auto;
 }
 
-/* ================================================== */
-/* DESKTOP LAYOUT: TWO-COLUMN STRUCTURE */
-/* ================================================== */
-
+/* --- Main Layout: Two Columns for Desktop/Tablet --- */
 #two-column-layout {
     display: flex;
-    width: 100%;
-    margin: 0; 
-    height: calc(100vh - var(--header-height)); 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding-top: 20px;
 }
 
-/* --- 1. Filter Sidebar (LEFT) --- */
 #filter-sidebar {
     width: var(--sidebar-width);
-    flex-shrink: 0; 
+    padding: 10px 10px;
+    box-sizing: border-box;
+    /* Desktop appearance */
     background-color: #fff;
-    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
-    padding: 10px;
-    overflow-y: auto; 
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    margin-right: 20px;
+    border-radius: 8px;
+    height: fit-content;
 }
 
-/* --- 2. Main Content (RIGHT) --- */
 #main-content {
     flex-grow: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto; 
-}
-
-/* --- FILTER SECTION STYLES (Larger Pill Buttons) --- */
-
-.filter-section {
-    width: 100%;
-    margin: 0 0 10px 0; 
-    padding: 0;
-    background-color: #fff;
-    border-radius: 6px;
-    text-align: left; 
-}
-
-/* Accordion Button/Header Style */
-.filter-section h3 {
-    font-size: 0.9em; 
-    font-weight: bold;
-    margin: 0; 
-    padding: 8px 10px;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    cursor: pointer;
-    background-color: #fff;
-    border-radius: 6px;
-    transition: all 0.2s ease-in-out;
-}
-
-/* --- COLLAPSED (Pill Appearance) --- */
-.filter-section.collapsed h3 {
-    background-color: #f0f0f0; 
-    color: #666;
-    border-radius: 20px; 
-    
-    height: 40px; 
-    width: 90%; 
-    max-width: 180px; 
-    padding: 0 10px; 
-    
-    justify-content: center;
-    overflow: hidden; 
-    margin: 0 auto 10px auto; 
-}
-
-/* Ensure the full text is visible when collapsed */
-.filter-section.collapsed h3 span {
-    display: inline;
-    font-size: 1.0em; 
-    line-height: 40px; 
-}
-
-/* Hide the caret icon for collapsed buttons */
-.filter-section.collapsed h3::after {
-    content: none;
-}
-
-/* --- EXPANDED (Active Pill/Block Appearance) --- */
-.filter-section.expanded h3 {
-    background-color: var(--primary-color); 
-    color: var(--text-on-dark);
-    border-radius: 6px 6px 0 0; 
-    height: auto;
-    width: 100%;
-    padding: 8px 10px;
-    margin: 0;
-    justify-content: space-between; 
-}
-
-/* Caret Icon for Collapse/Expand */
-.filter-section h3::after {
-    content: '▶'; 
-    font-size: 0.8em;
-    margin-left: 5px;
-    transition: transform 0.2s;
-    line-height: 1;
-}
-
-.filter-section.expanded h3::after {
-    content: '▼'; 
-    color: var(--text-on-dark);
-}
-
-/* Hiding the content group when collapsed */
-.filter-content-group {
-    padding: 5px 10px 10px 10px;
-    background-color: #f9f9f9;
-    border-radius: 0 0 6px 6px;
-}
-
-.filter-section.collapsed .filter-content-group {
-    display: none;
+    padding: 0 10px;
 }
 
 
-/* Filter options group */
-.filter-options-group {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 8px; 
-    justify-content: flex-start; 
-    margin-top: 5px; 
-}
-
-/* Gender/General Option Buttons (Adapted for sidebar) */
-.gender-option {
-    padding: 8px 10px;
-    border: 1px solid #ccc; 
-    font-size: 0.85em;
-    flex-grow: 1; 
-    max-width: 100%; 
-}
-
-.gender-option.selected {
-    background-color: var(--primary-color);
-    color: var(--text-on-dark);
-    border-color: var(--primary-color);
-}
-
-/* Complexion Tiles (Circular & Compact) */
-#complexion-options-group {
-    justify-content: flex-start; 
-    gap: 6px; 
-}
-
-.complexion-tile {
-    width: 30px; 
-    height: 30px; 
-    border: 2px solid transparent; 
-    flex-shrink: 0; 
-}
-
-.complexion-tile p {
-    display: none; 
-}
-
-.complexion-tile.selected {
-    border-color: var(--highlight-color);
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); 
-}
-
-/* --- Hairstyle Gallery (INSPIRATION) --- */
-#hairstyle-gallery {
-    padding: 0;
-    width: 100%; 
-    margin-top: 20px; 
-}
-#hairstyle-gallery .filter-content-group {
-     padding: 10px 5px; 
-}
-#hairstyle-gallery .filter-options-group {
-    white-space: nowrap; 
-    overflow-x: scroll; 
-    overflow-y: hidden; 
-    scroll-snap-type: x mandatory;
-    gap: 8px;
-    padding-bottom: 5px; 
-}
-
-.style-thumbnail {
-    width: 45px; 
-    height: 45px; 
-}
-
-.style-option p {
-    font-size: 0.75em;
-    white-space: normal;
-    word-break: break-word;
-}
-
-/* ================================================== */
-/* RIGHT COLUMN ELEMENTS (Viewport and Controls) */
-/* ================================================== */
-
-/* Desktop Circular Viewport */
+/* --- Central Viewport (Camera/Result) --- */
 #central-viewport {
-    position: relative; 
-    width: var(--viewport-size); 
+    width: var(--viewport-size);
     height: var(--viewport-size);
-    min-height: auto; 
-    max-width: none; 
-    max-height: none;
-    margin-bottom: 20px;
-    border-radius: 50%; 
-    overflow: hidden;
-    background-color: #eee;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    margin: 0 auto;
+    border-radius: 50%; /* Circular viewport */
+    overflow: hidden; 
+    background-color: #E0E0E0;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#central-viewport.active {
+    background-color: #000; /* Darkens when camera is active */
 }
 
 #video-feed, #ai-result {
     width: 100%;
-    height: 100%; 
-    display: block;
+    height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 #status-message {
     position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 8px 5px;
-    margin: 0;
-    font-size: 0.85em;
-    text-align: center;
-    z-index: 100; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    z-index: 5;
+    font-weight: bold;
+    max-width: 80%;
 }
 
+
+/* --- Controls and Buttons --- */
 #controls {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
+    justify-content: center;
+    gap: 10px; 
+    padding: 20px 0;
+    margin-bottom: 10px;
 }
 
 .main-action-btn {
-    margin-bottom: 10px;
-    cursor: pointer;
-    border: none;
-    font-size: 16px; 
-    transition: all 0.2s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
-    transform: translateY(0);
-}
-
-#take-selfie-btn {
-    width: 70px; 
-    height: 70px;
-    padding: 0;
-    border-radius: 50%; 
     background-color: var(--primary-color);
     color: var(--text-on-dark);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.main-action-btn:hover:not(:disabled) {
+    background-color: #444; 
+}
+
+.main-action-btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Try On Button specific styling for loading spinner */
+#try-on-btn-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px; 
-    line-height: 1;
+    gap: 8px;
+}
+.loading-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
 }
 
-#try-on-btn {
-    width: 100%; 
-    max-width: 400px;
-    padding: 12px 24px;
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+/* --- Filter Section Styling (Pill / Collapsible) --- */
+.filter-section {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: var(--primary-color);
-    color: var(--text-on-dark);
+    overflow: hidden; 
 }
 
-/* ================================================== */
-/* 📱 MOBILE MEDIA QUERY (Smaller Camera, Compact Filters) */
-/* ================================================== */
+.filter-section h3 {
+    margin: 0;
+    padding: 10px 15px;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: normal;
+}
 
+/* Arrow indicator for collapsed state */
+.filter-section.collapsed h3::after {
+    content: '▼';
+    font-size: 0.8em;
+    transition: transform 0.2s;
+}
+
+/* Arrow indicator for expanded state */
+.filter-section.expanded h3::after {
+    content: '▲';
+    font-size: 0.8em;
+    transform: rotate(180deg);
+}
+
+.filter-content-group {
+    padding: 15px;
+    display: none;
+    /* Optional: Max height transition for smooth collapse */
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.filter-section.expanded .filter-content-group {
+    display: block;
+    max-height: 1000px; 
+    padding: 15px;
+}
+
+.filter-options-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* --- Gender Options (Desktop/Sidebar) --- */
+/* In sidebar, Gender uses the full button style */
+.gender-option {
+    background-color: #f0f0f0;
+    color: var(--primary-color);
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-grow: 1; /* Makes them fill the available sidebar space */
+}
+
+.gender-option:hover {
+    background-color: #e0e0e0;
+}
+
+.gender-option.selected {
+    background-color: var(--highlight-color);
+    color: var(--text-on-dark);
+    border-color: var(--highlight-color);
+    font-weight: bold;
+}
+
+/* Complexion Tiles (Desktop/Sidebar) */
+/* The base styling for complexion tiles remains the color circle */
+.complexion-tile {
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent; 
+    box-sizing: border-box;
+    transition: transform 0.1s, border-color 0.2s;
+    position: relative;
+}
+
+.complexion-tile:hover {
+    transform: scale(1.05);
+}
+
+.complexion-tile.selected {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 0 2px var(--highlight-color);
+}
+
+.complexion-tile p {
+    /* Hide text label on desktop/sidebar */
+    display: none; 
+}
+
+
+/* --- Inspiration Gallery (Desktop) --- */
+#hairstyle-gallery {
+    margin-top: 20px;
+    padding: 0;
+    border: none; 
+}
+#hairstyle-gallery h3 {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 0;
+}
+
+#hairstyle-gallery .filter-content-group {
+    padding: 10px 0 0; 
+}
+
+.style-option {
+    width: 100px;
+    height: 120px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: border-color 0.2s;
+    margin-bottom: 5px;
+}
+
+.style-option img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+}
+
+.style-option p {
+    font-size: 0.75em;
+    margin: 2px 0 0;
+    color: var(--text-color);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.style-option.selected {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+
+/* ========================================= */
+/* --- MOBILE SPECIFIC STYLING (max-width: 768px) --- */
+/* ========================================= */
 @media (max-width: 768px) {
     
+    /* Revert two-column layout to a single column */
     #two-column-layout {
-        flex-direction: column; 
-        height: auto;
-        padding: 0; 
-        margin: 0;
+        flex-direction: column;
+        padding-top: 10px;
     }
-    
+
+    /* Sidebar and main content take up full width */
     #filter-sidebar {
-        width: 100%; 
-        padding: 10px 0; 
-        box-shadow: none; 
-        order: 1; 
+        width: 95%; 
+        max-width: none;
+        margin: 0 auto 10px auto; 
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        background-color: transparent;
     }
 
     #main-content {
-        width: 100%;
-        padding: 10px 0; 
-        order: 0; 
-    }
-    
-    /* 🚨 MOBILE VIEWPORT OPTIMIZATION: Shrink the circle */
-    #central-viewport {
-        margin-left: auto;
-        margin-right: auto;
-        /* KEY CHANGE: Reduced size to 65vw */
-        width: 65vw; 
-        height: 65vw;
-        max-width: 300px; 
-        max-height: 300px;
-        margin-top: 10px;
+        padding: 0 10px;
+        order: -1; /* Place main content first on mobile */
     }
 
-    /* MOBILE FILTER PILLS (Centering and using fixed percentage for compactness) */
+    /* Filter sections take up the full width, using fixed percentage for compactness */
     .filter-section {
         margin: 8px auto; 
         padding: 0;
         background-color: #fff;
-        /* Reduce max width for a more centralized/compact look */
-        width: 90%; 
-        max-width: 350px; 
+        width: 95%; 
+        max-width: none;
     }
     
     .filter-section.collapsed h3 {
-        /* Keep pill width constrained */
-        width: 95%; 
+        width: 100%; 
         max-width: none; 
-        border-radius: 20px; 
-        margin: 0 auto;
+        border-radius: 8px; 
     }
 
-    /* Expanded Content Group within the filter section */
-    .filter-section.expanded .filter-content-group {
-        width: 100%;
-        box-sizing: border-box; 
+    .filter-options-group {
+        justify-content: space-around;
+        gap: 15px;
+    }
+
+    /* --- NEW CIRCLE + TEXT LIST STYLES FOR GENDER AND COMPLEXION --- */
+    /* This class is added to filter-options-group for list-style layouts */
+    .filter-list-options {
+        flex-direction: column;
+        align-items: flex-start; /* Align list items to the left */
+        gap: 5px; /* Reduce gap between list items */
+    }
+
+    /* Style for the clickable container (Gender and Complexion) */
+    .gender-option, .complexion-tile {
+        width: 100%; /* Full width for clickable area */
+        display: flex;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #f0f0f0;
+        cursor: pointer;
+        transition: background-color 0.1s;
+        box-sizing: border-box;
+    }
+
+    /* Default/Hover states */
+    .gender-option:hover, .complexion-tile:hover {
+        background-color: #fafafa;
+    }
+
+    /* Selected state */
+    .gender-option.selected, .complexion-tile.selected {
+        background-color: #e6f7ea; /* Light green background */
+        border-color: var(--highlight-color);
+        font-weight: bold;
+    }
+
+    /* NEW: Generic Circle Element (for Gender) */
+    .option-circle {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-right: 10px;
+        border: 2px solid #ccc;
+        background-color: #fff;
+    }
+    .gender-option.selected .option-circle {
+        background-color: var(--highlight-color);
+        border-color: var(--highlight-color);
     }
     
-    /* Complexion tiles must show text labels on mobile */
+    /* Complexion Tiles: Adapt for side-by-side text */
     .complexion-tile {
-        width: 40px; 
-        height: 40px; /* Reduced size slightly */
+        width: 100%; /* Already set above, repeating for clarity */
+        height: auto; /* Allow height to flex with padding */
+        border: 1px solid #f0f0f0; /* Default border */
     }
-    .complexion-tile p {
-        display: block; 
-        font-size: 0.6em;
-        margin-top: 45px; /* Push label below the circle */
-        text-align: center;
-        width: 40px;
-        white-space: normal;
+    .complexion-tile.selected {
+        border: 2px solid var(--highlight-color); /* Thicker border on select */
+        box-shadow: none; /* Remove circular box shadow */
     }
     
-    /* INSPIRATION GALLERY OPTIMIZATION */
+    /* Complexion Circle inside the tile */
+    .complexion-tile[data-complexion] {
+        width: 16px; 
+        height: 16px;
+        border-radius: 50%;
+        margin-right: 10px;
+        border: 2px solid #fff; /* Ensure this is the color of the tile defined in app.js */
+        flex-shrink: 0; /* Prevents circle from shrinking */
+    }
+    
+    /* Complexion Text Label */
+    .complexion-tile p {
+        display: inline; /* Show the text label */
+        margin: 0;
+        padding: 0;
+        font-size: 1em;
+        text-align: left;
+        line-height: 1.2;
+        color: var(--text-color);
+    }
+    
+    /* We now use the background-color style set by app.js for the circle,
+       and the tile element itself is the flex container */
+
+
+    /* Inspiration Gallery Optimization (Retained from previous working version) */
     #hairstyle-gallery {
         margin-top: 10px; 
         padding-bottom: 20px;
-        width: 100%; 
+        width: 95%; 
         max-width: none; 
+        border: none;
+    }
+    #hairstyle-gallery h3 {
+        width: 100%;
+        border-radius: 8px;
     }
     
-    #hairstyle-gallery .filter-options-group {
-        overflow-x: scroll;
-        padding-bottom: 5px; 
-        padding-left: 10px; 
-        padding-right: 10px;
+    .style-option {
+        width: calc(33.33% - 10px); /* 3 columns on mobile */
+        height: 120px;
+    }
+    .filter-inspiration .filter-options-group {
+        gap: 10px;
+        justify-content: flex-start; /* Keep images aligned left */
     }
 
-    .style-thumbnail {
-        width: 65px; 
-        height: 65px; 
-    }
-
-    .style-option p {
-        font-size: 0.8em;
-    }
 }
