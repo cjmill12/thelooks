@@ -6,7 +6,8 @@
     <title>Hairstyle Virtual Try-On</title>
     
     <style>
-/* --- Global Colors --- */
+/* ... (Style sheet remains unchanged from the last response for brevity) ... */
+
 :root {
     --primary-color: #1D2124; 
     --text-on-dark: #FFFFFF; 
@@ -36,7 +37,6 @@ body {
     min-height: 100vh;
 }
 
-/* --- Header and Logo Styling (MINIMAL BANNER) --- */
 #app-header {
     padding: 0; 
     background-color: #FFFFFF;
@@ -55,10 +55,6 @@ body {
     object-fit: contain; 
 }
 
-/* ================================================== */
-/* NEW SINGLE-COLUMN LAYOUT */
-/* ================================================== */
-
 #main-app-container {
     flex-grow: 1; 
     width: 100%;
@@ -70,7 +66,6 @@ body {
     gap: 20px; 
 }
 
-/* --- 1. GENDER BUTTONS (Top Section) --- */
 .gender-buttons-container {
     display: flex;
     justify-content: space-between;
@@ -108,8 +103,6 @@ body {
 }
 
 
-/* --- 2. CAMERA SECTION (Middle Section) --- */
-
 #central-section {
     width: 90%;
     max-width: var(--content-max-width);
@@ -122,7 +115,6 @@ body {
 
 #central-viewport {
     position: relative; 
-    /* CRITICAL: Use !important to override browser defaults */
     width: var(--viewport-size-mobile) !important; 
     height: var(--viewport-size-mobile) !important;
     max-width: var(--viewport-size-desktop) !important; 
@@ -146,15 +138,12 @@ body {
     width: 100% !important;
     height: 100% !important; 
     display: block;
-    /* CRITICAL: Force containment */
     object-fit: cover !important; 
     max-width: 100% !important;
     max-height: 100% !important;
-    /* Prevent default full screen behavior in some browsers */
     z-index: 1; 
 }
 
-/* Ensure no other hidden video controls interfere */
 #video-feed::-webkit-media-controls {
     display: none !important;
 }
@@ -203,7 +192,6 @@ body {
     line-height: 1;
 }
 
-/* Try On Hairstyle Button Styling */
 #try-on-btn {
     width: 100%; 
     max-width: 400px;
@@ -216,8 +204,6 @@ body {
     box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
     margin-top: 15px; 
 }
-
-/* --- 3. FILTER SECTION (Bottom Section) --- */
 
 #filter-section-wrapper {
     width: 90%;
@@ -237,7 +223,6 @@ body {
     text-align: left; 
 }
 
-/* Accordion Button/Header Style */
 .filter-section h3 {
     font-size: 0.9em; 
     font-weight: bold;
@@ -253,7 +238,6 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-/* --- COLLAPSED (Pill Appearance) --- */
 .filter-section.collapsed h3 {
     background-color: #f0f0f0; 
     color: #666;
@@ -267,19 +251,16 @@ body {
     margin: 0 auto; 
 }
 
-/* Ensure the full text is visible when collapsed */
 .filter-section.collapsed h3 span {
     display: inline;
     font-size: 1.0em; 
     line-height: 40px; 
 }
 
-/* Hide the caret icon for collapsed buttons */
 .filter-section.collapsed h3::after {
     content: none;
 }
 
-/* --- EXPANDED (Active Pill/Block Appearance) --- */
 .filter-section.expanded h3 {
     background-color: var(--primary-color); 
     color: var(--text-on-dark);
@@ -291,7 +272,6 @@ body {
     justify-content: space-between; 
 }
 
-/* Caret Icon for Collapse/Expand */
 .filter-section h3::after {
     content: '▶'; 
     font-size: 0.8em;
@@ -305,7 +285,6 @@ body {
     color: var(--text-on-dark);
 }
 
-/* Hiding the content group when collapsed */
 .filter-content-group {
     padding: 5px 10px 10px 10px;
     background-color: #f9f9f9;
@@ -317,7 +296,6 @@ body {
 }
 
 
-/* Filter options group */
 .filter-options-group {
     display: flex;
     flex-wrap: wrap; 
@@ -326,7 +304,6 @@ body {
     margin-top: 5px; 
 }
 
-/* Complexion Tiles (Circular & Compact) */
 #complexion-options-group {
     justify-content: flex-start; 
     gap: 6px; 
@@ -349,7 +326,6 @@ body {
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); 
 }
 
-/* --- Hairstyle Gallery (INSPIRATION) --- */
 #hairstyle-gallery {
     padding: 0;
     width: 100%; 
@@ -357,7 +333,6 @@ body {
 #hairstyle-gallery .filter-content-group {
      padding: 10px 5px; 
 }
-/* FIX FOR HORIZONTAL SCROLL */
 #hairstyle-gallery .filter-options-group {
     display: flex; 
     flex-wrap: nowrap; 
@@ -403,10 +378,6 @@ body {
     margin: 4px 0 0 0;
 }
 
-/* ================================================== */
-/* 📱 MOBILE MEDIA QUERY OPTIMIZATIONS */
-/* ================================================== */
-
 @media (max-width: 600px) {
     
     #main-app-container {
@@ -423,7 +394,6 @@ body {
         padding: 0 10px;
     }
     
-    /* CRITICAL: Ensure square viewport is mobile-friendly */
     #central-viewport {
         width: 80vw !important; 
         height: 80vw !important;
@@ -431,12 +401,10 @@ body {
         max-height: 300px !important;
     }
     
-    /* Mobile filter styles adjustments */
     .filter-section.collapsed h3 {
         width: 95%; 
     }
 
-    /* Complexion tiles must show text labels on mobile */
     #complexion-options-group {
         justify-content: space-around;
         flex-wrap: nowrap;
@@ -463,7 +431,6 @@ body {
         width: 60px;
     }
     
-    /* INSPIRATION GALLERY OPTIMIZATION */
     #hairstyle-gallery .filter-options-group {
         padding-left: 10px;
         padding-right: 10px;
@@ -614,11 +581,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedComplexion = null; 
 
     // --- CONSTANTS ---
-    const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor lighting, poor composition, low quality"; 
+    const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor lighting, poor composition, low quality, changed clothing, changed background, new outfit, new background, different lighting"; 
 
     // --- Helper Functions ---
     
-    // Complexion is OPTIONAL
     function updateTryOnButtonVisibility() {
         if (capturedImageBase64 && selectedPrompt) {
             tryOnBtn.style.display = 'block';
@@ -774,9 +740,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ? ` with a ${selectedComplexion} complexion` 
             : ``; 
             
-        // 💡 CRITICAL FIX FOR IDENTITY PRESERVATION:
-        // Explicitly instruct the model to retain identity and only change hair.
-        const finalPrompt = `Retain the subject's exact facial identity. Apply a new hairstyle: ${selectedPrompt}. The final result must be a high quality, professional studio portrait of a ${selectedGender} model${complexionClause}. The face must be clear and well-lit.`;
+        // 💡 NEW, AGGRESSIVE AR-STYLE PROMPT FOR MAX CONTROL:
+        // Use the image as a strict mask, focusing ONLY on the hair change.
+        const finalPrompt = `STRICTLY use the provided image as the input mask. DO NOT change the background, the clothing, or the subject's face/identity. ONLY apply a new hairstyle: ${selectedPrompt}. The final result must be a high quality, professional studio portrait of a ${selectedGender} model${complexionClause} with NO other changes to the original image besides the hair.`;
         
         try {
             const response = await fetch('/api/run_model', {
