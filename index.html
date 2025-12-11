@@ -18,9 +18,15 @@
             <div id="gender-selector" class="filter-section collapsed"> 
                 <h3><span>Gender</span></h3>
                 <div class="filter-content-group">
-                    <div class="filter-options-group">
-                        <button class="gender-option" data-gender="male">Male Styles</button>
-                        <button class="gender-option" data-gender="female">Female Styles</button>
+                                        <div class="filter-options-group filter-list-options">
+                        <div class="gender-option" data-gender="male">
+                            <span class="option-circle"></span>
+                            <p>Male Styles</p>
+                        </div>
+                        <div class="gender-option" data-gender="female">
+                            <span class="option-circle"></span>
+                            <p>Female Styles</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -28,7 +34,7 @@
             <div id="complexion-selector" class="filter-section collapsed">
                 <h3><span>Complexion</span></h3>
                 <div class="filter-content-group">
-                    <div class="filter-options-group" id="complexion-options-group">
+                                        <div class="filter-options-group filter-list-options" id="complexion-options-group">
                         </div>
                 </div>
             </div>
@@ -46,11 +52,11 @@
 
             <div id="controls">
     
-                            <button id="start-camera-btn" class="main-action-btn">▶️ Start Camera</button>
+                <button id="start-camera-btn" class="main-action-btn">▶️ Start Camera</button>
 
-                            <button id="capture-selfie-btn" class="main-action-btn" style="display: none;">📸 Take Selfie</button>
+                <button id="capture-selfie-btn" class="main-action-btn" style="display: none;">📸 Take Selfie</button>
                 
-                            <button id="try-on-btn" disabled class="main-action-btn" style="display: none;">
+                <button id="try-on-btn" disabled class="main-action-btn" style="display: none;">
                     <span id="try-on-btn-content">
                         <div id="loading-spinner" class="loading-indicator"></div>
                         <span>✨ Try On Selected Hairstyle</span>
