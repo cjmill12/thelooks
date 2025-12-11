@@ -1,12 +1,25 @@
 // netlify/functions/tryon.mjs
 
-// Use ES Module syntax
 import { GoogleGenAI } from '@google/genai';
+
+// Helper function to create the Part object for image input
+function base64ToGenerativePart(base64Data, mimeType) {
+  // CRITICAL FIX: Ensure only the pure base64 string is sent to the API
+  const cleanBase64 = base64Data.startsWith('data:') 
+    ? base64Data.split(',')[1] 
+    : base64Data;
+
+  return {
+    inlineData: {
+      data: cleanBase64,
+      mimeType
+    },
+  };
+}
 
 // Handler must be exported as a named 'handler' function for Netlify
 export async function handler(event) {
   
-  // Initialize the client with the API key from environment variables
   const ai = new GoogleGenAI({ 
     apiKey: process.env.GEMINI_API_KEY 
   }); 
@@ -16,49 +29,31 @@ export async function handler(event) {
   }
 
   try {
-    const { baseImage, prompt, negativePrompt } = JSON.parse(event.body);
+    const { baseImage, prompt } = JSON.parse(event.body);
 
     if (!baseImage || !prompt) {
       return { statusCode: 400, body: 'Missing baseImage or prompt in request body.' };
     }
-    
-    // --- FINAL FIX: Using the generateImages method for inpainting/editing ---
-    
-    // The model used here, 'imagen-3.0-generate-002', is the one designed 
-    // for this task, and it IS accessible via generateImages when structured 
-    // this way for API key users.
-    const response = await ai.models.generateImages({
-      model: 'imagen-3.0-generate-002', 
-      
-      // The prompt now includes instruction to perform the edit
-      prompt: prompt,
-      
-      config: {
-        // Pass the original image as the base for editing/inpainting
-        baseImage: baseImage, 
-        
-        // Negative prompt
-        negativePrompt: negativePrompt, 
-        
-        // The hairstyle try-on is an image manipulation task (inpainting)
-        outputMimeType: 'image/jpeg',
-        aspectRatio: '1:1',
-        numberOfImages: 1
-      }
-    });
 
-    // --- Response Parsing for generateImages ---
-    // The response structure for generateImages is response.generatedImages[0].image.imageBytes
-    const generatedImageBase64 = response.generatedImages[0].image.imageBytes;
+    // Prepare the image part
+    const imagePart = base64ToGenerativePart(baseImage, "image/jpeg");
+
+    // Reverting to the high-capability image model that worked before
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-image', // Targeting the image editing model
+      contents: [
+        imagePart,
+        { text: prompt }, // The explicit identity-preserving prompt
+      ],
+    });
+    
+    // Using the previously successful response structure
+    const generatedImageBase64 = response.candidates[0].content.parts[0].inlineData.data;
 
     if (!generatedImageBase64) {
-         console.warn("Image Generation failed to return image bytes.");
-         return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "Generation failed: The image could not be edited by the AI model." }),
-         };
+        throw new Error("API responded successfully but did not return a generated image base64 string.");
     }
-
+    
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -72,7 +67,9 @@ export async function handler(event) {
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: `Internal Server Error during AI processing. Please check your API key and Netlify logs. Error details: ${error.message}` }),
+      body: JSON.stringify({
+        error: `Netlify Function Error. Check API Key/Model response. Detail: ${error.message}`
+      }),
     };
   }
 }
