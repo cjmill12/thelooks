@@ -9,7 +9,7 @@
     --gallery-gap: 10px; 
     --sidebar-width: 200px; 
     --header-height: 40px;
-    --viewport-size: 250px; /* Desktop circular viewport size (Slightly smaller) */
+    --viewport-size: 300px; /* Desktop circular viewport size */
 }
 
 body {
@@ -45,54 +45,43 @@ body {
 }
 
 /* ================================================== */
-/* DESKTOP LAYOUT: SINGLE COLUMN WITH TOP FILTERS */
+/* DESKTOP LAYOUT: TWO-COLUMN STRUCTURE */
 /* ================================================== */
 
 #two-column-layout {
-    /* Change to single-column layout, centered */
-    display: block; 
-    max-width: 1200px; 
-    margin: 0 auto;
-    height: auto;
-}
-
-/* Hide the old sidebar since filters are moved to main content */
-#filter-sidebar {
-    display: none; 
-}
-
-/* --- Main Content (Full Width/Centered) --- */
-#main-content {
+    display: flex;
     width: 100%;
-    max-width: 800px; /* Constrain main content for better centering */
-    margin: 0 auto;
-    padding: 20px 10px;
+    margin: 0; 
+    height: calc(100vh - var(--header-height)); 
+}
+
+/* --- 1. Filter Sidebar (LEFT) --- */
+#filter-sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0; 
+    background-color: #fff;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 2. Main Content (RIGHT) --- */
+#main-content {
+    flex-grow: 1;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: auto; 
 }
 
-/* --- NEW: Top Filters Container (Gender & Complexion) --- */
-#top-filters {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-/* Filter Sections inside #top-filters (Desktop override) */
-#top-filters .filter-section {
-    flex-grow: 1; 
-    max-width: 400px;
-    margin: 0; /* Remove auto margins from previous mobile style */
-}
-
 /* --- FILTER SECTION STYLES (Larger Pill Buttons) --- */
 
 .filter-section {
     width: 100%;
+    margin: 0 0 10px 0; 
     padding: 0;
     background-color: #fff;
     border-radius: 6px;
@@ -190,7 +179,7 @@ body {
     margin-top: 5px; 
 }
 
-/* Gender/General Option Buttons */
+/* Gender/General Option Buttons (Adapted for sidebar) */
 .gender-option {
     padding: 8px 10px;
     border: 1px solid #ccc; 
@@ -231,13 +220,14 @@ body {
 #hairstyle-gallery {
     padding: 0;
     width: 100%; 
-    max-width: 800px;
     margin-top: 20px; 
 }
 #hairstyle-gallery .filter-content-group {
      padding: 10px 5px; 
 }
 #hairstyle-gallery .filter-options-group {
+    /* FIX: Prevents wrapping, forcing the flex items onto a single line */
+    flex-wrap: nowrap; 
     white-space: nowrap; 
     overflow-x: scroll; 
     overflow-y: hidden; 
@@ -346,27 +336,18 @@ body {
 
 @media (max-width: 768px) {
     
-    /* Stack top filters vertically on mobile */
-    #top-filters {
-        flex-direction: column; 
-        gap: 0;
-        align-items: center; 
-        margin-bottom: 10px;
-    }
-    
-    /* Ensure top filters take reasonable width */
-    #top-filters .filter-section {
-        width: 95%; 
-        max-width: none;
-        margin: 8px auto; 
-    }
-
-    
     #two-column-layout {
         flex-direction: column; 
         height: auto;
         padding: 0; 
         margin: 0;
+    }
+    
+    #filter-sidebar {
+        width: 100%; 
+        padding: 10px 0; 
+        box-shadow: none; 
+        order: 1; 
     }
 
     #main-content {
