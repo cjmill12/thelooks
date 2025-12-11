@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const centralViewport = document.getElementById('central-viewport');
     
     // Buttons and Controls
-    // MODIFIED: Renamed takeSelfieBtn to startCameraBtn and added a new captureSelfieBtn
+    // Using the new IDs from the updated index.html
     const startCameraBtn = document.getElementById('start-camera-btn');
     const captureSelfieBtn = document.getElementById('capture-selfie-btn'); 
     const tryOnBtn = document.getElementById('try-on-btn');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- CONSTANTS ---
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor quality, bad anatomy.";
     
-    // --- Complexion Data and Prompt Database (Using Hyphenated Paths) ---
+    // --- Complexion Data and Prompt Database (PATHS REVERTED TO SPACES) ---
     const complexionData = [
         { id: 'fair', name: 'Fair', color: '#F0E6D2' },
         { id: 'medium', name: 'Medium', color: '#E0C79A' },
@@ -43,33 +43,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const promptDatabase = {
         male: {
             fair: [
-                { name: 'Fringe', prompt: 'Photorealistic inpainting, perfect masking, medium forward fringe, light golden brown, 4K resolution.', img: '/styles/forward-fringe.jpeg' },
-                { name: 'Spiked Charm', prompt: 'Flawless composite, high-detail spiked texture, short cut with sharp fade, light brown color.', img: '/styles/spiked-charm.jpeg' },
+                { name: 'Fringe', prompt: 'Photorealistic inpainting, perfect masking, medium forward fringe, light golden brown, 4K resolution.', img: '/styles/forward fringe.jpeg' },
+                { name: 'Spiked Charm', prompt: 'Flawless composite, high-detail spiked texture, short cut with sharp fade, light brown color.', img: '/styles/spiked charm.jpeg' },
             ],
             medium: [
-                { name: 'Wavy Quiff', prompt: 'Flawless composite, high volume wavy quiff, medium brown hair color, cinematic portrait lighting.', img: '/styles/wavy-quiff.jpeg' },
-                { name: 'Sleek Side Part', prompt: 'Seamless photo-merge, ultra-clean classic side-part, medium brown color, sharp definition.', img: '/styles/sleek-side-part.jpeg' },
+                { name: 'Wavy Quiff', prompt: 'Flawless composite, high volume wavy quiff, medium brown hair color, cinematic portrait lighting.', img: '/styles/wavy quiff.jpeg' },
+                { name: 'Sleek Side Part', prompt: 'Seamless photo-merge, ultra-clean classic side-part, medium brown color, sharp definition.', img: '/styles/sleek side part.jpeg' },
             ],
             olive: [
-                { name: 'Tousled Top', prompt: 'Perfectly masked, highly textured and tousled top with short sides, dark brown color, high resolution.', img: '/styles/tousled-top.jpeg' },
-                { name: 'Natural Curls', prompt: 'Soft texture natural curls, dark espresso brown color, ultra HD quality.', img: '/styles/natural-curls.jpeg' },
+                { name: 'Tousled Top', prompt: 'Perfectly masked, highly textured and tousled top with short sides, dark brown color, high resolution.', img: '/styles/tousled top.jpeg' },
+                { name: 'Natural Curls', prompt: 'Soft texture natural curls, dark espresso brown color, ultra HD quality.', img: '/styles/natural curls.jpeg' },
             ],
             brown: [
-                { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high-top-fade.jpeg' },
-                { name: 'Textured Scissor', prompt: 'Perfect composite, defined short texture on the fringe, high-contrast fade, dark black color.', img: '/styles/side-swept-scissor-cut.jpeg' },
+                { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high top fade.jpeg' },
+                { name: 'Textured Scissor', prompt: 'Perfect composite, defined short texture on the fringe, high-contrast fade, dark black color.', img: '/styles/side swept scissor cut.jpeg' },
             ],
             dark_brown: [
-                { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high-top-fade.jpeg' },
-                { name: 'Natural Curls', prompt: 'Soft texture natural curls, dark espresso brown color, ultra HD quality.', img: '/styles/natural-curls.jpeg' },
+                { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high top fade.jpeg' },
+                { name: 'Natural Curls', prompt: 'Soft texture natural curls, dark espresso brown color, ultra HD quality.', img: '/styles/natural curls.jpeg' },
             ],
             deep: [
-                { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high-top-fade.jpeg' },
-                { name: 'Textured Scissor', prompt: 'Perfect composite, defined short texture on the fringe, high-contrast fade, dark black color.', img: '/styles/side-swept-scissor-cut.jpeg' },
+                { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high top fade.jpeg' },
+                { name: 'Textured Scissor', prompt: 'Perfect composite, defined short texture on the fringe, high-contrast fade, dark black color.', img: '/styles/side swept scissor cut.jpeg' },
             ],
         },
         female: {
-            fair: [ { name: 'Long Bob', prompt: 'Shoulder length layered bob, light blonde highlights.', img: '/styles/placeholder_bob.jpeg' }],
-            deep: [ { name: 'Afro Puff', prompt: 'Voluminous afro puff hairstyle, natural black color, defined curls.', img: '/styles/placeholder_afro.jpeg' }],
+            // Note: Placeholder names also reverted
+            fair: [ { name: 'Long Bob', prompt: 'Shoulder length layered bob, light blonde highlights.', img: '/styles/placeholder bob.jpeg' }],
+            deep: [ { name: 'Afro Puff', prompt: 'Voluminous afro puff hairstyle, natural black color, defined curls.', img: '/styles/placeholder afro.jpeg' }],
         }
     };
 
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- Camera Initialization Function (Simplified for dedicated button) ---
+    // --- Camera Initialization Function ---
     function startCamera() {
         if (cameraStarted) return;
         
@@ -137,7 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- INITIAL STATE SETUP ---
-    // startCameraBtn.textContent = "▶️ Start Camera"; // Set in HTML
     statusMessage.textContent = "Select your Gender and Complexion to begin.";
     tryOnBtn.style.display = 'none'; 
     captureSelfieBtn.style.display = 'none';
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderFinalGallery();
 
 
-    // --- FILTER STEP 1: Gender Selection Logic (RETAINED) ---
+    // --- FILTER STEP 1: Gender Selection Logic ---
     document.querySelectorAll('.gender-option').forEach(button => {
         button.addEventListener('click', (e) => {
             document.querySelectorAll('.gender-option').forEach(btn => btn.classList.remove('selected'));
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- FILTER STEP 2: Complexion Selector Generation (RETAINED) ---
+    // --- FILTER STEP 2: Complexion Selector Generation ---
     function renderComplexionSelector() {
         complexionGroup.innerHTML = ''; 
         
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- FINAL STEP 3: Render the Filtered Gallery (RETAINED) ---
+    // --- FINAL STEP 3: Render the Filtered Gallery ---
     function renderFinalGallery() {
         const galleryOptionsGroup = galleryContainer.querySelector('.filter-options-group');
         galleryOptionsGroup.innerHTML = ''; 
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.textContent = "3. Select your final style and click 'Start Camera' above.";
     }
 
-    // --- Style Selection Handler (MODIFIED FOR NEW BUTTONS) ---
+    // --- Style Selection Handler ---
     function handleStyleSelection(e) {
         document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
         e.currentTarget.classList.add('selected');
@@ -343,7 +343,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        statusMessage.textContent = `Applying your selected style... This may take a moment.`;
+        const selectedStyleName = document.querySelector('.style-option.selected').getAttribute('data-name');
+        statusMessage.textContent = `Applying your selected style: ${selectedStyleName}... This may take a moment.`;
         tryOnBtn.disabled = true;
         spinner.style.display = 'inline-block'; 
         
