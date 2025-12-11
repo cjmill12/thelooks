@@ -3,67 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Looks - Virtual Hairstyle Studio</title>
+    <title>AI Hairstyle Try-On</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'self' data: https:; img-src 'self' data: https:;">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header id="app-header">
-        <img src="/assets/Minimalist 'Looks' Logo with Hair Strand Design (1).png" alt="Looks App Logo" id="main-logo">
-    </header>
-    
-    <div id="two-column-layout">
+
+    <div id="app-container">
         
-        <aside id="filter-sidebar">
-            
-            <div id="gender-selector" class="filter-section collapsed"> 
-                <h3><span>Gender</span></h3>
-                <div class="filter-content-group">
-                    <div class="filter-options-group">
-                        <button class="gender-option" data-gender="male">Male Styles</button>
-                        <button class="gender-option" data-gender="female">Female Styles</button>
+        <header id="header-bar">
+            <h1>The Looks AI</h1>
+            <div id="filter-pills">
+                <button id="gender-button-mobile" class="filter-pill">M/F</button>
+                <button id="complexion-button-mobile" class="filter-pill">🎨</button>
+            </div>
+        </header>
+
+        <div id="central-viewport" class="inactive">
+            <video id="video-feed" autoplay playsinline></video>
+            <img id="ai-result" alt="AI Hairstyle Result">
+            <div id="loading-overlay" class="hidden-btn">
+                <div class="spinner"></div>
+                <p>Generating your new look...</p>
+            </div>
+        </div>
+
+        <div id="status-container">
+            <p id="status-message">Select your Gender (M/F) and Complexion (🎨) to begin.</p>
+        </div>
+
+        <div id="filter-selection-wrapper">
+            <div id="gender-selector" class="selector-content hidden">
+                <button class="gender-option" data-gender="male">Male Styles</button>
+                <button class="gender-option" data-gender="female">Female Styles</button>
+            </div>
+            <div id="complexion-selector" class="selector-content hidden">
+                <h3>Select Complexion</h3>
+                <div id="complexion-options-group">
                     </div>
-                </div>
             </div>
+        </div>
 
-            <div id="complexion-selector" class="filter-section collapsed">
-                <h3><span>Complexion</span></h3>
-                <div class="filter-content-group">
-                    <div class="filter-options-group" id="complexion-options-group">
-                        </div>
-                </div>
-            </div>
-            
-        </aside>
+        <div id="inspiration-toggle" class="collapsed">
+            <h2 id="inspiration-toggle-header">
+                Inspiration <span>(Filter Setup Incomplete)</span>
+                <span class="toggle-icon">▼</span>
+            </h2>
+        </div>
         
-        <main id="main-content">
-            
-            <div id="central-viewport">
-                <video id="video-feed" autoplay playsinline style="display: none;"></video>
-                <img id="ai-result" alt="AI Hairstyle Result" style="display: none;">
-                <canvas id="hidden-canvas" style="display: none;"></canvas>
-                <p id="status-message">Select your Gender and Complexion to begin.</p>
-            </div>
-
-            <div id="controls">
-                <button id="take-selfie-btn" class="main-action-btn">▶️</button>
-                
-                <button id="try-on-btn" disabled class="main-action-btn" style="display: none;">
-                    <span id="try-on-btn-content">
-                        <div id="loading-spinner" class="loading-indicator"></div>
-                        <span>✨ Try On Selected Hairstyle</span>
-                    </span>
-                </button>
-            </div>
-
-            <div id="hairstyle-gallery" class="filter-section collapsed filter-inspiration">
-                <h3><span>Inspiration</span></h3> 
-                <div class="filter-content-group">
-                    <div class="filter-options-group">
-                        </div>
+        <div id="hairstyle-gallery" class="selector-content">
+            <div class="filter-options-group">
                 </div>
-            </div>
-            
-        </main>
+        </div>
+
+        <footer id="mobile-controls">
+            <button id="capture-btn" class="control-button">▶️</button>
+            <button id="generate-btn" class="control-button hidden-btn">✨</button>
+        </footer>
+
     </div>
 
     <script src="app.js"></script>
