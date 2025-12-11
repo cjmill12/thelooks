@@ -63,7 +63,6 @@ body {
     box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
     padding: 10px;
     overflow-y: auto; 
-    /* Desktop default: Stacked */
     display: flex;
     flex-direction: column;
 }
@@ -344,7 +343,7 @@ body {
     
     #filter-sidebar {
         width: 100%; 
-        padding: 10px; /* Use full padding for spacing on sides */
+        padding: 10px; /* Use full padding for spacing on sides: 10px left/right */
         box-shadow: none; 
         order: 1; 
         
@@ -376,33 +375,36 @@ body {
 
     /* FIX 2: Set GENDER and COMPLEXION to fit side-by-side */
     #gender-selector, #complexion-selector {
-        width: calc(50% - 5px); /* Forces two items to fit with a 10px gap in between (handled by space-between) */
+        /* Total internal width is 100% - 20px padding from sidebar. 
+           calc(50% - 10px) ensures a 20px gap between the two elements in the 100% space. */
+        width: calc(50% - 5px); 
         margin: 0;
         box-sizing: border-box;
     }
     
-    /* FIX 3: Ensure Inspiration Gallery takes full width and wraps below */
-    #hairstyle-gallery {
-        width: 100%;
-        margin-top: 10px;
-    }
-
-
-    /* MOBILE FILTER PILLS (Centering and using fixed percentage for compactness) */
+    /* FIX 3: Ensure filter sections and pills use their width properly */
     .filter-section {
-        /* Remove width constraints for Gender/Complexion, handled by their IDs above */
-        margin: 8px 0; 
+        /* Remove mobile width constraints/centering for Gender/Complexion, handled by their IDs above */
+        margin: 8px 0; /* Vertical margin remains */
         padding: 0;
         background-color: #fff;
         max-width: none; 
     }
     
     .filter-section.collapsed h3 {
-        /* Make collapsed pills fit within their new calc(50% - 5px) container */
+        /* Make collapsed pills fit within their new width container */
         width: 90%; 
         max-width: none; 
         border-radius: 20px; 
         margin: 0 auto;
+    }
+
+    
+    /* FIX 4: Ensure Inspiration Gallery takes full width and maintains horizontal scroll */
+    #hairstyle-gallery {
+        /* Must take 100% of the sidebar's width to span below the two side-by-side filters */
+        width: 100%;
+        margin-top: 10px;
     }
 
     /* Expanded Content Group within the filter section */
@@ -414,12 +416,12 @@ body {
     /* Complexion tiles must show text labels on mobile */
     .complexion-tile {
         width: 40px; 
-        height: 40px; /* Reduced size slightly */
+        height: 40px; 
     }
     .complexion-tile p {
         display: block; 
         font-size: 0.6em;
-        margin-top: 45px; /* Push label below the circle */
+        margin-top: 45px; 
         text-align: center;
         width: 40px;
         white-space: normal;
@@ -434,6 +436,7 @@ body {
     #hairstyle-gallery .filter-options-group {
         overflow-x: scroll;
         padding-bottom: 5px; 
+        /* Ensure there is no extra padding here causing issues */
         padding-left: 0; 
         padding-right: 0;
     }
