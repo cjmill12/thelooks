@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Controls
     const captureBtn = document.getElementById('capture-btn');
-    const generateBtn = document.getElementById('generate-btn'); // Dedicated Generate button
+    // Note: generateBtn is not used in this reverted version
 
     // Filter elements
     const genderPill = document.getElementById('gender-button-mobile');
@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const promptDatabase = {
         male: {
             fair: [
-                // ** Renamed to use hyphens for web-safety **
                 { name: 'Fringe', prompt: 'medium forward fringe, light golden brown', img: 'styles/forward-fringe.jpeg' },
                 { name: 'Spiked', prompt: 'spiked texture, short cut, light brown', img: 'styles/spiked-charm.jpeg' },
             ],
@@ -189,11 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inspirationToggle.classList.add('collapsed');
         galleryContainer.style.display = 'none';
 
-        // Reset to initial Capture state
-        captureBtn.classList.remove('hidden-btn');
-        generateBtn.classList.add('hidden-btn');
-        
-        // If camera hasn't started, prompt user to start it
+        // Set button state after style selection
         if (!cameraStarted) {
             captureBtn.textContent = '▶️';
             statusMessage.textContent = `Style selected: ${e.currentTarget.getAttribute('data-name')}. Tap the play button (▶️) to start your camera.`;
@@ -210,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- INITIAL STATE SETUP AND EVENT LISTENERS ---
     
     captureBtn.textContent = "▶️"; 
-    generateBtn.classList.add('hidden-btn'); 
     statusMessage.textContent = "Select your Gender (M/F) and Complexion (🎨) to begin.";
     filterWrapper.style.display = 'none';
     inspirationToggle.classList.add('collapsed');
@@ -253,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 4. BUTTON LISTENERS (THE CORE FUNCTIONALITY) ---
 
-    // 1. CAPTURE / START CAMERA / RETAKE SELFIE
+    // Single button handles: START (▶️) / CAPTURE (📸) / GENERATE (✨) / RETAKE (🔄)
     captureBtn.addEventListener('click', () => {
         // 1. Pre-requisite Check
         if (!selectedPrompt) { 
@@ -266,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!cameraStarted || captureBtn.textContent === '▶️') {
             startCamera(); // Assumes this function updates cameraStarted to true
             captureBtn.textContent = '📸'; // Change to Capture icon
-            generateBtn.classList.add('hidden-btn'); // Hide Generate button
             return;
         }
         
@@ -286,14 +279,48 @@ document.addEventListener('DOMContentLoaded', () => {
             aiResultImg.src = dataUrl; // Display the captured selfie
             aiResultImg.style.display = 'block'; 
             
-            captureBtn.textContent = '🔄'; // Change to Retake icon
-            generateBtn.classList.remove('hidden-btn'); // SHOW the Generate button
+            captureBtn.textContent = '✨'; // Change to Generate icon
             
-            statusMessage.textContent = "Selfie captured! Tap the sparkle button (✨) to 'Try On' or (🔄) to retake.";
+            statusMessage.textContent = "Selfie captured! Tap the sparkle button (✨) to 'Try On'.";
             
         } 
         
-        // C. Captured Selfie or AI Result -> Restart Camera (🔄 button)
+        // C. Captured Selfie -> AI Processing (✨ button)
+        else if (captureBtn.textContent === '✨') {
+            
+            statusMessage.textContent = `Applying your selected style... This may take a moment.`;
+            captureBtn.disabled = true; 
+            captureBtn.textContent = '⏳'; 
+            
+            loadingOverlay.classList.remove('hidden-btn');
+            
+            // ** Simulating the AI call **
+            setTimeout(() => {
+                
+                // --- SUCCESS BLOCK (Image Swap: FINAL FIX FOR MOCK-UP) ---
+                const styleImgElement = document.querySelector('.style-option.selected .style-thumbnail');
+                if (styleImgElement) {
+                    let originalSrc = styleImgElement.src;
+                    
+                    // CRITICAL FINAL FIX: Replace 'styles/' with 'styles/result_'
+                    const newSrc = originalSrc.replace('styles/', 'styles/result_');
+                    
+                    aiResultImg.src = newSrc; 
+                }
+                
+                loadingOverlay.classList.add('hidden-btn');
+
+                // State Transition: AI Result Ready
+                captureBtn.disabled = false; 
+                captureBtn.textContent = "🔄"; // Change to Retake icon
+                
+                statusMessage.textContent = `Done! Your new look is ready. Tap the restart button (🔄) to take a new selfie.`;
+                
+            }, 3000);
+
+        }
+
+        // D. AI Result -> Restart Camera (🔄 button)
         else if (captureBtn.textContent === '🔄') {
             capturedImageBase64 = null;
             videoFeed.style.display = 'block';
@@ -301,51 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
             aiResultImg.style.display = 'none';
             
             captureBtn.textContent = '📸'; // Change back to Capture icon
-            generateBtn.classList.add('hidden-btn'); // Hide Generate button
             
             statusMessage.textContent = "Camera ready. Retake your selfie now!";
         }
-    });
-
-    // 2. GENERATE / TRY ON
-    generateBtn.addEventListener('click', () => {
-        if (generateBtn.classList.contains('hidden-btn')) return;
-
-        // State: Captured Image -> AI Processing (✨ button)
-        statusMessage.textContent = `Applying your selected style... This may take a moment.`;
-        captureBtn.disabled = true; // Disable capture while processing
-        generateBtn.disabled = true;
-        generateBtn.textContent = '⏳'; 
-        
-        loadingOverlay.classList.remove('hidden-btn');
-        
-        // ** Simulating the AI call **
-        setTimeout(() => {
-            
-            // --- SUCCESS BLOCK (Image Swap: FINAL FIX FOR MOCK-UP) ---
-            const styleImgElement = document.querySelector('.style-option.selected .style-thumbnail');
-            if (styleImgElement) {
-                let originalSrc = styleImgElement.src;
-                
-                // CRITICAL FINAL FIX: Replace 'styles/' with 'styles/result_'
-                // This relies on the fact that your thumbnail paths are now hyphenated!
-                const newSrc = originalSrc.replace('styles/', 'styles/result_');
-                
-                aiResultImg.src = newSrc; 
-            }
-            
-            loadingOverlay.classList.add('hidden-btn');
-
-            // State Transition: AI Result Ready
-            generateBtn.textContent = '✨'; // Change back to sparkle icon
-            generateBtn.disabled = true; 
-            generateBtn.classList.add('hidden-btn'); // Hide generate button after result is shown
-            
-            captureBtn.disabled = false; // Re-enable Retake button
-            captureBtn.textContent = "🔄"; // Ensure it stays as Retake icon
-            
-            statusMessage.textContent = `Done! Your new look is ready. Tap the restart button (🔄) to take a new selfie.`;
-            
-        }, 3000);
     });
 });
