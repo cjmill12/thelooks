@@ -17,7 +17,7 @@
     --gallery-gap: 10px; 
     --header-height: 40px;
     --viewport-size-desktop: 300px; 
-    --viewport-size-mobile: 250px; /* New fixed square size for mobile */
+    --viewport-size-mobile: 250px; 
     --content-max-width: 400px; 
 }
 
@@ -122,13 +122,13 @@ body {
 
 #central-viewport {
     position: relative; 
-    /* CHANGED: Square Viewport with fixed width */
-    width: var(--viewport-size-mobile); 
-    height: var(--viewport-size-mobile);
-    max-width: var(--viewport-size-desktop); 
-    max-height: var(--viewport-size-desktop);
+    /* CRITICAL: Use !important to override browser defaults */
+    width: var(--viewport-size-mobile) !important; 
+    height: var(--viewport-size-mobile) !important;
+    max-width: var(--viewport-size-desktop) !important; 
+    max-height: var(--viewport-size-desktop) !important;
     margin: 0; 
-    border-radius: 6px; /* Changed from 50% to a subtle round rectangle */
+    border-radius: 6px; 
     overflow: hidden;
     background-color: #eee;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
@@ -143,14 +143,20 @@ body {
 }
 
 #video-feed, #ai-result {
-    width: 100%;
-    height: 100%; 
+    width: 100% !important;
+    height: 100% !important; 
     display: block;
-    object-fit: cover;
-    /* CRITICAL: Ensure video/image doesn't go full screen */
-    object-fit: contain; 
-    max-width: 100%;
-    max-height: 100%;
+    /* CRITICAL: Force containment */
+    object-fit: cover !important; 
+    max-width: 100% !important;
+    max-height: 100% !important;
+    /* Prevent default full screen behavior in some browsers */
+    z-index: 1; 
+}
+
+/* Ensure no other hidden video controls interfere */
+#video-feed::-webkit-media-controls {
+    display: none !important;
 }
 
 #status-message {
@@ -419,10 +425,10 @@ body {
     
     /* CRITICAL: Ensure square viewport is mobile-friendly */
     #central-viewport {
-        width: 80vw; /* Take up 80% of viewport width */
-        height: 80vw;
-        max-width: 300px; 
-        max-height: 300px;
+        width: 80vw !important; 
+        height: 80vw !important;
+        max-width: 300px !important; 
+        max-height: 300px !important;
     }
     
     /* Mobile filter styles adjustments */
@@ -492,7 +498,7 @@ body {
 
         <div id="central-section">
             <div id="central-viewport">
-                <video id="video-feed" autoplay></video>
+                <video id="video-feed" autoplay playsinline></video>
                 <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
                 <p id="status-message">Click the Play button to start your camera.</p>
             </div>
@@ -612,13 +618,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Helper Functions ---
     
-    // Function to check if Try On button should be visible (CRITICAL FIX)
     function updateTryOnButtonVisibility() {
-        // Try On button is visible only when an image is captured AND a style AND complexion are selected
         if (capturedImageBase64 && selectedPrompt && selectedComplexion) {
             tryOnBtn.style.display = 'block';
             tryOnBtn.disabled = false;
-            if (statusMessage.textContent.includes('Ready to capture') || statusMessage.textContent.includes('Processing')) {
+            if (statusMessage.textContent.includes('Processing')) {
                  // Do not overwrite key messages
             } else {
                  statusMessage.textContent = "All set! Click 'Generate My New Look' below.";
@@ -628,13 +632,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to handle gender selection 
     function handleGenderSelect(gender) {
         selectedGender = gender;
-
         maleGenderBtn.classList.remove('selected');
         femaleGenderBtn.classList.remove('selected');
-
         if (gender === 'Male') {
             maleGenderBtn.classList.add('selected');
         } else if (gender === 'Female') {
@@ -643,7 +644,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTryOnButtonVisibility();
     }
 
-    // Function to handle accordion collapse/expand 
     function toggleFilterSection(section) {
         if (section.classList.contains('collapsed')) {
             section.classList.remove('collapsed');
@@ -654,7 +654,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Function to handle complexion tile selection 
     function handleComplexionSelect(tile) {
         const complexionTiles = complexionGroup.querySelectorAll('.complexion-tile');
         complexionTiles.forEach(t => t.classList.remove('selected'));
@@ -663,7 +662,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTryOnButtonVisibility(); 
     }
     
-    // Function to handle hairstyle selection
     function handleStyleSelect(styleOption) {
         const styleOptions = galleryContainer.querySelectorAll('.style-option');
         styleOptions.forEach(o => o.classList.remove('selected'));
@@ -678,29 +676,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Function to start camera stream (UPDATED for square viewport)
+    // Function to start camera stream (CRITICAL JS FIX)
     async function startCamera() {
         try {
-            // Request the specific resolution to better fit the container (optional, but helps)
-            const stream = await navigator.mediaDevices.getUserMedia({ 
+            // Explicit constraints to favor smaller, constrained video output
+            const constraints = { 
                 video: {
                     facingMode: 'user', // Use front camera
-                    width: { ideal: 320 }, 
-                    height: { ideal: 240 }
+                    width: { ideal: 250 }, 
+                    height: { ideal: 250 }
                 }
-            });
+            };
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
             videoFeed.srcObject = stream;
             cameraStarted = true;
+            
+            // IMPORTANT: Add 'playsinline' attribute to prevent full-screen takeover on iOS
+            videoFeed.setAttribute('playsinline', '');
             
             centralViewport.classList.add('active'); 
             aiResultImg.style.display = 'none'; 
             videoFeed.style.display = 'block'; 
             
             takeSelfieBtn.textContent = "📸"; 
-            
             statusMessage.textContent = "Adjust your face in the box, then click 📸 to capture.";
             
-            // Hide Try On button immediately
             tryOnBtn.style.display = 'none';
 
         } catch (error) {
@@ -712,21 +712,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Function to stop camera stream 
     function stopCamera() {
         if (videoFeed.srcObject) {
-            // This is crucial for stopping the stream and releasing the camera
             videoFeed.srcObject.getTracks().forEach(track => track.stop());
             videoFeed.srcObject = null;
         }
         cameraStarted = false;
     }
     
-    // Function to capture image 
     function captureImage() {
         const context = canvas.getContext('2d');
-        const width = videoFeed.videoWidth;
-        const height = videoFeed.videoHeight;
+        // Use the size of the video element to prevent distortion on capture
+        const width = videoFeed.videoWidth || centralViewport.offsetWidth;
+        const height = videoFeed.videoHeight || centralViewport.offsetHeight;
 
         canvas.width = width;
         canvas.height = height;
@@ -734,21 +732,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         capturedImageBase64 = canvas.toDataURL('image/jpeg').split(',')[1];
         
-        // Show captured image (hides video)
         videoFeed.style.display = 'none'; 
         aiResultImg.style.display = 'block';
         aiResultImg.src = canvas.toDataURL('image/jpeg');
         
-        // Stop camera stream immediately
         stopCamera();
         
-        // Update status
         statusMessage.textContent = "Image captured. Select a hairstyle and complexion, then click 'Generate'.";
         
-        // Update control buttons
-        takeSelfieBtn.style.display = 'none'; // Hide the capture button
+        takeSelfieBtn.style.display = 'none';
         
-        // Check and show the Try On button now that the image is captured
         updateTryOnButtonVisibility(); 
     }
     
@@ -759,7 +752,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Disable button, show spinner, and update status
         tryOnBtn.disabled = true;
         tryOnBtn.style.display = 'none';
         spinner.style.display = 'block';
@@ -794,7 +786,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             statusMessage.textContent = `Success! Your new look is ready. Click the Play button to start a new session.`;
             
-            // Show the Play button again for a new session
             takeSelfieBtn.style.display = 'block'; 
             takeSelfieBtn.textContent = "▶️"; 
             
@@ -806,7 +797,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('AI Processing Error:', error);
             statusMessage.textContent = `Error during AI try-on: ${error.message}. Please try again.`;
             
-            // Restore Try On button on error
             tryOnBtn.disabled = false; 
             tryOnBtn.style.display = 'block'; 
             spinner.style.display = 'none'; 
@@ -822,7 +812,6 @@ document.addEventListener('DOMContentLoaded', () => {
         handleGenderSelect('Male');
     }
     
-    // Gender Button Listeners
     if (maleGenderBtn) {
         maleGenderBtn.addEventListener('click', () => handleGenderSelect('Male'));
     }
@@ -831,7 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
         femaleGenderBtn.addEventListener('click', () => handleGenderSelect('Female'));
     }
 
-    // Toggle button listeners for filters
+    // Filter toggle listeners
     if (complexionSelector) {
         complexionSelector.querySelector('h3').addEventListener('click', () => toggleFilterSection(complexionSelector));
     }
@@ -856,19 +845,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Camera/Selfie button logic
     takeSelfieBtn.addEventListener('click', () => {
         if (!cameraStarted) {
-            // If camera is off, start it (▶️ -> 📸)
             startCamera();
         } else {
-            // If camera is on, capture image (📸 -> Try On Button)
             captureImage();
         }
     });
 
-    // Initial state setup for filters 
+    // Initial state setup 
     if (complexionSelector) complexionSelector.classList.add('collapsed');
     if (galleryContainer) galleryContainer.classList.add('expanded');
     
-    // Initial state setup for controls
     takeSelfieBtn.textContent = "▶️";
     spinner.style.display = 'none';
     tryOnBtn.style.display = 'none';
