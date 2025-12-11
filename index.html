@@ -342,7 +342,7 @@ body {
 #hairstyle-gallery .filter-content-group {
      padding: 10px 5px; 
 }
-/* *** FIX FOR HORIZONTAL SCROLL *** */
+/* FIX FOR HORIZONTAL SCROLL */
 #hairstyle-gallery .filter-options-group {
     display: flex; /* Ensure it's a flex container */
     flex-wrap: nowrap; /* CRUCIAL: Forces all items onto one line */
@@ -593,6 +593,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor lighting, poor composition, low quality"; 
 
     // --- Helper Functions ---
+    
+    // Function to check if Try On button should be visible
+    function updateTryOnButtonVisibility() {
+        if (capturedImageBase64 && selectedPrompt && selectedComplexion) {
+            tryOnBtn.style.display = 'block';
+            tryOnBtn.disabled = false;
+        } else {
+            tryOnBtn.style.display = 'none';
+        }
+    }
 
     // Function to handle gender selection (New)
     function handleGenderSelect(gender) {
@@ -608,6 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (gender === 'Female') {
             femaleGenderBtn.classList.add('selected');
         }
+        updateTryOnButtonVisibility(); // Check button state
     }
 
     // Function to handle accordion collapse/expand (kept for other filters)
@@ -627,14 +638,22 @@ document.addEventListener('DOMContentLoaded', () => {
         complexionTiles.forEach(t => t.classList.remove('selected'));
         tile.classList.add('selected');
         selectedComplexion = tile.dataset.complexion;
+        updateTryOnButtonVisibility(); // Check button state
     }
     
-    // Function to handle hairstyle selection (remains the same)
+    // Function to handle hairstyle selection (UPDATED)
     function handleStyleSelect(styleOption) {
         const styleOptions = galleryContainer.querySelectorAll('.style-option');
         styleOptions.forEach(o => o.classList.remove('selected'));
         styleOption.classList.add('selected');
         selectedPrompt = styleOption.dataset.prompt;
+        
+        // This is the critical addition: if an image is captured, show the Try On button
+        updateTryOnButtonVisibility(); 
+        
+        if (capturedImageBase64) {
+            statusMessage.textContent = `Style selected: ${selectedPrompt}. Ready to Try On!`;
+        }
     }
     
     // Function to start camera stream (remains the same)
@@ -647,6 +666,10 @@ document.addEventListener('DOMContentLoaded', () => {
             aiResultImg.style.display = 'none'; // Hide result image
             videoFeed.style.display = 'block'; // Show video feed
             statusMessage.textContent = "Adjust your face in the circle, then click 📸 to capture.";
+            
+            // Ensure try on button is hidden while camera is active
+            tryOnBtn.style.display = 'none';
+            takeSelfieBtn.style.display = 'block';
         } catch (error) {
             console.error('Error accessing camera:', error);
             statusMessage.textContent = `Error: Could not start camera. Check permissions. (${error.name})`;
@@ -660,10 +683,9 @@ document.addEventListener('DOMContentLoaded', () => {
             videoFeed.srcObject = null;
         }
         cameraStarted = false;
-        centralViewport.classList.remove('active'); // Hide viewport
     }
     
-    // Function to capture image (remains the same)
+    // Function to capture image (UPDATED)
     function captureImage() {
         const context = canvas.getContext('2d');
         const width = videoFeed.videoWidth;
@@ -680,12 +702,12 @@ document.addEventListener('DOMContentLoaded', () => {
         aiResultImg.style.display = 'block';
         aiResultImg.src = canvas.toDataURL('image/jpeg'); // Show captured image
         
-        statusMessage.textContent = "Image captured. Select a hairstyle and click 'Try On'.";
+        statusMessage.textContent = "Image captured. Select a hairstyle and complexion, then click 'Try On'.";
         
         // Update control buttons
         takeSelfieBtn.style.display = 'none';
-        tryOnBtn.style.display = 'block';
-        tryOnBtn.disabled = false;
+        // CRITICAL FIX: Update visibility based on selection state
+        updateTryOnButtonVisibility(); 
         
         // Stop the camera stream after capturing the image
         stopCamera();
