@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- CONSTANTS ---
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor quality, bad anatomy.";
     
-    // --- Complexion Data and Prompt Database ---
+    // --- Complexion Data and Prompt Database (EXPANDED STYLES) ---
     const complexionData = [
         { id: 'fair', name: 'Fair', color: '#F0E6D2' },
         { id: 'medium', name: 'Medium', color: '#E0C79A' },
@@ -39,36 +39,70 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'deep', name: 'Deep', color: '#442C2E' },
     ];
     
+    // Expanded prompt database with more unique styles for demonstration
     const promptDatabase = {
         male: {
             fair: [
                 { name: 'Fringe', prompt: 'Photorealistic inpainting, perfect masking, medium forward fringe, light golden brown, 4K resolution.', img: '/styles/forward fringe.jpeg' },
                 { name: 'Spiked Charm', prompt: 'Flawless composite, high-detail spiked texture, short cut with sharp fade, light brown color.', img: '/styles/spiked charm.jpeg' },
+                { name: 'Slick Back', prompt: 'Classic, highly detailed slick back with a modern taper fade, honey brown color.', img: '/styles/slickback.jpeg' },
             ],
             medium: [
                 { name: 'Wavy Quiff', prompt: 'Flawless composite, high volume wavy quiff, medium brown hair color, cinematic portrait lighting.', img: '/styles/wavy quiff.jpeg' },
                 { name: 'Sleek Side Part', prompt: 'Seamless photo-merge, ultra-clean classic side-part, medium brown color, sharp definition.', img: '/styles/sleek side part.jpeg' },
+                { name: 'Undercut Pompadour', prompt: 'Modern pompadour with dramatic undercut, dark brown shade, studio lighting.', img: '/styles/pompadour.jpeg' },
             ],
             olive: [
                 { name: 'Tousled Top', prompt: 'Perfectly masked, highly textured and tousled top with short sides, dark brown color, high resolution.', img: '/styles/tousled top.jpeg' },
                 { name: 'Natural Curls', prompt: 'Soft texture natural curls, dark espresso brown color, ultra HD quality.', img: '/styles/natural curls.jpeg' },
+                { name: 'Messy Textured Crop', prompt: 'High-fade textured crop with messy, forward fringe, black hair color.', img: '/styles/textured_crop.jpeg' },
             ],
             brown: [
                 { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high top fade.jpeg' },
                 { name: 'Textured Scissor', prompt: 'Perfect composite, defined short texture on the fringe, high-contrast fade, dark black color.', img: '/styles/side swept scissor cut.jpeg' },
+                { name: 'Wavy Quiff', prompt: 'Flawless composite, high volume wavy quiff, medium brown hair color, cinematic portrait lighting.', img: '/styles/wavy quiff.jpeg' },
             ],
             dark_brown: [
-                { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high top fade.jpeg' },
+                { name: 'Box Braid Fade', prompt: 'Intricate box braids with clean fade, deep black color, hyperrealistic detail.', img: '/styles/box_braid_fade.jpeg' },
+                { name: 'Afro Fade', prompt: 'Classic rounded afro fade with perfect edge up, natural black texture.', img: '/styles/afro_fade.jpeg' },
                 { name: 'Natural Curls', prompt: 'Soft texture natural curls, dark espresso brown color, ultra HD quality.', img: '/styles/natural curls.jpeg' },
             ],
             deep: [
                 { name: 'High Top Fade', prompt: 'Ultra-realistic, sharp high-top fade, dark black color, high contrast lighting.', img: '/styles/high top fade.jpeg' },
                 { name: 'Textured Scissor', prompt: 'Perfect composite, defined short texture on the fringe, high-contrast fade, dark black color.', img: '/styles/side swept scissor cut.jpeg' },
+                { name: 'Box Braid Fade', prompt: 'Intricate box braids with clean fade, deep black color, hyperrealistic detail.', img: '/styles/box_braid_fade.jpeg' },
             ],
         },
         female: {
-            fair: [ { name: 'Long Bob', prompt: 'Shoulder length layered bob, light blonde highlights.', img: '/styles/placeholder_bob.jpeg' }],
-            deep: [ { name: 'Afro Puff', prompt: 'Voluminous afro puff hairstyle, natural black color, defined curls.', img: '/styles/placeholder_afro.jpeg' }],
+            fair: [ 
+                { name: 'Long Bob', prompt: 'Shoulder length layered bob, light blonde highlights.', img: '/styles/placeholder_bob.jpeg' },
+                { name: 'Mermaid Waves', prompt: 'Long, flowing, slightly messy beach wave texture, platinum blonde color, soft portrait lighting.', img: '/styles/mermaid_waves.jpeg' },
+                { name: 'French Braid', prompt: 'Detailed crown French braid style, ginger red color.', img: '/styles/french_braid.jpeg' },
+            ],
+            medium: [
+                { name: 'Ponytail', prompt: 'High, sleek ponytail with side-swept bangs, dark ash brown color.', img: '/styles/ponytail.jpeg' },
+                { name: 'Soft Curls', prompt: 'Long hair with soft, defined ringlet curls, light brown balayage.', img: '/styles/soft_curls.jpeg' },
+                { name: 'Long Layers', prompt: 'Very long hair with face-framing layers, medium brown color.', img: '/styles/long_layers.jpeg' },
+            ],
+            olive: [
+                { name: 'Sleek Straight', prompt: 'Very long, poker straight hair with center part, rich mahogany color.', img: '/styles/sleek_straight.jpeg' },
+                { name: 'Wavy Shag', prompt: 'Medium length wavy shag haircut, deep espresso color.', img: '/styles/wavy_shag.jpeg' },
+                { name: 'Long Bob', prompt: 'Shoulder length layered bob, light blonde highlights.', img: '/styles/placeholder_bob.jpeg' },
+            ],
+            brown: [
+                { name: 'Curly Shag', prompt: 'Mid-length, voluminous curly shag, deep chestnut brown color.', img: '/styles/curly_shag.jpeg' },
+                { name: 'Half-Up Bun', prompt: 'Half-up top knot bun with loose waves below, dark brown color.', img: '/styles/half_up_bun.jpeg' },
+            ],
+            dark_brown: [
+                 { name: 'Space Buns', prompt: 'Two tight space buns on the crown, with face-framing curls, natural black color.', img: '/styles/space_buns.jpeg' },
+                 { name: 'Twist Out', prompt: 'Defined twist-out style, deep black color, soft lighting.', img: '/styles/twist_out.jpeg' },
+                 { name: 'Curly Shag', prompt: 'Mid-length, voluminous curly shag, deep chestnut brown color.', img: '/styles/curly_shag.jpeg' },
+            ],
+            deep: [ 
+                { name: 'Afro Puff', prompt: 'Voluminous afro puff hairstyle, natural black color, defined curls.', img: '/styles/placeholder_afro.jpeg' },
+                { name: 'Twist Out', prompt: 'Defined twist-out style, deep black color, soft lighting.', img: '/styles/twist_out.jpeg' },
+                { name: 'Cornrows', prompt: 'Tight cornrows going straight back into a bun, natural black hair.', img: '/styles/cornrows.jpeg' },
+            ],
         }
     };
 
@@ -184,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Re-render Step 2 tiles (Complexion) to clear selection
             renderComplexionSelector(); 
             
-            // Re-render Step 3 (Gallery) to filter based on Gender
+            // Re-render Step 3 (Gallery) to filter based on Gender (but still show all for gender)
             renderFinalGallery();
             
             // Action: Collapse Step 1, Expand Step 2
@@ -232,27 +266,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- FINAL STEP 3: Render the Filtered Gallery (Always show all unless Complexion is selected) ---
+    // --- FINAL STEP 3: Render the Filtered Gallery ---
     function renderFinalGallery() {
         const galleryOptionsGroup = galleryContainer.querySelector('.filter-options-group');
         galleryOptionsGroup.innerHTML = ''; // Clear previous gallery styles
         
-        let filteredStyles = [];
+        let stylesToRender = [];
         
         if (selectedGender && selectedComplexion) {
-            // Case 1: Both selected (Full filter)
-            filteredStyles = promptDatabase[selectedGender] && promptDatabase[selectedGender][selectedComplexion] 
+            // Case 1: Both selected (Narrowest filter: Gender AND Complexion)
+            stylesToRender = promptDatabase[selectedGender] && promptDatabase[selectedGender][selectedComplexion] 
                              ? promptDatabase[selectedGender][selectedComplexion]
                              : [];
         } else if (selectedGender) {
-            // Case 2: Only Gender selected (Filter by gender, show all complexions for that gender)
+            // Case 2: Only Gender selected (Show all styles regardless of complexion for that gender)
             let stylesForGender = [];
             for (const complexionKey in promptDatabase[selectedGender]) {
                 stylesForGender = stylesForGender.concat(promptDatabase[selectedGender][complexionKey]);
             }
-            // Ensure unique names
+            // Ensure unique names across the gender
             const seenNames = new Set();
-            filteredStyles = stylesForGender.filter(style => {
+            stylesToRender = stylesForGender.filter(style => {
                 if (!seenNames.has(style.name)) {
                     seenNames.add(style.name);
                     return true;
@@ -260,16 +294,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 return false;
             });
         } else {
-            // Case 3: Neither selected (Show all styles, as requested by user)
-            filteredStyles = getAllStyles();
+            // Case 3: Neither selected (Show all unique styles from the entire database)
+            stylesToRender = getAllStyles();
         }
         
-        if (filteredStyles.length === 0) {
+        if (stylesToRender.length === 0) {
             galleryOptionsGroup.innerHTML = '<p style="text-align: center; width: 100%; margin-top: 15px;">No styles found for this selection.</p>';
             return;
         }
 
-        filteredStyles.forEach(style => {
+        stylesToRender.forEach(style => {
             const optionDiv = document.createElement('div');
             optionDiv.classList.add('style-option');
             optionDiv.setAttribute('data-prompt', style.prompt);
@@ -291,7 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         statusMessage.textContent = "3. Select your final style and click 'Start Camera' above.";
-        // Keep inspiration visible when styles are loaded (moved to initial setup)
     }
 
     // --- Style Selection Handler ---
