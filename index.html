@@ -363,7 +363,17 @@ body {
     text-align: center;
     width: 45px;
     flex-shrink: 0;
+    /* Added CSS for the selected visual state for inspiration images */
+    border: 2px solid transparent; 
+    transition: border-color 0.2s;
 }
+
+.style-option.selected {
+    border-color: var(--highlight-color);
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); 
+}
+
 
 .style-thumbnail {
     width: 45px; 
@@ -641,18 +651,21 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTryOnButtonVisibility(); // Check button state
     }
     
-    // Function to handle hairstyle selection (UPDATED)
+    // Function to handle hairstyle selection (FIXED TO SHOW VISUAL SELECTION)
     function handleStyleSelect(styleOption) {
         const styleOptions = galleryContainer.querySelectorAll('.style-option');
         styleOptions.forEach(o => o.classList.remove('selected'));
-        styleOption.classList.add('selected');
+        
+        // --- CRITICAL FIX: Add 'selected' class to the chosen style option
+        styleOption.classList.add('selected'); 
+        
         selectedPrompt = styleOption.dataset.prompt;
         
-        // This is the critical addition: if an image is captured, show the Try On button
+        // Update visibility based on selection state
         updateTryOnButtonVisibility(); 
         
         if (capturedImageBase64) {
-            statusMessage.textContent = `Style selected: ${selectedPrompt}. Ready to Try On!`;
+            statusMessage.textContent = `Style selected: ${selectedPrompt}. Now select a Complexion, and the 'Try On' button will appear.`;
         }
     }
     
@@ -685,7 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cameraStarted = false;
     }
     
-    // Function to capture image (UPDATED)
+    // Function to capture image (remains the same)
     function captureImage() {
         const context = canvas.getContext('2d');
         const width = videoFeed.videoWidth;
