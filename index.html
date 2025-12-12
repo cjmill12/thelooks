@@ -296,24 +296,24 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-/* --- COLLAPSED (Pill Appearance) --- */
+/* --- MODIFIED: COLLAPSED (SMALLER PILL APPEARANCE) --- */
 .filter-section.collapsed h3 {
     background-color: #f0f0f0; 
     color: #666;
-    border-radius: 20px; 
-    height: 40px; 
-    width: 90%; 
-    max-width: 100%; 
-    padding: 0 10px; 
+    border-radius: 15px; /* Smaller radius */
+    height: 30px; /* Smaller height */
+    width: auto; /* Auto width to fit content */
+    max-width: 150px; /* Max width to keep it small */
+    padding: 0 15px; /* Horizontal padding */
     justify-content: center;
     overflow: hidden; 
-    margin: 0 auto; 
+    margin: 0 auto 10px auto; /* 10px margin-bottom for separation */
+    font-size: 0.8em; /* Smaller font size */
 }
 
 .filter-section.collapsed h3 span {
     display: inline;
-    font-size: 1.0em; 
-    line-height: 40px; 
+    line-height: 30px; /* Match new height */
 }
 
 .filter-section.collapsed h3::after {
@@ -327,6 +327,7 @@ body {
     border-radius: 6px 6px 0 0; 
     height: auto;
     width: 100%;
+    max-width: var(--content-max-width); /* Match content width when expanded */
     padding: 8px 10px;
     margin: 0;
     justify-content: space-between; 
@@ -369,7 +370,7 @@ body {
 #complexion-options-group {
     justify-content: flex-start; 
     gap: 6px; 
-    padding-top: 5px; /* Added padding top for separation from label */
+    padding-top: 5px; 
 }
 
 .complexion-tile {
@@ -413,7 +414,7 @@ body {
     overflow-y: hidden; 
     scroll-snap-type: x mandatory;
     gap: 8px;
-    padding-bottom: 10px; /* More space for scrolling indicator */
+    padding-bottom: 10px; 
     -webkit-overflow-scrolling: touch; 
 }
 
@@ -481,8 +482,14 @@ body {
         padding: 0 10px;
     }
 
+    /* Keep the small button centered in mobile */
+    .filter-section.collapsed h3 {
+        width: 95%; 
+        max-width: 150px; 
+    }
+
     #style-inspiration-section {
-        padding: 0 0 0 10px; /* Only left padding needed for the label, gallery handles its own padding */
+        padding: 0 0 0 10px; 
     }
     
     #central-viewport {
@@ -497,10 +504,6 @@ body {
         height: 80vw;
     }
     
-    .filter-section.collapsed h3 {
-        width: 95%; 
-    }
-
     #complexion-options-group {
         justify-content: space-around;
         flex-wrap: nowrap;
@@ -557,6 +560,19 @@ body {
         <div class="gender-buttons-container">
             <button id="male-gender-btn" class="gender-button">Male</button>
             <button id="female-gender-btn" class="gender-button">Female</button>
+        </div>
+
+        <div id="additional-filters-selector" class="filter-section collapsed">
+            <h3><span>Additional Filters</span><span class="icon"></span></h3>
+            <div class="filter-content-group">
+                <p style="font-size: 0.9em; font-weight: bold; margin-bottom: 5px;">Complexion (Optional)</p>
+                <div id="complexion-options-group" class="filter-options-group">
+                    <div class="complexion-tile" style="background-color: #F8D7BE;" data-complexion="Light"></div>
+                    <div class="complexion-tile" style="background-color: #D6A476;" data-complexion="Medium"></div>
+                    <div class="complexion-tile" style="background-color: #A97A52;" data-complexion="Dark"></div>
+                    <div class="complexion-tile" style="background-color: #6A3E26;" data-complexion="Deep"></div>
+                </div>
+            </div>
         </div>
         
         <div id="style-inspiration-section">
@@ -690,20 +706,6 @@ body {
 
         <button id="try-on-btn" class="main-action-btn" style="display: none;">Generate My New Look</button>
 
-
-        <div id="additional-filters-selector" class="filter-section collapsed">
-            <h3><span>Additional Filters</span><span class="icon"></span></h3>
-            <div class="filter-content-group">
-                <p style="font-size: 0.9em; font-weight: bold; margin-bottom: 5px;">Complexion (Optional)</p>
-                <div id="complexion-options-group" class="filter-options-group">
-                    <div class="complexion-tile" style="background-color: #F8D7BE;" data-complexion="Light"></div>
-                    <div class="complexion-tile" style="background-color: #D6A476;" data-complexion="Medium"></div>
-                    <div class="complexion-tile" style="background-color: #A97A52;" data-complexion="Dark"></div>
-                    <div class="complexion-tile" style="background-color: #6A3E26;" data-complexion="Deep"></div>
-                </div>
-            </div>
-        </div>
-
     </div> <canvas id="hidden-canvas" style="display: none;"></canvas>
 
     <script>
@@ -723,10 +725,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusMessage = document.getElementById('status-message');
 
     // Filter elements
-    // RENAMED filter selector to match new HTML
     const filtersAccordion = document.getElementById('additional-filters-selector');
     const complexionGroup = document.getElementById('complexion-options-group');
-    // RENAMED gallery container to match new HTML
     const styleInspirationContainer = document.getElementById('style-inspiration-section');
     const styleOptionsGroup = document.getElementById('hairstyle-options-group');
 
@@ -930,6 +930,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 o.classList.remove('selected');
                 o.style.transform = '';
             });
+
+            // Ensure filters are reset or collapsed if needed on restart
+            filtersAccordion.classList.remove('expanded');
+            filtersAccordion.classList.add('collapsed');
 
             takeSelfieBtn.textContent = "📸";
             takeSelfieBtn.disabled = true;
