@@ -49,10 +49,10 @@ body {
     top: 0;
     z-index: 100;
 }
-/* MODIFIED: Logo size increased */
+/* MODIFIED: Logo size decreased */
 #main-logo {
-    max-width: 150px !important; /* Updated from 200px */
-    height: 52px !important; /* Adjusted proportionally */
+    max-width: 130px !important; /* Updated from 150px to 130px */
+    height: 45px !important; /* Adjusted proportionally */
     object-fit: contain; 
 }
 
@@ -85,13 +85,13 @@ body {
 
 .gender-button {
     flex-grow: 1;
-    padding: 7px 10px; /* Slightly shrunk padding */
+    padding: 7px 10px; 
     border: 1px solid #ddd; 
     background-color: #ffffff; 
     color: var(--text-color);
     border-radius: 20px; 
     cursor: pointer;
-    font-size: 0.8em; /* Slightly shrunk font size */
+    font-size: 0.8em; 
     font-weight: 500; 
     text-align: center;
     transition: all 0.2s;
@@ -218,8 +218,8 @@ body {
 }
 
 .circular-action-btn {
-    width: 50px; 
-    height: 50px; 
+    width: 60px; /* Increased from 50px */
+    height: 60px; /* Increased from 50px */
     padding: 0;
     border-radius: 50%; 
     background-color: var(--primary-color);
@@ -227,7 +227,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px; 
+    font-size: 28px; /* Increased from 24px */
     line-height: 1;
     margin: 0; 
     flex-shrink: 0;
@@ -241,7 +241,7 @@ body {
     width: 90%; 
     max-width: var(--content-max-width);
     padding: 0 10px;
-    min-height: 50px; /* Ensure space for the buttons */
+    min-height: 60px; /* Ensure space for the bigger buttons */
     align-items: center;
     position: relative; /* To contain the absolute spinner */
 }
@@ -287,19 +287,19 @@ body {
     background-color: #f0f0f0; 
     color: #666;
     border-radius: 15px; 
-    height: 28px; /* Slightly shrunk height */
+    height: 28px; 
     width: auto; 
-    max-width: 160px; /* Slightly shrunk max-width */
+    max-width: 160px; 
     padding: 0 15px; 
     justify-content: center;
     overflow: hidden; 
     margin: 0 auto 10px auto; 
-    font-size: 0.75em; /* Slightly shrunk font size */
+    font-size: 0.75em; 
 }
 
 .filter-section.collapsed h3 span {
     display: inline;
-    line-height: 28px; /* Adjusted to match new height */
+    line-height: 28px; 
 }
 
 .filter-section.collapsed h3::after {
@@ -470,7 +470,7 @@ body {
     /* Keep the small button centered in mobile */
     .filter-section.collapsed h3 {
         width: 95%; 
-        max-width: 160px; /* Matched desktop shrink */
+        max-width: 160px; 
     }
 
     #style-inspiration-section {
@@ -555,6 +555,27 @@ body {
             </div>
         </div>
         
+        <div id="central-section">
+            <div id="central-viewport">
+                <div id="camera-placeholder-icon">
+                    </div>
+                
+                <video id="video-feed" autoplay playsinline></video>
+                <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
+                <p id="status-message">Tap the silhouette above to take a selfie.</p>
+            </div>
+        </div>
+        
+        <div id="controls-footer-row">
+            <button id="camera-capture-btn" class="circular-action-btn main-action-btn" disabled>📸</button> 
+            
+            <button id="redo-selfie-btn" class="circular-action-btn main-action-btn" style="display: none;">🔄</button>
+            
+            <button id="generate-look-btn" class="circular-action-btn main-action-btn" style="display: none;">✨</button>
+            
+            <div id="loading-spinner" class="spinner" style="display: none;"></div>
+        </div>
+
         <div id="style-inspiration-section">
             <p>Get the Look</p>
             <div id="hairstyle-options-group" class="filter-options-group">
@@ -645,28 +666,6 @@ body {
                 </div>
                 
             </div>
-        </div>
-
-
-        <div id="central-section">
-            <div id="central-viewport">
-                <div id="camera-placeholder-icon">
-                    </div>
-                
-                <video id="video-feed" autoplay playsinline></video>
-                <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
-                <p id="status-message">Tap the silhouette above to take a selfie.</p>
-            </div>
-        </div>
-        
-        <div id="controls-footer-row">
-            <button id="camera-capture-btn" class="circular-action-btn main-action-btn" disabled>📸</button> 
-            
-            <button id="redo-selfie-btn" class="circular-action-btn main-action-btn" style="display: none;">🔄</button>
-            
-            <button id="generate-look-btn" class="circular-action-btn main-action-btn" style="display: none;">✨</button>
-            
-            <div id="loading-spinner" class="spinner" style="display: none;"></div>
         </div>
 
     </div> <canvas id="hidden-canvas" style="display: none;"></canvas>
