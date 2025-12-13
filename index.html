@@ -49,10 +49,9 @@ body {
     top: 0;
     z-index: 100;
 }
-/* 2. Looks Logo (Bigger) */
 #main-logo {
-    max-width: 130px !important; /* Increased width */
-    height: 45px !important; /* Increased height */
+    max-width: 130px !important; 
+    height: 45px !important; 
     object-fit: contain; 
 }
 
@@ -83,22 +82,21 @@ body {
     padding: 0 10px;
 }
 
-/* 1. Male/Female buttons (Smaller and Modern UI) */
 .gender-button {
     flex-grow: 1;
-    padding: 8px 12px; /* Smaller padding */
-    border: 1px solid #ddd; /* Softer border */
-    background-color: #ffffff; /* White background */
+    padding: 8px 12px; 
+    border: 1px solid #ddd; 
+    background-color: #ffffff; 
     color: var(--text-color);
-    border-radius: 20px; /* Pill shape for modern look */
+    border-radius: 20px; 
     cursor: pointer;
-    font-size: 0.85em; /* Smaller font */
-    font-weight: 500; /* Lighter font weight */
+    font-size: 0.85em; 
+    font-weight: 500; 
     text-align: center;
     transition: all 0.2s;
     user-select: none;
     line-height: 1;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Soft shadow for lift */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
 }
 
 .gender-button:hover {
@@ -109,7 +107,7 @@ body {
     background-color: var(--primary-color);
     color: var(--text-on-dark);
     border-color: var(--primary-color);
-    box-shadow: 0 2px 5px rgba(29, 33, 36, 0.2); /* Stronger shadow when selected */
+    box-shadow: 0 2px 5px rgba(29, 33, 36, 0.2); 
 }
 
 
@@ -126,16 +124,7 @@ body {
     padding: 0 10px;
 }
 
-/* NEW: Horizontal row for viewport and controls */
-#camera-and-controls-row {
-    display: flex;
-    align-items: center; /* Vertically center the items (viewport and controls) */
-    justify-content: center; 
-    gap: 15px; /* Space between viewport and button column */
-    width: 100%;
-    max-width: var(--content-max-width);
-}
-
+/* Old #camera-and-controls-row removed. Viewport is now centered. */
 #central-viewport {
     position: relative; 
     width: var(--viewport-size-mobile) !important; 
@@ -152,7 +141,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer; 
-    flex-shrink: 0; /* Prevent the viewport from shrinking */
+    flex-shrink: 0; 
 }
 
 /* --- DOTTED HEADSHOT SILHOUETTE STYLES --- */
@@ -193,8 +182,6 @@ body {
     border-radius: 50% 50% 0 0; 
 }
 
-/* --- End Dotted Headshot Silhouette Styles --- */
-
 
 /* Ensure video and result images fill the viewport */
 #video-feed, #ai-result {
@@ -221,28 +208,15 @@ body {
     z-index: 100; 
 }
 
-/* CONTROLS (holds the button and spinner) */
-#controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Vertically center the button/spinner */
-    width: 50px; /* Minimal width */
-    height: var(--viewport-size-mobile); /* Match viewport height for centering */
-    max-height: var(--viewport-size-desktop); 
-    
-}
-
+/* --- NEW: Circular Button Styling --- */
 .main-action-btn {
     cursor: pointer;
     border: none;
-    font-size: 16px; 
     transition: all 0.2s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
 }
 
-/* --- MODIFIED: SHRINK CAMERA BUTTON --- */
-#take-selfie-btn {
+.circular-action-btn {
     width: 50px; 
     height: 50px; 
     padding: 0;
@@ -255,21 +229,28 @@ body {
     font-size: 24px; 
     line-height: 1;
     margin: 0; 
+    flex-shrink: 0;
 }
 
-/* Try On Hairstyle Button Styling */
-#try-on-btn {
+/* --- NEW: Controls Footer Row --- */
+#controls-footer-row {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    gap: 30px; /* Space between the buttons */
     width: 90%; 
     max-width: var(--content-max-width);
-    padding: 12px 24px;
-    border-radius: 8px;
-    background-color: var(--highlight-color); 
-    color: var(--text-on-dark);
-    font-size: 1.1em;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
-    margin-top: 5px; 
-    margin-bottom: 10px;
+    padding: 0 10px;
+    min-height: 50px; /* Ensure space for the buttons */
+    align-items: center;
+    position: relative; /* To contain the absolute spinner */
+}
+
+/* Spinner adjustment to center over the button area */
+#loading-spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* --- 3. FILTER SECTION (For Collapsible Filters) --- */
@@ -304,20 +285,20 @@ body {
 .filter-section.collapsed h3 {
     background-color: #f0f0f0; 
     color: #666;
-    border-radius: 15px; /* Smaller radius */
-    height: 30px; /* Smaller height */
-    width: auto; /* Auto width to fit content */
-    max-width: 180px; /* Max width to keep it small */
-    padding: 0 15px; /* Horizontal padding */
+    border-radius: 15px; 
+    height: 30px; 
+    width: auto; 
+    max-width: 180px; 
+    padding: 0 15px; 
     justify-content: center;
     overflow: hidden; 
-    margin: 0 auto 10px auto; /* 10px margin-bottom for separation */
-    font-size: 0.8em; /* Smaller font size */
+    margin: 0 auto 10px auto; 
+    font-size: 0.8em; 
 }
 
 .filter-section.collapsed h3 span {
     display: inline;
-    line-height: 30px; /* Match new height */
+    line-height: 30px; 
 }
 
 .filter-section.collapsed h3::after {
@@ -331,7 +312,7 @@ body {
     border-radius: 6px 6px 0 0; 
     height: auto;
     width: 100%;
-    max-width: var(--content-max-width); /* Match content width when expanded */
+    max-width: var(--content-max-width); 
     padding: 8px 10px;
     margin: 0;
     justify-content: space-between; 
@@ -395,13 +376,12 @@ body {
 }
 
 /* --- Hairstyle Gallery (INSPIRATION) --- */
-/* NEW container for the visible style options (not collapsible) */
 #style-inspiration-section {
     width: 90%; 
     max-width: var(--content-max-width);
     margin: 0 auto;
     padding: 0 10px;
-    text-align: center; /* Centered */
+    text-align: center; 
 }
 #style-inspiration-section p {
     font-size: 0.9em; 
@@ -479,7 +459,7 @@ body {
     #central-section,
     #style-inspiration-section,
     #additional-filters-selector,
-    #try-on-btn {
+    #controls-footer-row {
         width: 95%; 
         max-width: 95%;
         box-sizing: border-box;
@@ -489,7 +469,7 @@ body {
     /* Keep the small button centered in mobile */
     .filter-section.collapsed h3 {
         width: 95%; 
-        max-width: 180px; /* Adjusted max-width */
+        max-width: 180px; 
     }
 
     #style-inspiration-section {
@@ -501,11 +481,6 @@ body {
         height: 80vw !important;
         max-width: 300px !important; 
         max-height: 300px !important;
-    }
-    
-    /* Ensure the controls height matches the viewport in mobile view */
-    #controls {
-        height: 80vw;
     }
     
     #complexion-options-group {
@@ -587,102 +562,82 @@ body {
                     <img class="style-thumbnail" src="styles/style1.png" alt="Tousled Short Crop">
                     <p>Tousled Short Crop</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A clean fade with a slightly messy wavy top, medium brown color, defined jawline framing">
                     <img class="style-thumbnail" src="styles/style2.png" alt="Wavy Clean Fade">
                     <p>Wavy Clean Fade</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A classic side-part with a smooth combed finish, ash black color, crisp temple blend.">
                     <img class="style-thumbnail" src="styles/style3.png" alt="Classic Side-Part">
                     <p>Classic Side-Part</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A short curly crop with tight texture, deep black color, taper fade around the ears.">
                     <img class="style-thumbnail" src="styles/style4.png" alt="Curly Short Crop">
                     <p>Curly Short Crop</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A medium-length shag with layered volume, chestnut brown color, soft silhouette.">
                     <img class="style-thumbnail" src="styles/style5.png" alt="Layered Shag Cut">
                     <p>Layered Shag Cut</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A buzz cut with subtle texture on top, dark blonde color, strong and structured profile.">
                     <img class="style-thumbnail" src="styles/style6.png" alt="Textured Buzz">
                     <p>Textured Buzz</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A modern quiff with height and soft edges, dark brown color, low fade on the sides.">
                     <img class="style-thumbnail" src="styles/style7.png" alt="Modern Quiff">
                     <p>Modern Quiff</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A textured fringe with choppy layers, sandy brown color, relaxed and youthful feel.">
                     <img class="style-thumbnail" src="styles/style8.png" alt="Textured Fringe">
                     <p>Textured Fringe</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A slick-back style with slight wave, espresso black color, clean undercut detail.">
                     <img class="style-thumbnail" src="styles/style9.png" alt="Wavy Slick-Back">
                     <p>Wavy Slick-Back</p>
                 </div>
-
                 <div class="style-option" data-prompt="A cropped Caesar cut with short bangs, warm brown color, sharp and tidy shape.">
                     <img class="style-thumbnail" src="styles/style10.png" alt="Caesar Crop">
                     <p>Caesar Crop</p>
                 </div>
-
                 <div class="style-option" data-prompt="A medium-length swept-back style with natural flow, golden brown color, tapered sides.">
                     <img class="style-thumbnail" src="styles/style11.png" alt="Swept-Back Medium">
                     <p>Swept-Back Medium</p>
                 </div>
-
                 <div class="style-option" data-prompt="A curly undercut with defined top volume, jet black color, bold contrast in lengths.">
                     <img class="style-thumbnail" src="styles/style12.png" alt="Curly Undercut">
                     <p>Curly Undercut</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A messy medium crop with subtle waves, chocolate brown color, soft shadow fade.">
                     <img class="style-thumbnail" src="styles/style13.png" alt="Messy Medium Crop">
                     <p>Messy Medium Crop</p>
                 </div>
-
                 <div class="style-option" data-prompt="A spiky short top with controlled texture, dark brown color, sharp high fade.">
                     <img class="style-thumbnail" src="styles/style14.png" alt="Spiky Short Fade">
                     <p>Spiky Short Fade</p>
                 </div>
-
                 <div class="style-option" data-prompt="A long top with brushed-forward texture, deep mahogany color, tight sides for structure.">
                     <img class="style-thumbnail" src="styles/style15.png" alt="Forward Brush Cut">
                     <p>Forward Brush Cut</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A low-maintenance textured buzz with slight stubble blend, dark ash brown color.">
                     <img class="style-thumbnail" src="styles/style16.png" alt="Textured Buzz Fade">
                     <p>Textured Buzz Fade</p>
                 </div>
-
                 <div class="style-option" data-prompt="A voluminous pompadour with smooth finish, black-brown color, clean and polished sides.">
                     <img class="style-thumbnail" src="styles/style17.png" alt="Smooth Pompadour">
                     <p>Smooth Pompadour</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A relaxed surfer-style wave with medium length, sandy blonde color, natural movement.">
                     <img class="style-thumbnail" src="styles/style18.png" alt="Surfer Waves">
                     <p>Surfer Waves</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A detailed crop with high contrast fade, smoky black color, strong forehead line.">
                     <img class="style-thumbnail" src="styles/style19.png" alt="High-Contrast Crop">
                     <p>High-Contrast Crop</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A medium layered cut with side sweep, warm auburn brown color, gentle taper.">
                     <img class="style-thumbnail" src="styles/style20.png" alt="Layered Side Sweep">
                     <p>Layered Side Sweep</p>
                 </div>
-                
                 <div class="style-option" data-prompt="A modern mullet with short front and layered back flow, dark charcoal color, bold silhouette.">
                     <img class="style-thumbnail" src="styles/style21.png" alt="Modern Mullet">
                     <p>Modern Mullet</p>
@@ -693,22 +648,25 @@ body {
 
 
         <div id="central-section">
-            <div id="camera-and-controls-row"> <div id="central-viewport">
-                    <div id="camera-placeholder-icon">
-                        </div>
-                    
-                    <video id="video-feed" autoplay playsinline></video>
-                    <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
-                    <p id="status-message">Tap the silhouette above to start your live feed.</p>
-                </div>
+            <div id="central-viewport">
+                <div id="camera-placeholder-icon">
+                    </div>
                 
-                <div id="controls">
-                    <button id="take-selfie-btn" class="main-action-btn">📸</button>
-                    <div id="loading-spinner" class="spinner"></div>
-                </div>
-            </div> </div>
-
-        <button id="try-on-btn" class="main-action-btn" style="display: none;">Generate My New Look</button>
+                <video id="video-feed" autoplay playsinline></video>
+                <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
+                <p id="status-message">Tap the silhouette above to start your live feed.</p>
+            </div>
+        </div>
+        
+        <div id="controls-footer-row">
+            <button id="camera-capture-btn" class="circular-action-btn main-action-btn" disabled>📸</button> 
+            
+            <button id="redo-selfie-btn" class="circular-action-btn main-action-btn" style="display: none;">🔄</button>
+            
+            <button id="generate-look-btn" class="circular-action-btn main-action-btn" style="display: none;">✨</button>
+            
+            <div id="loading-spinner" class="spinner" style="display: none;"></div>
+        </div>
 
     </div> <canvas id="hidden-canvas" style="display: none;"></canvas>
 
@@ -718,23 +676,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoFeed = document.getElementById('video-feed');
     const aiResultImg = document.getElementById('ai-result');
     const canvas = document.getElementById('hidden-canvas');
-
     const cameraPlaceholderIcon = document.getElementById('camera-placeholder-icon');
 
-    // Buttons and Controls
-    const takeSelfieBtn = document.getElementById('take-selfie-btn');
-    const tryOnBtn = document.getElementById('try-on-btn');
+    // NEW BUTTONS AND CONTROLS
+    const cameraCaptureBtn = document.getElementById('camera-capture-btn');
+    const redoSelfieBtn = document.getElementById('redo-selfie-btn');
+    const generateLookBtn = document.getElementById('generate-look-btn');
     const spinner = document.getElementById('loading-spinner');
-
     const statusMessage = document.getElementById('status-message');
 
     // Filter elements
     const filtersAccordion = document.getElementById('additional-filters-selector');
     const complexionGroup = document.getElementById('complexion-options-group');
-    const styleInspirationContainer = document.getElementById('style-inspiration-section');
     const styleOptionsGroup = document.getElementById('hairstyle-options-group');
-
-    // New Gender Buttons
     const maleGenderBtn = document.getElementById('male-gender-btn');
     const femaleGenderBtn = document.getElementById('female-gender-btn');
 
@@ -751,16 +705,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Helper Functions ---
 
-    function updateTryOnButtonVisibility() {
-        if (imageCaptured && selectedPrompt) {
-            tryOnBtn.style.display = 'block';
-            tryOnBtn.disabled = false;
-            if (!statusMessage.textContent.includes('Processing')) {
-                 const complexionStatus = selectedComplexion ? `(${selectedComplexion} Complexion selected)` : '(Complexion Auto-Detected)';
-                 statusMessage.textContent = `All set! Click 'Generate My New Look' below ${complexionStatus}.`;
+    function updateButtonVisibility() {
+        // Reset all buttons
+        cameraCaptureBtn.style.display = 'none';
+        redoSelfieBtn.style.display = 'none';
+        generateLookBtn.style.display = 'none';
+        spinner.style.display = 'none';
+
+        if (spinner.classList.contains('active')) {
+            // Processing State: Hide all buttons and show spinner
+            spinner.style.display = 'block';
+        } else if (imageCaptured) {
+            // Image Captured State
+            redoSelfieBtn.style.display = 'flex'; // Show Redo button
+            if (selectedPrompt) {
+                generateLookBtn.style.display = 'flex'; // Show Generate button if style is selected
+                generateLookBtn.disabled = false;
+                const complexionStatus = selectedComplexion ? `(${selectedComplexion} Complexion selected)` : '';
+                statusMessage.textContent = `Style selected. Click ✨ to generate ${complexionStatus}.`;
+            } else {
+                statusMessage.textContent = "Image captured. Select a hairstyle to unlock the 'Generate' button.";
             }
         } else {
-            tryOnBtn.style.display = 'none';
+            // Camera/Initial State
+            cameraCaptureBtn.style.display = 'flex';
+            cameraCaptureBtn.disabled = !cameraStarted; // Enable only if camera is streaming
+            if (cameraStarted) {
+                statusMessage.textContent = "Adjust your face in the box, then click 📸 to capture.";
+            } else {
+                statusMessage.textContent = "Tap the silhouette above to start your live feed.";
+            }
         }
     }
 
@@ -773,10 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (gender === 'Female') {
             femaleGenderBtn.classList.add('selected');
         }
-        
-        // FUTURE FEATURE: Add logic here to filter styles based on selectedGender
-        
-        updateTryOnButtonVisibility();
+        updateButtonVisibility();
     }
 
     function toggleFilterSection(section) {
@@ -801,12 +772,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             selectedComplexion = null;
         }
-
-        updateTryOnButtonVisibility();
+        updateButtonVisibility();
     }
 
     function handleStyleSelect(styleOption) {
-        // Updated to use the new style options group
         const styleOptions = styleOptionsGroup.querySelectorAll('.style-option');
 
         styleOptions.forEach(o => {
@@ -817,19 +786,16 @@ document.addEventListener('DOMContentLoaded', () => {
         styleOption.classList.add('selected');
         selectedPrompt = styleOption.dataset.prompt;
 
-        updateTryOnButtonVisibility();
-
-        if (imageCaptured) {
-             statusMessage.textContent = `Style selected. Click 'Generate' or open 'Additional Filters' for complexion.`;
-        }
+        updateButtonVisibility();
     }
 
+    // --- Camera Functions ---
 
-    // --- CRITICAL FIX: startCamera Function with Promise for Stream Loading ---
     async function startCamera() {
         if (cameraStarted) return; 
 
         statusMessage.textContent = "Requesting camera access...";
+        cameraCaptureBtn.disabled = true;
 
         try {
             const constraints = {
@@ -857,23 +823,16 @@ document.addEventListener('DOMContentLoaded', () => {
             aiResultImg.style.display = 'none';
             videoFeed.style.display = 'block'; 
 
-            takeSelfieBtn.textContent = "📸";
-            takeSelfieBtn.disabled = false;
-            tryOnBtn.style.display = 'none';
-
-            statusMessage.textContent = "Adjust your face in the box, then click 📸 to capture.";
+            updateButtonVisibility();
 
         } catch (error) {
             console.error('Error accessing camera:', error);
-
             statusMessage.textContent = `Error: Cannot start camera. Check permissions/device settings. (${error.name})`;
-            takeSelfieBtn.textContent = "📸";
-            takeSelfieBtn.disabled = true; 
             
             cameraPlaceholderIcon.style.display = 'block';
             videoFeed.style.display = 'none';
-            
             cameraStarted = false;
+            updateButtonVisibility(); 
         }
     }
 
@@ -886,6 +845,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function captureImage() {
+        if (!cameraStarted) return;
+
         const context = canvas.getContext('2d');
         const width = videoFeed.videoWidth || 250; 
         const height = videoFeed.videoHeight || 250;
@@ -897,7 +858,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const fullDataURL = canvas.toDataURL('image/jpeg');
 
-        // Extract Base64 part only
         const parts = fullDataURL.split(',');
         capturedImageBase64 = parts.length > 1 ? parts[1] : fullDataURL;
 
@@ -909,62 +869,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
         stopCamera();
 
-        statusMessage.textContent = "Image captured. Select a hairstyle to unlock the 'Generate' button.";
-
-        takeSelfieBtn.textContent = "▶️"; // Button now means "Start New Session"
-
-        updateTryOnButtonVisibility();
+        updateButtonVisibility();
     }
 
-    // Logic for handling the main action button (Capture/Restart)
-    takeSelfieBtn.addEventListener('click', () => {
-        if (cameraStarted) {
-            captureImage();
-        } 
-        else if (imageCaptured) {
-            // Restart Session:
-            aiResultImg.style.display = 'none';
-            cameraPlaceholderIcon.style.display = 'block';
-            imageCaptured = false;
-            capturedImageBase64 = null;
-            selectedPrompt = null; // Reset selected prompt on restart
+    function resetSession() {
+        stopCamera();
+        aiResultImg.style.display = 'none';
+        cameraPlaceholderIcon.style.display = 'block';
+        imageCaptured = false;
+        capturedImageBase64 = null;
+        selectedPrompt = null; 
+        spinner.classList.remove('active');
 
-            // Clear previous selection visually
-            styleOptionsGroup.querySelectorAll('.style-option').forEach(o => {
-                o.classList.remove('selected');
-                o.style.transform = '';
-            });
+        // Clear previous selection visually
+        styleOptionsGroup.querySelectorAll('.style-option').forEach(o => {
+            o.classList.remove('selected');
+            o.style.transform = '';
+        });
 
-            // Ensure filters are reset or collapsed if needed on restart
-            filtersAccordion.classList.remove('expanded');
-            filtersAccordion.classList.add('collapsed');
+        // Ensure filters are reset or collapsed if needed on restart
+        filtersAccordion.classList.remove('expanded');
+        filtersAccordion.classList.add('collapsed');
 
-            takeSelfieBtn.textContent = "📸";
-            takeSelfieBtn.disabled = true;
-            statusMessage.textContent = "Tap the silhouette above to start your live feed.";
-            updateTryOnButtonVisibility();
-        }
+        updateButtonVisibility();
+    }
+
+    // --- Button Event Listeners ---
+
+    // 1. Capture/Start Camera (Click on the button)
+    cameraCaptureBtn.addEventListener('click', () => {
+        captureImage();
     });
 
-    // Click listener on the placeholder icon to START the camera
+    // Capture/Start Camera (Click on the placeholder)
     cameraPlaceholderIcon.addEventListener('click', () => {
         if (!cameraStarted && !imageCaptured) {
             startCamera();
         }
     });
-    
-    // --- UPDATED TRY ON BUTTON LOGIC WITH AGGRESSIVELY OPTIMIZED PROMPT ---
-    tryOnBtn.addEventListener('click', async () => {
+
+    // 2. Redo Selfie Button (🔄)
+    redoSelfieBtn.addEventListener('click', () => {
+        resetSession();
+        startCamera(); // Immediately start camera after reset
+    });
+
+    // 3. Generate Button (✨)
+    generateLookBtn.addEventListener('click', async () => {
         if (!capturedImageBase64 || !selectedPrompt) {
             statusMessage.textContent = "Please capture a selfie and select a hairstyle first.";
             return;
         }
 
         // --- START LOADING STATE ---
-        tryOnBtn.disabled = true;
-        tryOnBtn.style.display = 'none';
-        takeSelfieBtn.style.display = 'none'; // Hide the capture button
-        spinner.style.display = 'block';
+        spinner.classList.add('active');
+        updateButtonVisibility();
         
         statusMessage.textContent = "1/2. Uploading image and defining style...";
 
@@ -972,11 +931,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ? ` with a ${selectedComplexion} complexion`
             : ``;
 
-        // 👇 AGGRESSIVELY OPTIMIZED PROMPT FOR STRICT INPAINTING/EDITING 👇
+        // AGGRESSIVELY OPTIMIZED PROMPT FOR STRICT INPAINTING/EDITING
         const finalPrompt = `STRICTLY operate in an inpainting/editing mode. The ONLY element to be changed is the subject's hair. PRESERVE the subject's face, identity, expression, clothing, and background EXACTLY as they appear in the original photograph. Apply the following hairstyle, matching its texture, color, and shape: ${selectedPrompt}. The final result must be a high quality, professional studio portrait of a ${selectedGender} model${complexionClause} with NO other changes besides the hair.`;
 
         try {
-            // Update status right before the network call
             statusMessage.textContent = "2/2. AI processing your new look (approx 15-30s)...";
 
             const response = await fetch('/api/run_model', {
@@ -1001,18 +959,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- SUCCESS BLOCK ---
             aiResultImg.src = `data:image/jpeg;base64,${data.generatedImageBase64}`;
             aiResultImg.style.display = 'block';
-
             videoFeed.style.display = 'none';
             cameraPlaceholderIcon.style.display = 'none';
 
-            statusMessage.textContent = `Success! Your new look is ready. Click the Play button to start a new session.`;
+            statusMessage.textContent = `Success! Your new look is ready. Click the Redo button to take a new selfie.`;
 
-            takeSelfieBtn.style.display = 'block';
-            takeSelfieBtn.textContent = "▶️"; // Change to Restart icon
-            takeSelfieBtn.disabled = false;
+            // Exit loading state
+            spinner.classList.remove('active');
+            updateButtonVisibility();
 
-            spinner.style.display = 'none';
-            tryOnBtn.style.display = 'none';
+            // Hide the Generate button after successful generation, show Redo
+            generateLookBtn.style.display = 'none'; 
+            redoSelfieBtn.style.display = 'flex'; 
 
         } catch (error) {
             // --- ERROR BLOCK ---
@@ -1020,22 +978,16 @@ document.addEventListener('DOMContentLoaded', () => {
             statusMessage.textContent = `Error during AI try-on: ${error.message}. Please check console and retry.`;
 
             // Reset controls to allow retry
-            tryOnBtn.disabled = false;
-            tryOnBtn.style.display = 'block';
-            takeSelfieBtn.style.display = 'none';
-            spinner.style.display = 'none';
+            spinner.classList.remove('active');
+            updateButtonVisibility();
         }
     });
 
 
     // --- INITIALIZATION and EVENT LISTENERS ---
 
-    // Set initial gender selection
     if (maleGenderBtn) {
         handleGenderSelect('Male');
-    }
-
-    if (maleGenderBtn) {
         maleGenderBtn.addEventListener('click', () => handleGenderSelect('Male'));
     }
 
@@ -1043,13 +995,10 @@ document.addEventListener('DOMContentLoaded', () => {
         femaleGenderBtn.addEventListener('click', () => handleGenderSelect('Female'));
     }
 
-    // New event listener for the Additional Filters accordion
     if (filtersAccordion) {
         filtersAccordion.querySelector('h3').addEventListener('click', () => toggleFilterSection(filtersAccordion));
+        filtersAccordion.classList.add('collapsed');
     }
-    
-    // Set initial filter state (Additional Filters collapsed)
-    if (filtersAccordion) filtersAccordion.classList.add('collapsed');
 
     if (complexionGroup) {
         complexionGroup.querySelectorAll('.complexion-tile').forEach(tile => {
@@ -1057,17 +1006,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Updated element to query for style options
     if (styleOptionsGroup) {
         styleOptionsGroup.querySelectorAll('.style-option').forEach(option => {
             option.addEventListener('click', () => handleStyleSelect(option));
         });
     }
 
-    // Initial button state
-    takeSelfieBtn.textContent = "📸";
-    takeSelfieBtn.disabled = true; 
-    spinner.style.display = 'none';
+    // Initial state setup
+    updateButtonVisibility();
 });
     </script>
 </body>
