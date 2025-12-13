@@ -15,7 +15,7 @@
     --highlight-color: #28a745; 
     --thumbnail-size: 60px;
     --gallery-gap: 10px; 
-    --header-height: 40px;
+    --header-height: 45px; /* Increased slightly for text title */
     --viewport-size-desktop: 300px; 
     --viewport-size-mobile: 250px; 
     --content-max-width: 400px; 
@@ -49,11 +49,15 @@ body {
     top: 0;
     z-index: 100;
 }
-/* MODIFIED: Logo size decreased */
-#main-logo {
-    max-width: 130px !important; /* Updated from 150px to 130px */
-    height: 45px !important; /* Adjusted proportionally */
-    object-fit: contain; 
+
+/* MODIFIED: Title text styling to replace logo */
+#main-title {
+    color: var(--primary-color);
+    font-size: 1.8em; /* Making it prominent */
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
 }
 
 /* ================================================== */
@@ -218,8 +222,8 @@ body {
 }
 
 .circular-action-btn {
-    width: 60px; /* Increased from 50px */
-    height: 60px; /* Increased from 50px */
+    width: 60px; 
+    height: 60px; 
     padding: 0;
     border-radius: 50%; 
     background-color: var(--primary-color);
@@ -227,7 +231,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px; /* Increased from 24px */
+    font-size: 28px; 
     line-height: 1;
     margin: 0; 
     flex-shrink: 0;
@@ -236,14 +240,14 @@ body {
 /* --- NEW: Controls Footer Row --- */
 #controls-footer-row {
     display: flex;
-    justify-content: center; /* Center the buttons */
-    gap: 30px; /* Space between the buttons */
+    justify-content: center; 
+    gap: 30px; 
     width: 90%; 
     max-width: var(--content-max-width);
     padding: 0 10px;
-    min-height: 60px; /* Ensure space for the bigger buttons */
+    min-height: 60px; 
     align-items: center;
-    position: relative; /* To contain the absolute spinner */
+    position: relative; 
 }
 
 /* Spinner adjustment to center over the button area */
@@ -532,7 +536,7 @@ body {
 </head>
 <body>
     <div id="app-header">
-        <img id="main-logo" src="assets/Minimalist 'Looks' Logo with Hair Strand Design (1).png" alt="Looks Logo">
+        <h1 id="main-title">Looks</h1>
     </div>
 
     <div id="main-app-container">
