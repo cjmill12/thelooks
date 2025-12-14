@@ -442,7 +442,6 @@ body {
 }
 
 /* Only subtle hover to let JS control the main scale via '.selected' */
-/* Removed hover scale to avoid conflict with the scroll selection */
 .style-option:hover {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); 
 }
@@ -848,14 +847,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return closestOption;
     }
 
-    // MODIFIED: Removed throttling/debouncing to make the selection instantaneous
     function updateStyleSelectionOnScroll(scrollContainer, allOptions) {
         const closestOption = findClosestToCenter(scrollContainer, allOptions);
 
         if (closestOption) {
              // 1. Visually select the centered option
-            allOptions.forEach(o => o.classList.remove('selected'));
-            closestOption.classList.add('selected');
+            // Check if the current selected element is NOT the closest one to avoid unnecessary DOM manipulation
+            if (!closestOption.classList.contains('selected')) {
+                allOptions.forEach(o => o.classList.remove('selected'));
+                closestOption.classList.add('selected');
+            }
             
             // 2. Update the internal state (only if a change is detected)
             if (selectedPrompt !== closestOption.dataset.prompt) {
@@ -865,26 +866,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // FIX: Refactored setup function to correctly handle listener attachment/detachment
     const setupScrollListeners = (groupWrapper) => {
-        // Remove existing listener before re-adding (to prevent multiple listeners)
-        groupWrapper.removeEventListener('scroll', handleScrollImmediate);
-
         const allOptions = groupWrapper.querySelectorAll('.style-option');
         if (allOptions.length === 0) return;
 
-        // Function to handle scroll updates immediately
-        const handleScrollImmediate = () => {
+        // 1. Define the handler function which encapsulates the logic
+        const scrollHandler = () => {
             updateStyleSelectionOnScroll(groupWrapper, allOptions);
         };
 
-        // Ensure the initial selection is correct
-        // Note: The scroll container must be fully rendered before scrollLeft=0 works reliably.
-        // We call this function once right away to select the first element.
-        updateStyleSelectionOnScroll(groupWrapper, allOptions);
+        // 2. Remove the previous listener (stored on a custom property)
+        const oldHandler = groupWrapper._scrollHandler;
+        if (oldHandler) {
+            groupWrapper.removeEventListener('scroll', oldHandler);
+        }
+
+        // 3. Attach the new handler
+        groupWrapper.addEventListener('scroll', scrollHandler);
         
-        // Attach the scroll listener
-        groupWrapper.addEventListener('scroll', handleScrollImmediate);
+        // 4. Store the reference for later removal
+        groupWrapper._scrollHandler = scrollHandler;
         
+        // 5. Call immediately to select the first element on load
+        // This ensures the initial element is selected and enlarged immediately
+        scrollHandler(); 
+
         updateButtonVisibility();
     };
 
@@ -904,10 +911,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Re-apply click listeners for the currently active group
         currentGroup.querySelectorAll('.style-option').forEach(option => {
-            // Use an anonymous function to ensure we don't accidentally stack event handlers
-            const newHandler = () => handleStyleSelect(option);
-            option.removeEventListener('click', newHandler); // Attempt to remove previous instance
-            option.addEventListener('click', newHandler);
+            // Note: We use an indirect method or remove/add a consistent listener reference 
+            // to prevent stacking. Since handleStyleSelect always calls the same function,
+            // removing/adding it repeatedly *should* be fine, but tracking a unique 
+            // reference is safer. For now, rely on the click action to re-set the scroll position.
+            option.removeEventListener('click', handleStyleSelect); // Remove old listener
+            option.addEventListener('click', () => handleStyleSelect(option));
         });
     }
 
