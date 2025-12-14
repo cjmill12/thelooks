@@ -420,7 +420,8 @@ body {
     white-space: nowrap; 
     overflow-x: scroll; 
     overflow-y: hidden; 
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x mandatory; /* Snap points for better UX */
+    scroll-behavior: smooth; /* Smooth scroll when clicking on an option */
     gap: 8px;
     padding-bottom: 10px; 
     -webkit-overflow-scrolling: touch; 
@@ -436,24 +437,24 @@ body {
     border: 2px solid transparent; 
     transition: all 0.3s ease-out; 
     cursor: pointer;
-    /* NEW: Ensures the element scales upward, making it pop better */
+    /* Ensures the element scales upward, making it pop better */
     transform-origin: center bottom; 
 }
 
-/* UPDATED: More dramatic scale and shadow on hover */
+/* Only subtle hover to let JS control the main scale via '.selected' */
 .style-option:hover {
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); 
-    transform: scale(1.2); 
-    z-index: 11; /* Higher z-index to overlap neighbors */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); 
+    transform: scale(1.05);
 }
 
-/* UPDATED: More dramatic scale and shadow on selection */
+/* Enlargement only happens when JS applies the 'selected' class */
 .style-option.selected {
     border-color: var(--highlight-color);
     border-radius: 10px; 
-    box-shadow: 0 0 12px rgba(40, 167, 69, 0.9); 
-    transform: scale(1.2); 
-    z-index: 10; 
+    /* Force scale and z-index to dominate other states */
+    box-shadow: 0 0 12px rgba(40, 167, 69, 0.9) !important; 
+    transform: scale(1.2) !important; 
+    z-index: 10 !important; 
 }
 
 .style-thumbnail {
@@ -785,6 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedGender = 'Male';
     let selectedComplexion = null;
     let imageCaptured = false;
+    let scrollTimeout; // Used for debouncing scroll handler
 
     // --- CONSTANTS ---
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor lighting, poor composition, low quality, changed clothing, changed background, new outfit, new background, different lighting";
@@ -810,6 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const complexionStatus = selectedComplexion ? `(${selectedComplexion} Complexion selected)` : '';
                 statusMessage.textContent = `Style selected. Click ✨ to generate ${complexionStatus}.`;
             } else {
+                // This state should be rare now since a style is selected on scroll
                 statusMessage.textContent = "Image captured. Select a hairstyle to unlock the 'Generate' button.";
             }
         } else {
@@ -824,6 +827,91 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // NEW: Scroll-driven selection logic utilities ------------------------
+    function findClosestToCenter(scrollContainer, styleOptions) {
+        const containerCenter = scrollContainer.scrollLeft + (scrollContainer.clientWidth / 2);
+        let closestOption = null;
+        let minDifference = Infinity;
+
+        styleOptions.forEach(option => {
+            // Calculate the center of the option relative to the scroll container's start
+            const optionCenter = option.offsetLeft + (option.offsetWidth / 2);
+            
+            // Calculate the difference between the option's center and the container's center
+            const difference = Math.abs(optionCenter - containerCenter);
+
+            if (difference < minDifference) {
+                minDifference = difference;
+                closestOption = option;
+            }
+        });
+
+        return closestOption;
+    }
+
+    function updateStyleSelectionOnScroll(scrollContainer, allOptions) {
+        const closestOption = findClosestToCenter(scrollContainer, allOptions);
+
+        if (closestOption) {
+             // 1. Visually select the centered option
+            allOptions.forEach(o => o.classList.remove('selected'));
+            closestOption.classList.add('selected');
+            
+            // 2. Update the internal state (only if a change is detected to prevent unnecessary re-renders/checks)
+            if (selectedPrompt !== closestOption.dataset.prompt) {
+                selectedPrompt = closestOption.dataset.prompt;
+                updateButtonVisibility(); 
+            }
+        }
+    }
+
+    const setupScrollListeners = (groupWrapper) => {
+        // Remove existing listeners before re-adding
+        groupWrapper.removeEventListener('scroll', throttledScrollHandler);
+
+        const allOptions = groupWrapper.querySelectorAll('.style-option');
+        if (allOptions.length === 0) return;
+
+        // Ensure the initial selection is correct
+        allOptions.forEach(o => o.classList.remove('selected'));
+        allOptions[0].classList.add('selected');
+        selectedPrompt = allOptions[0].dataset.prompt;
+        
+        // Define a throttled scroll handler function
+        const throttledScrollHandler = () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                updateStyleSelectionOnScroll(groupWrapper, allOptions);
+            }, 100); 
+        };
+
+        // Attach the scroll listener
+        groupWrapper.addEventListener('scroll', throttledScrollHandler);
+        
+        updateButtonVisibility();
+    };
+
+    function setupGalleryListeners(gender) {
+        const currentGroup = gender === 'Male' ? maleStyleOptionsGroup : femaleStyleOptionsGroup;
+        const otherGroup = gender === 'Male' ? femaleStyleOptionsGroup : maleStyleOptionsGroup;
+
+        // Ensure current group is visible and the other is hidden
+        currentGroup.style.display = 'flex'; 
+        otherGroup.style.display = 'none';
+
+        // Reset the scroll position to the start
+        currentGroup.scrollLeft = 0;
+        
+        // Set up scroll logic for the active group
+        setupScrollListeners(currentGroup);
+        
+        // Re-apply click listeners for the currently active group
+        currentGroup.querySelectorAll('.style-option').forEach(option => {
+            option.removeEventListener('click', handleStyleSelect); // Remove old listener first
+            option.addEventListener('click', () => handleStyleSelect(option));
+        });
+    }
+
     // MODIFIED: Function to handle gender selection and switch style lists
     function handleGenderSelect(gender) {
         selectedGender = gender;
@@ -832,36 +920,22 @@ document.addEventListener('DOMContentLoaded', () => {
         maleGenderBtn.classList.remove('selected');
         femaleGenderBtn.classList.remove('selected');
         
-        // Hide both lists
-        maleStyleOptionsGroup.style.display = 'none';
-        femaleStyleOptionsGroup.style.display = 'none';
-
-        // Deselect previous prompt/style
-        resetSelectedStyle();
-
         if (gender === 'Male') {
             maleGenderBtn.classList.add('selected');
-            maleStyleOptionsGroup.style.display = 'flex'; // Show male styles
         } else if (gender === 'Female') {
             femaleGenderBtn.classList.add('selected');
-            femaleStyleOptionsGroup.style.display = 'flex'; // Show female styles
         }
-        
-        updateButtonVisibility();
+
+        // Setup the correct gallery
+        setupGalleryListeners(gender);
     }
     
     // NEW: Function to reset the selected style visual state
     function resetSelectedStyle() {
         selectedPrompt = null;
         // Clear previous selection visually from both groups
-        maleStyleOptionsGroup.querySelectorAll('.style-option').forEach(o => {
-            o.classList.remove('selected');
-            o.style.transform = '';
-        });
-        femaleStyleOptionsGroup.querySelectorAll('.style-option').forEach(o => {
-            o.classList.remove('selected');
-            o.style.transform = '';
-        });
+        maleStyleOptionsGroup.querySelectorAll('.style-option').forEach(o => o.classList.remove('selected'));
+        femaleStyleOptionsGroup.querySelectorAll('.style-option').forEach(o => o.classList.remove('selected'));
     }
 
     function toggleFilterSection(section) {
@@ -889,19 +963,30 @@ document.addEventListener('DOMContentLoaded', () => {
         updateButtonVisibility();
     }
 
+    // MODIFIED: Click handler to scroll the clicked item into the center
     function handleStyleSelect(styleOption) {
-        // Find the current active style group
-        const currentGroup = selectedGender === 'Male' ? maleStyleOptionsGroup : femaleStyleOptionsGroup;
-        const styleOptions = currentGroup.querySelectorAll('.style-option');
-
-        styleOptions.forEach(o => {
-            o.classList.remove('selected');
-            o.style.transform = '';
-        });
-
+        // 1. Clear all 'selected' classes and apply to the clicked one
+        const styleOptions = styleOption.closest('.hairstyle-options-group-wrapper').querySelectorAll('.style-option');
+        styleOptions.forEach(o => o.classList.remove('selected'));
         styleOption.classList.add('selected');
-        selectedPrompt = styleOption.dataset.prompt;
 
+        // 2. Scroll the clicked item to the center of its container
+        const scrollContainer = styleOption.closest('.hairstyle-options-group-wrapper');
+        if (scrollContainer) {
+            const containerWidth = scrollContainer.clientWidth;
+            const optionWidth = styleOption.offsetWidth;
+            // Calculate the target scroll position to center the option
+            const scrollTarget = styleOption.offsetLeft - (containerWidth / 2) + (optionWidth / 2);
+            
+            // Scroll smoothly to the target position
+            scrollContainer.scrollTo({
+                left: scrollTarget,
+                behavior: 'smooth'
+            });
+        }
+        
+        // 3. Update internal state
+        selectedPrompt = styleOption.dataset.prompt;
         updateButtonVisibility();
     }
 
@@ -996,7 +1081,8 @@ document.addEventListener('DOMContentLoaded', () => {
         capturedImageBase64 = null;
         spinner.classList.remove('active');
 
-        resetSelectedStyle(); // Reset selected prompt and style visuals
+        // Re-setup the current gallery to reset selection and scroll position
+        setupGalleryListeners(selectedGender);
 
         // Ensure filters are reset or collapsed if needed on restart
         filtersAccordion.classList.remove('expanded');
@@ -1048,6 +1134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             statusMessage.textContent = "Processing your new look"; 
 
+            // NOTE: Replace this with your actual API call endpoint
             const response = await fetch('/api/run_model', {
                 method: 'POST',
                 headers: {
@@ -1117,12 +1204,6 @@ document.addEventListener('DOMContentLoaded', () => {
             tile.addEventListener('click', () => handleComplexionSelect(tile));
         });
     }
-
-    // Style Listeners - Apply to all style options in both groups
-    const allStyleOptions = document.querySelectorAll('.style-option');
-    allStyleOptions.forEach(option => {
-        option.addEventListener('click', () => handleStyleSelect(option));
-    });
 
     // Initial state setup (Male is default)
     handleGenderSelect('Male');
