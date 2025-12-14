@@ -15,7 +15,7 @@
     --highlight-color: #28a745; 
     --thumbnail-size: 60px;
     --gallery-gap: 10px; 
-    --header-height: 45px; /* Increased slightly for text title */
+    --header-height: 45px; 
     --viewport-size-desktop: 300px; 
     --viewport-size-mobile: 250px; 
     --content-max-width: 400px; 
@@ -50,15 +50,13 @@ body {
     z-index: 100;
 }
 
-/* MODIFIED: Title text styling to replace logo and font changed to Georgia */
 #main-title {
     color: var(--primary-color);
-    font-size: 1.8em; /* Making it prominent */
+    font-size: 1.8em; 
     font-weight: bold;
     line-height: 1;
     margin: 0;
     padding: 0;
-    /* ADDED: New font family */
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
@@ -131,7 +129,6 @@ body {
     padding: 0 10px;
 }
 
-/* Old #camera-and-controls-row removed. Viewport is now centered. */
 #central-viewport {
     position: relative; 
     width: var(--viewport-size-mobile) !important; 
@@ -161,13 +158,11 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    /* Dotted Border Style */
     border: 3px dashed #777; 
     border-radius: 6px;
     background-color: #e8e8e8;
 }
 
-/* Head (Circle) */
 #camera-placeholder-icon::before {
     content: '';
     position: absolute;
@@ -178,7 +173,6 @@ body {
     border-radius: 50%;
 }
 
-/* Shoulders (Arc) */
 #camera-placeholder-icon::after {
     content: '';
     position: absolute;
@@ -189,8 +183,6 @@ body {
     border-radius: 50% 50% 0 0; 
 }
 
-
-/* Ensure video and result images fill the viewport */
 #video-feed, #ai-result {
     width: 100% !important;
     height: 100% !important; 
@@ -215,17 +207,16 @@ body {
     z-index: 100; 
 }
 
-/* --- NEW: Circular Button Styling (MODIFIED FOR "SEXY" LOOK) --- */
+/* --- NEW: Circular Button Styling (SEXY LOOK) --- */
 .main-action-btn {
     cursor: pointer;
     border: none;
-    /* Added smoother transition */
     transition: all 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Stronger general shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
 }
 
 .main-action-btn:active {
-    transform: scale(0.9); /* Press down effect */
+    transform: scale(0.9); 
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -245,27 +236,27 @@ body {
     flex-shrink: 0;
 }
 
-/* --- Camera Button (📸): Larger, prominent, camera shutter look --- */
+/* --- Camera Button (📸) --- */
 #camera-capture-btn {
     width: 70px;  
     height: 70px;
     font-size: 32px;
     background-color: var(--primary-color);
-    border: 4px solid var(--text-on-dark); /* White ring for camera look */
+    border: 4px solid var(--text-on-dark); 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* --- Generate Button (✨): Highlight Color for core AI Action --- */
+/* --- Generate Button (✨) --- */
 #generate-look-btn {
-    background-color: var(--highlight-color); /* Green Accent */
+    background-color: var(--highlight-color); 
     color: white; 
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4); /* Green shadow */
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4); 
 }
 
-/* --- Redo Button (🔄): Secondary, subtle action with white background --- */
+/* --- Redo Button (🔄) --- */
 #redo-selfie-btn {
     background-color: white;
-    color: var(--primary-color); /* Dark icon on white */
+    color: var(--primary-color); 
     border: 1px solid #ddd;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -278,12 +269,12 @@ body {
     width: 90%; 
     max-width: var(--content-max-width);
     padding: 0 10px;
-    min-height: 70px; /* Ensure space for the largest button */
+    min-height: 70px; 
     align-items: center;
     position: relative; 
 }
 
-/* Spinner adjustment to center over the button area */
+/* Spinner adjustment */
 #loading-spinner {
     position: absolute;
     left: 50%;
@@ -291,7 +282,7 @@ body {
     transform: translate(-50%, -50%);
 }
 
-/* --- 3. FILTER SECTION (For Collapsible Filters) --- */
+/* --- 3. FILTER SECTION --- */
 
 .filter-section {
     width: 90%; 
@@ -303,7 +294,6 @@ body {
     text-align: left; 
 }
 
-/* Accordion Button/Header Style */
 .filter-section h3 {
     font-size: 0.9em; 
     font-weight: bold;
@@ -319,7 +309,6 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-/* --- MODIFIED: COLLAPSED (SMALLER PILL APPEARANCE) --- */
 .filter-section.collapsed h3 {
     background-color: #f0f0f0; 
     color: #666;
@@ -343,7 +332,6 @@ body {
     content: none;
 }
 
-/* --- EXPANDED (Active Pill/Block Appearance) --- */
 .filter-section.expanded h3 {
     background-color: var(--primary-color); 
     color: var(--text-on-dark);
@@ -379,8 +367,6 @@ body {
     display: none;
 }
 
-
-/* Filter options group */
 .filter-options-group {
     display: flex;
     flex-wrap: wrap; 
@@ -389,7 +375,7 @@ body {
     margin-top: 5px; 
 }
 
-/* Complexion Tiles (Circular & Compact) */
+/* Complexion Tiles */
 #complexion-options-group {
     justify-content: flex-start; 
     gap: 6px; 
@@ -452,7 +438,6 @@ body {
     cursor: pointer;
 }
 
-/* ADDED: Hover effect to style options */
 .style-option:hover {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
     transform: scale(1.05); 
@@ -466,7 +451,6 @@ body {
     z-index: 10; 
 }
 
-/* --- MODIFIED: LARGER, CIRCULAR THUMBNAILS --- */
 .style-thumbnail {
     width: 80px; 
     height: 80px; 
@@ -483,7 +467,7 @@ body {
 }
 
 /* ================================================== */
-/* 📱 MOBILE MEDIA QUERY OPTIMIZATIONS */
+/* 📱 MOBILE MEDIA QUERY OPTIMIZATIONS (For brevity, only relevant changes are kept) */
 /* ================================================== */
 
 @media (max-width: 600px) {
@@ -503,16 +487,6 @@ body {
         box-sizing: border-box;
         padding: 0 10px;
     }
-
-    /* Keep the small button centered in mobile */
-    .filter-section.collapsed h3 {
-        width: 95%; 
-        max-width: 160px; 
-    }
-
-    #style-inspiration-section {
-        padding: 0 0 0 10px; 
-    }
     
     #central-viewport {
         width: 80vw !important; 
@@ -529,40 +503,17 @@ body {
         padding-top: 5px;
         scroll-snap-type: x mandatory;
     }
-
+    
     .complexion-tile {
         width: 40px; 
         height: 40px; 
         flex-shrink: 0;
         position: relative;
     }
-    .complexion-tile p {
-        display: block; 
-        font-size: 0.6em;
-        position: absolute;
-        top: 100%; 
-        left: 50%;
-        transform: translateX(-50%);
-        margin-top: 5px; 
-        width: 60px;
-    }
     
     .hairstyle-options-group-wrapper {
         padding-left: 0;
         padding-right: 10px;
-    }
-    
-    .style-option {
-        width: 85px; 
-        flex-shrink: 0;
-    }
-    .style-thumbnail {
-        width: 80px; 
-        height: 80px; 
-    }
-
-    .style-option p {
-        font-size: 0.8em;
     }
 }
     </style>
@@ -595,7 +546,7 @@ body {
         <div id="central-section">
             <div id="central-viewport">
                 <div id="camera-placeholder-icon">
-                    </div>
+                </div>
                 
                 <video id="video-feed" autoplay playsinline></video>
                 <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
@@ -605,11 +556,8 @@ body {
         
         <div id="controls-footer-row">
             <button id="camera-capture-btn" class="circular-action-btn main-action-btn" disabled>📸</button> 
-            
             <button id="redo-selfie-btn" class="circular-action-btn main-action-btn" style="display: none;">🔄</button>
-            
             <button id="generate-look-btn" class="circular-action-btn main-action-btn" style="display: none;">✨</button>
-            
             <div id="loading-spinner" class="spinner" style="display: none;"></div>
         </div>
 
@@ -619,87 +567,87 @@ body {
             <div id="male-hairstyle-options-group" class="hairstyle-options-group-wrapper">
                 
                 <div class="style-option" data-prompt="A short haircut with a tousled and textured top, dark brown color, sharp side profile.">
-                    <img class="style-thumbnail" src="styles/style1.png" alt="Tousled Short Crop">
+                    <img class="style-thumbnail" src="styles/male/style1.png" alt="Tousled Short Crop">
                     <p>Tousled Short Crop</p>
                 </div>
                 <div class="style-option" data-prompt="A clean fade with a slightly messy wavy top, medium brown color, defined jawline framing">
-                    <img class="style-thumbnail" src="styles/style2.png" alt="Wavy Clean Fade">
+                    <img class="style-thumbnail" src="styles/male/style2.png" alt="Wavy Clean Fade">
                     <p>Wavy Clean Fade</p>
                 </div>
                 <div class="style-option" data-prompt="A classic side-part with a smooth combed finish, ash black color, crisp temple blend.">
-                    <img class="style-thumbnail" src="styles/style3.png" alt="Classic Side-Part">
+                    <img class="style-thumbnail" src="styles/male/style3.png" alt="Classic Side-Part">
                     <p>Classic Side-Part</p>
                 </div>
                 <div class="style-option" data-prompt="A short curly crop with tight texture, deep black color, taper fade around the ears.">
-                    <img class="style-thumbnail" src="styles/style4.png" alt="Curly Short Crop">
+                    <img class="style-thumbnail" src="styles/male/style4.png" alt="Curly Short Crop">
                     <p>Curly Short Crop</p>
                 </div>
                 <div class="style-option" data-prompt="A medium-length shag with layered volume, chestnut brown color, soft silhouette.">
-                    <img class="style-thumbnail" src="styles/style5.png" alt="Layered Shag Cut">
+                    <img class="style-thumbnail" src="styles/male/style5.png" alt="Layered Shag Cut">
                     <p>Layered Shag Cut</p>
                 </div>
                 <div class="style-option" data-prompt="A buzz cut with subtle texture on top, dark blonde color, strong and structured profile.">
-                    <img class="style-thumbnail" src="styles/style6.png" alt="Textured Buzz">
+                    <img class="style-thumbnail" src="styles/male/style6.png" alt="Textured Buzz">
                     <p>Textured Buzz</p>
                 </div>
                 <div class="style-option" data-prompt="A modern quiff with height and soft edges, dark brown color, low fade on the sides.">
-                    <img class="style-thumbnail" src="styles/style7.png" alt="Modern Quiff">
+                    <img class="style-thumbnail" src="styles/male/style7.png" alt="Modern Quiff">
                     <p>Modern Quiff</p>
                 </div>
                 <div class="style-option" data-prompt="A textured fringe with choppy layers, sandy brown color, relaxed and youthful feel.">
-                    <img class="style-thumbnail" src="styles/style8.png" alt="Textured Fringe">
+                    <img class="style-thumbnail" src="styles/male/style8.png" alt="Textured Fringe">
                     <p>Textured Fringe</p>
                 </div>
                 <div class="style-option" data-prompt="A slick-back style with slight wave, espresso black color, clean undercut detail.">
-                    <img class="style-thumbnail" src="styles/style9.png" alt="Wavy Slick-Back">
+                    <img class="style-thumbnail" src="styles/male/style9.png" alt="Wavy Slick-Back">
                     <p>Wavy Slick-Back</p>
                 </div>
                 <div class="style-option" data-prompt="A cropped Caesar cut with short bangs, warm brown color, sharp and tidy shape.">
-                    <img class="style-thumbnail" src="styles/style10.png" alt="Caesar Crop">
+                    <img class="style-thumbnail" src="styles/male/style10.png" alt="Caesar Crop">
                     <p>Caesar Crop</p>
                 </div>
                 <div class="style-option" data-prompt="A medium-length swept-back style with natural flow, golden brown color, tapered sides.">
-                    <img class="style-thumbnail" src="styles/style11.png" alt="Swept-Back Medium">
+                    <img class="style-thumbnail" src="styles/male/style11.png" alt="Swept-Back Medium">
                     <p>Swept-Back Medium</p>
                 </div>
                 <div class="style-option" data-prompt="A curly undercut with defined top volume, jet black color, bold contrast in lengths.">
-                    <img class="style-thumbnail" src="styles/style12.png" alt="Curly Undercut">
+                    <img class="style-thumbnail" src="styles/male/style12.png" alt="Curly Undercut">
                     <p>Curly Undercut</p>
                 </div>
                 <div class="style-option" data-prompt="A messy medium crop with subtle waves, chocolate brown color, soft shadow fade.">
-                    <img class="style-thumbnail" src="styles/style13.png" alt="Messy Medium Crop">
+                    <img class="style-thumbnail" src="styles/male/style13.png" alt="Messy Medium Crop">
                     <p>Messy Medium Crop</p>
                 </div>
                 <div class="style-option" data-prompt="A spiky short top with controlled texture, dark brown color, sharp high fade.">
-                    <img class="style-thumbnail" src="styles/style14.png" alt="Spiky Short Fade">
+                    <img class="style-thumbnail" src="styles/male/style14.png" alt="Spiky Short Fade">
                     <p>Spiky Short Fade</p>
                 </div>
                 <div class="style-option" data-prompt="A long top with brushed-forward texture, deep mahogany color, tight sides for structure.">
-                    <img class="style-thumbnail" src="styles/style15.png" alt="Forward Brush Cut">
+                    <img class="style-thumbnail" src="styles/male/style15.png" alt="Forward Brush Cut">
                     <p>Forward Brush Cut</p>
                 </div>
                 <div class="style-option" data-prompt="A low-maintenance textured buzz with slight stubble blend, dark ash brown color.">
-                    <img class="style-thumbnail" src="styles/style16.png" alt="Textured Buzz Fade">
+                    <img class="style-thumbnail" src="styles/male/style16.png" alt="Textured Buzz Fade">
                     <p>Textured Buzz Fade</p>
                 </div>
                 <div class="style-option" data-prompt="A voluminous pompadour with smooth finish, black-brown color, clean and polished sides.">
-                    <img class="style-thumbnail" src="styles/style17.png" alt="Smooth Pompadour">
+                    <img class="style-thumbnail" src="styles/male/style17.png" alt="Smooth Pompadour">
                     <p>Smooth Pompadour</p>
                 </div>
                 <div class="style-option" data-prompt="A relaxed surfer-style wave with medium length, sandy blonde color, natural movement.">
-                    <img class="style-thumbnail" src="styles/style18.png" alt="Surfer Waves">
+                    <img class="style-thumbnail" src="styles/male/style18.png" alt="Surfer Waves">
                     <p>Surfer Waves</p>
                 </div>
                 <div class="style-option" data-prompt="A detailed crop with high contrast fade, smoky black color, strong forehead line.">
-                    <img class="style-thumbnail" src="styles/style19.png" alt="High-Contrast Crop">
+                    <img class="style-thumbnail" src="styles/male/style19.png" alt="High-Contrast Crop">
                     <p>High-Contrast Crop</p>
                 </div>
                 <div class="style-option" data-prompt="A medium layered cut with side sweep, warm auburn brown color, gentle taper.">
-                    <img class="style-thumbnail" src="styles/style20.png" alt="Layered Side Sweep">
+                    <img class="style-thumbnail" src="styles/male/style20.png" alt="Layered Side Sweep">
                     <p>Layered Side Sweep</p>
                 </div>
                 <div class="style-option" data-prompt="A modern mullet with short front and layered back flow, dark charcoal color, bold silhouette.">
-                    <img class="style-thumbnail" src="styles/style21.png" alt="Modern Mullet">
+                    <img class="style-thumbnail" src="styles/male/style21.png" alt="Modern Mullet">
                     <p>Modern Mullet</p>
                 </div>
                 
@@ -745,7 +693,7 @@ body {
                 </div>
                 <div class="style-option" data-prompt="A medium-length wavy cut with beachy texture, sandy blonde color, soft and casual movement.">
                     <img class="style-thumbnail" src="styles/female/style10.png" alt="Beachy Waves">
-                    <p>Beachy Waves</p>
+                    <p>Beachy Waves</</p>
                 </div>
                 <div class="style-option" data-prompt="A short bob with flipped-out ends, caramel brown color, playful and retro-inspired shape.">
                     <img class="style-thumbnail" src="styles/female/style11.png" alt="Flipped Bob">
@@ -817,7 +765,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filtersAccordion = document.getElementById('additional-filters-selector');
     const complexionGroup = document.getElementById('complexion-options-group');
     
-    // MODIFIED: References to both style groups
+    // References to both style groups
     const maleStyleOptionsGroup = document.getElementById('male-hairstyle-options-group');
     const femaleStyleOptionsGroup = document.getElementById('female-hairstyle-options-group');
     
@@ -866,7 +814,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cameraStarted) {
                 statusMessage.textContent = "Adjust your face in the box, then click 📸 to capture.";
             } else {
-                // Updated status message
                 statusMessage.textContent = "Tap the silhouette above to take a selfie"; 
             }
         }
@@ -1084,7 +1031,6 @@ document.addEventListener('DOMContentLoaded', () => {
         spinner.classList.add('active');
         updateButtonVisibility();
         
-        // MODIFIED: Simplified status message
         statusMessage.textContent = "Uploading image and defining style...";
 
         const complexionClause = selectedComplexion
@@ -1095,7 +1041,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const finalPrompt = `STRICTLY operate in an inpainting/editing mode. The ONLY element to be changed is the subject's hair. PRESERVE the subject's face, identity, expression, clothing, and background EXACTLY as they appear in the original photograph. Apply the following hairstyle, matching its texture, color, and shape: ${selectedPrompt}. The final result must be a high quality, professional studio portrait of a ${selectedGender} model${complexionClause} with NO other changes besides the hair.`;
 
         try {
-            // MODIFIED: Simplified status message
             statusMessage.textContent = "Processing your new look"; 
 
             const response = await fetch('/api/run_model', {
@@ -1149,7 +1094,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gender Button Listeners
     if (maleGenderBtn) {
-        // Initial state is Male (selected class already applied in HTML)
         maleGenderBtn.addEventListener('click', () => handleGenderSelect('Male'));
     }
 
@@ -1176,7 +1120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initial state setup (Male is default)
-    updateButtonVisibility();
+    handleGenderSelect('Male');
 });
     </script>
 </body>
