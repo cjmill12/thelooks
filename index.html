@@ -50,6 +50,21 @@ body {
     z-index: 100;
 }
 
+#main-title-container {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between the image and the text */
+    margin: 0;
+    padding: 0;
+}
+
+#header-logo {
+    height: 30px; /* NEW: Small size for the logo */
+    width: 30px; 
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
 #main-title {
     color: var(--primary-color);
     font-size: 1.8em; 
@@ -525,7 +540,10 @@ body {
 </head>
 <body>
     <div id="app-header">
-        <h1 id="main-title">Looks</h1>
+        <div id="main-title-container">
+            <img id="header-logo" src="assets/staghouse.png" alt="Stag House Logo">
+            <h1 id="main-title">Stag House</h1>
+        </div>
     </div>
 
     <div id="main-app-container">
