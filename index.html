@@ -19,6 +19,7 @@
     --viewport-size-desktop: 300px; 
     --viewport-size-mobile: 250px; 
     --content-max-width: 400px; 
+    --secondary-highlight: #007bff; /* Blue for booking */
 }
 
 body {
@@ -273,6 +274,28 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* --- NEW: Booking Button (Full width, not circular) --- */
+#book-appointment-btn {
+    /* Full width of the controls row area */
+    width: 100%; 
+    height: 45px; /* Slightly shorter than circular buttons */
+    padding: 0 20px;
+    border-radius: 25px;
+    background-color: var(--secondary-highlight); /* Blue color */
+    color: white; 
+    font-size: 1.1em;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4); 
+    margin-top: 10px; /* Space from the other controls */
+    display: none; /* Controlled by JS */
+    transition: all 0.2s;
+}
+
+#book-appointment-btn:active {
+    transform: scale(0.98); 
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.6);
+}
+
 /* --- NEW: Controls Footer Row --- */
 #controls-footer-row {
     display: flex;
@@ -285,6 +308,7 @@ body {
     min-height: 50px; 
     align-items: center;
     position: relative; 
+    flex-wrap: wrap; /* Allows the full-width button to wrap below */
 }
 
 /* Spinner adjustment */
@@ -486,6 +510,101 @@ body {
     display: none; 
 }
 
+/* --- NEW: Modal Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    visibility: hidden; /* Hide by default */
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s;
+}
+
+.modal-overlay.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.booking-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.booking-modal h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.5em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 10px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.modal-content input, .modal-content select, .modal-content button.submit-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.modal-content button.submit-btn {
+    margin-top: 20px;
+    background-color: var(--secondary-highlight);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modal-content button.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+#reference-image-preview {
+    width: 100%;
+    height: auto;
+    max-height: 100px;
+    object-fit: contain;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    display: block;
+}
+
 /* ================================================== */
 /* 📱 MOBILE MEDIA QUERY OPTIMIZATIONS (For brevity, only relevant changes are kept) */
 /* ================================================== */
@@ -582,6 +701,7 @@ body {
             <button id="redo-selfie-btn" class="circular-action-btn main-action-btn" style="display: none;">🔄</button>
             <button id="generate-look-btn" class="circular-action-btn main-action-btn" style="display: none;">✨</button>
             <div id="loading-spinner" class="spinner" style="display: none;"></div>
+            <button id="book-appointment-btn" class="main-action-btn" style="display: none;">Book Appointment</button>
         </div>
 
         <div id="style-inspiration-section">
@@ -675,7 +795,83 @@ body {
                 </div>
                 
             </div>
-
+            
+            <div id="dark-skin-male-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;">
+                
+                <div class="style-option" data-prompt="A low fade with short tight coils on top, natural black color, clean hairline finish.">
+                    <img class="style-thumbnail" src="styles/male/ds/1.png" alt="Low Fade Coils">
+                    <p>Low Fade Coils</p>
+                </div>
+                <div class="style-option" data-prompt="A classic afro with rounded shape, dense texture, bold and balanced silhouette.">
+                    <img class="style-thumbnail" src="styles/male/ds/2.png" alt="Classic Afro">
+                    <p>Classic Afro</p>
+                </div>
+                <div class="style-option" data-prompt="Short twists with a taper fade, deep black color, neat and modern profile.">
+                    <img class="style-thumbnail" src="styles/male/ds/3.png" alt="Short Twists Fade">
+                    <p>Short Twists Fade</p>
+                </div>
+                <div class="style-option" data-prompt="A cropped cut with waves brushed forward, jet black color, sharp temple lines.">
+                    <img class="style-thumbnail" src="styles/male/ds/4.png" alt="Wave Crop">
+                    <p>Wave Crop</p>
+                </div>
+                <div class="style-option" data-prompt="A high-top fade with structured volume, natural black color, strong vertical shape.">
+                    <img class="style-thumbnail" src="styles/male/ds/5.png" alt="High-Top Fade">
+                    <p>High-Top Fade</p>
+                </div>
+                <div class="style-option" data-prompt="A buzz cut with precise edge-up, dark black color, minimal and clean look.">
+                    <img class="style-thumbnail" src="styles/male/ds/6.png" alt="Clean Buzz Cut">
+                    <p>Clean Buzz Cut</p>
+                </div>
+                <div class="style-option" data-prompt="Medium-length locs pulled back, natural black color, relaxed and confident style.">
+                    <img class="style-thumbnail" src="styles/male/ds/7.png" alt="Pulled-Back Locs">
+                    <p>Pulled-Back Locs</p>
+                </div>
+                <div class="style-option" data-prompt="A short curly fade with sponge-textured top, dense coils, smooth side blend.">
+                    <img class="style-thumbnail" src="styles/male/ds/8.png" alt="Sponge Curl Fade">
+                    <p>Sponge Curl Fade</p>
+                </div>
+                <div class="style-option" data-prompt="Cornrow braids with straight-back pattern, natural black color, clean scalp lines.">
+                    <img class="style-thumbnail" src="styles/male/ds/9.png" alt="Straight Cornrows">
+                    <p>Straight Cornrows</p>
+                </div>
+                <div class="style-option" data-prompt="A tapered afro with controlled volume, matte black color, soft rounded outline.">
+                    <img class="style-thumbnail" src="styles/male/ds/10.png" alt="Tapered Afro">
+                    <p>Tapered Afro</p>
+                </div>
+                <div class="style-option" data-prompt="A short frohawk with faded sides, tight curls, bold center emphasis.">
+                    <img class="style-thumbnail" src="styles/male/ds/11.png" alt="Curly Frohawk">
+                    <p>Curly Frohawk</p>
+                </div>
+                <div class="style-option" data-prompt="Defined finger coils with low taper, black color, glossy textured finish.">
+                    <img class="style-thumbnail" src="styles/male/ds/12.png" alt="Finger Coils">
+                    <p>Finger Coils</p>
+                </div>
+                <div class="style-option" data-prompt="A bald fade with very short, naturally lying curls on top, dark black tone, crisp contrast.">
+                    <img class="style-thumbnail" src="styles/male/ds/13.png" alt="Bald Fade Curls">
+                    <p>Bald Fade Curls</p>
+                </div>
+                <div class="style-option" data-prompt="Freeform locs with medium length, natural texture, organic silhouette.">
+                    <img class="style-thumbnail" src="styles/male/ds/14.png" alt="Freeform Locs">
+                    <p>Freeform Locs</p>
+                </div>
+                <div class="style-option" data-prompt="A burst fade with curly top, black color, rounded side profile.">
+                    <img class="style-thumbnail" src="styles/male/ds/15.png" alt="Burst Fade Curls">
+                    <p>Burst Fade Curls</p>
+                </div>
+                <div class="style-option" data-prompt="Short box braids with neat parting, dark black color, uniform structure.">
+                    <img class="style-thumbnail" src="styles/male/ds/16.png" alt="Short Box Braids">
+                    <p>Short Box Braids</p>
+                </div>
+                <div class="style-option" data-prompt="A flat brush cut with subtle wave pattern, jet black color, sharp geometry.">
+                    <img class="style-thumbnail" src="styles/male/ds/17.png" alt="Flat Brush Cut">
+                    <p>Flat Brush Cut</p>
+                </div>
+                <div class="style-option" data-prompt="A short afro crop with even density, natural black tone.">
+                    <img class="style-thumbnail" src="styles/male/ds/18.png" alt="Short Afro Crop">
+                    <p>Short Afro Crop</p>
+                </div>
+                </div>
+            
             <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;">
                 
                 <div class="style-option" data-prompt="A shoulder-length cut with soft waves and natural volume, warm brunette color, gentle face-framing layers.">
@@ -769,6 +965,36 @@ body {
 
     </div> <canvas id="hidden-canvas" style="display: none;"></canvas>
 
+    <div id="booking-modal-overlay" class="modal-overlay">
+        <div class="booking-modal">
+            <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+            <h2>Book Your Look</h2>
+            <div class="modal-content">
+                <p>You are booking the style reference below:</p>
+                <img id="reference-image-preview" src="" alt="AI Generated Style Reference">
+                <p style="font-size: 0.8em; margin-top: 5px; color: #555;">**Style Selected: <span id="selected-style-name"></span>**</p>
+                
+                <form id="booking-form">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="date">Select Date</label>
+                    <input type="date" id="date" name="date" required>
+
+                    <label for="time">Select Time</label>
+                    <select id="time" name="time" required>
+                        <option value="">Loading availability...</option>
+                    </select>
+
+                    <button type="submit" class="submit-btn" disabled>Confirm Booking</button>
+                    <p id="booking-status-message" style="margin-top: 10px; color: #dc3545; font-weight: bold;"></p>
+                </form>
+            </div>
+        </div>
+    </div>
     <script>
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Get DOM elements
@@ -781,6 +1007,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cameraCaptureBtn = document.getElementById('camera-capture-btn');
     const redoSelfieBtn = document.getElementById('redo-selfie-btn');
     const generateLookBtn = document.getElementById('generate-look-btn');
+    const bookAppointmentBtn = document.getElementById('book-appointment-btn'); // NEW
     const spinner = document.getElementById('loading-spinner');
     const statusMessage = document.getElementById('status-message');
 
@@ -788,21 +1015,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const filtersAccordion = document.getElementById('additional-filters-selector');
     const complexionGroup = document.getElementById('complexion-options-group');
     
-    // References to both style groups
+    // References to all style groups
     const maleStyleOptionsGroup = document.getElementById('male-hairstyle-options-group');
     const femaleStyleOptionsGroup = document.getElementById('female-hairstyle-options-group');
+    const darkSkinMaleStyleOptionsGroup = document.getElementById('dark-skin-male-hairstyle-options-group'); // NEW REF
     
     // Gender buttons
     const maleGenderBtn = document.getElementById('male-gender-btn');
     const femaleGenderBtn = document.getElementById('female-gender-btn');
+    
+    // NEW MODAL ELEMENTS
+    const bookingModalOverlay = document.getElementById('booking-modal-overlay');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const bookingForm = document.getElementById('booking-form');
+    const referenceImagePreview = document.getElementById('reference-image-preview');
+    const selectedStyleNameSpan = document.getElementById('selected-style-name');
 
     // State tracking variables
     let capturedImageBase64 = null;
     let selectedPrompt = null;
+    let selectedStyleLabel = null; 
     let cameraStarted = false;
     let selectedGender = 'Male';
     let selectedComplexion = null;
     let imageCaptured = false;
+    let aiGenerationComplete = false; 
 
     // --- CONSTANTS ---
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor lighting, poor composition, low quality, changed clothing, changed background, new outfit, new background, different lighting";
@@ -814,27 +1051,32 @@ document.addEventListener('DOMContentLoaded', () => {
         cameraCaptureBtn.style.display = 'none';
         redoSelfieBtn.style.display = 'none';
         generateLookBtn.style.display = 'none';
+        bookAppointmentBtn.style.display = 'none'; 
         spinner.style.display = 'none';
 
         if (spinner.classList.contains('active')) {
             // Processing State: Hide all buttons and show spinner
             spinner.style.display = 'block';
+        } else if (aiGenerationComplete) {
+            // AI Complete State: Show Redo and Book
+            redoSelfieBtn.style.display = 'flex'; 
+            bookAppointmentBtn.style.display = 'flex'; 
+            statusMessage.textContent = `Success! Your new look is ready. Book an appointment or click 🔄 to redo.`;
         } else if (imageCaptured) {
-            // Image Captured State
-            redoSelfieBtn.style.display = 'flex'; // Show Redo button
+            // Image Captured State: Show Redo and Generate (if prompt selected)
+            redoSelfieBtn.style.display = 'flex'; 
             if (selectedPrompt) {
-                generateLookBtn.style.display = 'flex'; // Show Generate button if style is selected
+                generateLookBtn.style.display = 'flex'; 
                 generateLookBtn.disabled = false;
                 const complexionStatus = selectedComplexion ? `(${selectedComplexion} Complexion selected)` : '';
-                statusMessage.textContent = `Style selected. Click ✨ to generate ${complexionStatus}.`;
+                statusMessage.textContent = `Style selected: ${selectedStyleLabel}. Click ✨ to generate ${complexionStatus}.`;
             } else {
-                // This state should be rare now since a style is selected on scroll
                 statusMessage.textContent = "Image captured. Select a hairstyle to unlock the 'Generate' button.";
             }
         } else {
-            // Camera/Initial State
+            // Camera/Initial State: Show Capture
             cameraCaptureBtn.style.display = 'flex';
-            cameraCaptureBtn.disabled = !cameraStarted; // Enable only if camera is streaming
+            cameraCaptureBtn.disabled = !cameraStarted; 
             if (cameraStarted) {
                 statusMessage.textContent = "Adjust your face in the box, then click 📸 to capture.";
             } else {
@@ -870,7 +1112,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (closestOption) {
              // 1. Visually select the centered option
-            // Check if the current selected element is NOT the closest one to avoid unnecessary DOM manipulation
             if (!closestOption.classList.contains('selected')) {
                 allOptions.forEach(o => o.classList.remove('selected'));
                 closestOption.classList.add('selected');
@@ -879,6 +1120,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // 2. Update the internal state (only if a change is detected)
             if (selectedPrompt !== closestOption.dataset.prompt) {
                 selectedPrompt = closestOption.dataset.prompt;
+                // Get the human-readable label from the custom attribute (if needed, otherwise prompt is enough)
+                selectedStyleLabel = closestOption.querySelector('p').textContent || closestOption.dataset.prompt; 
                 updateButtonVisibility(); 
             }
         }
@@ -889,37 +1132,46 @@ document.addEventListener('DOMContentLoaded', () => {
         const allOptions = groupWrapper.querySelectorAll('.style-option');
         if (allOptions.length === 0) return;
 
-        // 1. Define the handler function which encapsulates the logic
         const scrollHandler = () => {
             updateStyleSelectionOnScroll(groupWrapper, allOptions);
         };
 
-        // 2. Remove the previous listener (stored on a custom property)
         const oldHandler = groupWrapper._scrollHandler;
         if (oldHandler) {
             groupWrapper.removeEventListener('scroll', oldHandler);
         }
 
-        // 3. Attach the new handler
         groupWrapper.addEventListener('scroll', scrollHandler);
         
-        // 4. Store the reference for later removal
         groupWrapper._scrollHandler = scrollHandler;
         
-        // 5. Call immediately to select the first element on load
-        // This ensures the initial element is selected and enlarged immediately
         scrollHandler(); 
 
         updateButtonVisibility();
     };
 
-    function setupGalleryListeners(gender) {
-        const currentGroup = gender === 'Male' ? maleStyleOptionsGroup : femaleStyleOptionsGroup;
-        const otherGroup = gender === 'Male' ? femaleStyleOptionsGroup : maleStyleOptionsGroup;
-
-        // Ensure current group is visible and the other is hidden
+    function setupGalleryListeners(gender, complexion) {
+        let currentGroup;
+        
+        // Hide all style groups initially
+        maleStyleOptionsGroup.style.display = 'none';
+        femaleStyleOptionsGroup.style.display = 'none';
+        darkSkinMaleStyleOptionsGroup.style.display = 'none';
+        
+        // Determine the correct group to show
+        if (gender === 'Female') {
+            currentGroup = femaleStyleOptionsGroup;
+        } else { 
+            // Gender is Male
+            if (complexion === 'Dark' || complexion === 'Deep') {
+                currentGroup = darkSkinMaleStyleOptionsGroup;
+            } else {
+                currentGroup = maleStyleOptionsGroup;
+            }
+        }
+        
+        // Ensure current group is visible
         currentGroup.style.display = 'flex'; 
-        otherGroup.style.display = 'none';
 
         // Reset the scroll position to the start
         currentGroup.scrollLeft = 0;
@@ -946,10 +1198,13 @@ document.addEventListener('DOMContentLoaded', () => {
             maleGenderBtn.classList.add('selected');
         } else if (gender === 'Female') {
             femaleGenderBtn.classList.add('selected');
+            // Female styles currently don't use complexion filters, so reset selectedComplexion
+            selectedComplexion = null; 
+            complexionGroup.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
         }
 
         // Setup the correct gallery
-        setupGalleryListeners(gender);
+        setupGalleryListeners(gender, selectedComplexion);
     }
     
     function toggleFilterSection(section) {
@@ -962,41 +1217,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // MODIFIED: Function to handle complexion selection
     function handleComplexionSelect(tile) {
+        if (selectedGender !== 'Male') {
+            // Only allow complexion selection for male styles
+            return;
+        }
+        
         const isSelected = tile.classList.contains('selected');
         const complexionTiles = complexionGroup.querySelectorAll('.complexion-tile');
 
+        // Clear previous selection
         complexionTiles.forEach(t => t.classList.remove('selected'));
 
         if (!isSelected) {
             tile.classList.add('selected');
             selectedComplexion = tile.dataset.complexion;
         } else {
+            // Deselecting the tile
             selectedComplexion = null;
         }
+
+        // Re-run setup to switch style gallery based on the new complexion state
+        setupGalleryListeners(selectedGender, selectedComplexion);
         updateButtonVisibility();
     }
 
     // Click handler to scroll the clicked item into the center
     function handleStyleSelect(styleOption) {
-        // 1. Scroll the clicked item to the center of its container
         const scrollContainer = styleOption.closest('.hairstyle-options-group-wrapper');
         if (scrollContainer) {
             const containerWidth = scrollContainer.clientWidth;
             const optionWidth = styleOption.offsetWidth;
-            // Calculate the target scroll position to center the option
             const scrollTarget = styleOption.offsetLeft - (containerWidth / 2) + (optionWidth / 2);
             
-            // Scroll smoothly to the target position
             scrollContainer.scrollTo({
                 left: scrollTarget,
                 behavior: 'smooth'
             });
         }
-        
-        // The selection logic (applying the 'selected' class and updating selectedPrompt) 
-        // is now handled by the 'scroll' listener, which will fire immediately after this
-        // smooth scroll starts or when it lands. We don't need to manually update the state here.
     }
 
     // --- Camera Functions ---
@@ -1028,6 +1287,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             cameraStarted = true;
             imageCaptured = false;
+            aiGenerationComplete = false; 
 
             cameraPlaceholderIcon.style.display = 'none'; 
             aiResultImg.style.display = 'none';
@@ -1064,7 +1324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = width;
         canvas.height = height;
         
-        context.drawImage(videoFeed, 0, 0, width, height);
+        context.drawImage(videoFeed, 0, 0, width, width); 
 
         const fullDataURL = canvas.toDataURL('image/jpeg');
 
@@ -1072,6 +1332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         capturedImageBase64 = parts.length > 1 ? parts[1] : fullDataURL;
 
         imageCaptured = true;
+        aiGenerationComplete = false; 
 
         videoFeed.style.display = 'none';
         aiResultImg.style.display = 'block';
@@ -1087,11 +1348,12 @@ document.addEventListener('DOMContentLoaded', () => {
         aiResultImg.style.display = 'none';
         cameraPlaceholderIcon.style.display = 'block';
         imageCaptured = false;
+        aiGenerationComplete = false; 
         capturedImageBase64 = null;
         spinner.classList.remove('active');
 
         // Re-setup the current gallery to reset selection and scroll position
-        setupGalleryListeners(selectedGender);
+        setupGalleryListeners(selectedGender, selectedComplexion);
 
         // Ensure filters are reset or collapsed if needed on restart
         filtersAccordion.classList.remove('expanded');
@@ -1169,15 +1431,16 @@ document.addEventListener('DOMContentLoaded', () => {
             videoFeed.style.display = 'none';
             cameraPlaceholderIcon.style.display = 'none';
 
-            statusMessage.textContent = `Success! Your new look is ready. Click the Redo button to take a new selfie.`;
+            // NEW: Set completion state
+            aiGenerationComplete = true; 
+            imageCaptured = true; 
 
-            // Exit loading state
+            // Update capturedImageBase64 to the new AI result for booking reference
+            capturedImageBase64 = data.generatedImageBase64; 
+            
+            // Exit loading state and update buttons (will show Book Now)
             spinner.classList.remove('active');
             updateButtonVisibility();
-
-            // Hide the Generate button after successful generation, show Redo
-            generateLookBtn.style.display = 'none'; 
-            redoSelfieBtn.style.display = 'flex'; 
 
         } catch (error) {
             // --- ERROR BLOCK ---
@@ -1188,6 +1451,72 @@ document.addEventListener('DOMContentLoaded', () => {
             spinner.classList.remove('active');
             updateButtonVisibility();
         }
+    });
+
+    // 4. Book Appointment Button (Book Now)
+    bookAppointmentBtn.addEventListener('click', () => {
+        if (!aiGenerationComplete) {
+            statusMessage.textContent = "Please generate a look first before booking.";
+            return;
+        }
+
+        // Populate and show the modal
+        referenceImagePreview.src = aiResultImg.src;
+        selectedStyleNameSpan.textContent = selectedStyleLabel;
+        bookingModalOverlay.classList.add('visible');
+    });
+
+    // Modal Close Button
+    modalCloseBtn.addEventListener('click', () => {
+        bookingModalOverlay.classList.remove('visible');
+    });
+
+    // --- BOOKING FORM SUBMISSION (Placeholder) ---
+    bookingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const bookingStatusMessage = document.getElementById('booking-status-message');
+        const submitButton = bookingForm.querySelector('.submit-btn');
+
+        // Disable button and show message
+        submitButton.textContent = "Processing...";
+        submitButton.disabled = true;
+        bookingStatusMessage.style.color = '#ffc107';
+        bookingStatusMessage.textContent = "Connecting to scheduling service...";
+        
+        // --- THIS IS WHERE THE ACUITY/BOULEVARD API CALL WOULD GO ---
+        // 1. Get client data from form
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+
+        // 2. Data to send to Netlify Function for Acuity Integration
+        const bookingData = {
+            firstName: name.split(' ')[0] || '',
+            lastName: name.split(' ').slice(1).join(' ') || '',
+            email: email,
+            datetime: `${date}T${time}:00`,
+            // Logic to determine the service based on current style and gender
+            appointmentType: selectedGender === 'Male' ? 'Men\'s Cut' : 'Women\'s Cut', 
+            styleName: selectedStyleLabel,
+            stylePrompt: selectedPrompt,
+            // Pass the generated image as a reference
+            imageReference: aiResultImg.src, 
+        };
+        
+        console.log("Booking data prepared:", bookingData);
+
+        // Placeholder for API call: Simulate success/failure after a delay
+        setTimeout(() => {
+            // Simulate successful booking
+            bookingStatusMessage.style.color = var('--highlight-color'); // Green
+            bookingStatusMessage.textContent = "Booking Confirmed! Check your email for details.";
+            submitButton.textContent = "Confirmed!";
+            
+            // In a real application, you would close the modal here:
+            // bookingModalOverlay.classList.remove('visible'); 
+
+        }, 2000); 
     });
 
 
