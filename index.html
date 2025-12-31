@@ -425,6 +425,7 @@ body {
     border: 2px solid transparent; 
     flex-shrink: 0; 
     border-radius: 50%;
+    cursor: pointer; /* Ensure tiles are clickable */
 }
 
 .complexion-tile p {
@@ -510,7 +511,7 @@ body {
     display: none; 
 }
 
-/* --- NEW: Modal Styles --- */
+/* --- Modal Styles (No change needed) --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -522,7 +523,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    visibility: hidden; /* Hide by default */
+    visibility: hidden; 
     opacity: 0;
     transition: visibility 0s, opacity 0.3s;
 }
@@ -668,7 +669,7 @@ body {
     <div id="main-app-container">
         
         <div class="gender-buttons-container">
-            <button id="male-gender-btn" class="gender-button selected">Male</button>
+            <button id="male-gender-btn" class="gender-button">Male</button>
             <button id="female-gender-btn" class="gender-button">Female</button>
         </div>
 
@@ -677,10 +678,10 @@ body {
             <div class="filter-content-group">
                 <p style="font-size: 0.9em; font-weight: bold; margin-bottom: 5px;">Complexion (Optional)</p>
                 <div id="complexion-options-group" class="filter-options-group">
-                    <div class="complexion-tile" style="background-color: #F8D7BE;" data-complexion="Light"></div>
-                    <div class="complexion-tile" style="background-color: #D6A476;" data-complexion="Medium"></div>
-                    <div class="complexion-tile" style="background-color: #A97A52;" data-complexion="Dark"></div>
-                    <div class="complexion-tile" style="background-color: #6A3E26;" data-complexion="Deep"></div>
+                    <div class="complexion-tile" style="background-color: #F8D7BE;" data-complexion="Light" data-complexion-code="default"></div>
+                    <div class="complexion-tile" style="background-color: #D6A476;" data-complexion="Medium" data-complexion-code="default"></div>
+                    <div class="complexion-tile" style="background-color: #A97A52;" data-complexion="Dark" data-complexion-code="ds"></div>
+                    <div class="complexion-tile" style="background-color: #6A3E26;" data-complexion="Deep" data-complexion-code="ds"></div>
                 </div>
             </div>
         </div>
@@ -708,168 +709,6 @@ body {
             <p>Get the Look</p>
             
             <div id="male-hairstyle-options-group" class="hairstyle-options-group-wrapper">
-                
-                <div class="style-option" data-prompt="A short haircut with a tousled and textured top, dark brown color, sharp side profile.">
-                    <img class="style-thumbnail" src="styles/male/style1.png" alt="Tousled Short Crop">
-                    <p>Tousled Short Crop</p>
-                </div>
-                <div class="style-option" data-prompt="A clean fade with a slightly messy wavy top, medium brown color, defined jawline framing">
-                    <img class="style-thumbnail" src="styles/male/style2.png" alt="Wavy Clean Fade">
-                    <p>Wavy Clean Fade</p>
-                </div>
-                <div class="style-option" data-prompt="A classic side-part with a smooth combed finish, ash black color, crisp temple blend.">
-                    <img class="style-thumbnail" src="styles/male/style3.png" alt="Classic Side-Part">
-                    <p>Classic Side-Part</p>
-                </div>
-                <div class="style-option" data-prompt="A short curly crop with tight texture, deep black color, taper fade around the ears.">
-                    <img class="style-thumbnail" src="styles/male/style4.png" alt="Curly Short Crop">
-                    <p>Curly Short Crop</p>
-                </div>
-                <div class="style-option" data-prompt="A medium-length shag with layered volume, chestnut brown color, soft silhouette.">
-                    <img class="style-thumbnail" src="styles/male/style5.png" alt="Layered Shag Cut">
-                    <p>Layered Shag Cut</p>
-                </div>
-                <div class="style-option" data-prompt="A buzz cut with subtle texture on top, dark blonde color, strong and structured profile.">
-                    <img class="style-thumbnail" src="styles/male/style6.png" alt="Textured Buzz">
-                    <p>Textured Buzz</p>
-                </div>
-                <div class="style-option" data-prompt="A modern quiff with height and soft edges, dark brown color, low fade on the sides.">
-                    <img class="style-thumbnail" src="styles/male/style7.png" alt="Modern Quiff">
-                    <p>Modern Quiff</p>
-                </div>
-                <div class="style-option" data-prompt="A textured fringe with choppy layers, sandy brown color, relaxed and youthful feel.">
-                    <img class="style-thumbnail" src="styles/male/style8.png" alt="Textured Fringe">
-                    <p>Textured Fringe</p>
-                </div>
-                <div class="style-option" data-prompt="A slick-back style with slight wave, espresso black color, clean undercut detail.">
-                    <img class="style-thumbnail" src="styles/male/style9.png" alt="Wavy Slick-Back">
-                    <p>Wavy Slick-Back</p>
-                </div>
-                <div class="style-option" data-prompt="A cropped Caesar cut with short bangs, warm brown color, sharp and tidy shape.">
-                    <img class="style-thumbnail" src="styles/male/style10.png" alt="Caesar Crop">
-                    <p>Caesar Crop</p>
-                </div>
-                <div class="style-option" data-prompt="A medium-length swept-back style with natural flow, golden brown color, tapered sides.">
-                    <img class="style-thumbnail" src="styles/male/style11.png" alt="Swept-Back Medium">
-                    <p>Swept-Back Medium</p>
-                </div>
-                <div class="style-option" data-prompt="A curly undercut with defined top volume, jet black color, bold contrast in lengths.">
-                    <img class="style-thumbnail" src="styles/male/style12.png" alt="Curly Undercut">
-                    <p>Curly Undercut</p>
-                </div>
-                <div class="style-option" data-prompt="A messy medium crop with subtle waves, chocolate brown color, soft shadow fade.">
-                    <img class="style-thumbnail" src="styles/male/style13.png" alt="Messy Medium Crop">
-                    <p>Messy Medium Crop</p>
-                </div>
-                <div class="style-option" data-prompt="A spiky short top with controlled texture, dark brown color, sharp high fade.">
-                    <img class="style-thumbnail" src="styles/male/style14.png" alt="Spiky Short Fade">
-                    <p>Spiky Short Fade</p>
-                </div>
-                <div class="style-option" data-prompt="A long top with brushed-forward texture, deep mahogany color, tight sides for structure.">
-                    <img class="style-thumbnail" src="styles/male/style15.png" alt="Forward Brush Cut">
-                    <p>Forward Brush Cut</p>
-                </div>
-                <div class="style-option" data-prompt="A low-maintenance textured buzz with slight stubble blend, dark ash brown color.">
-                    <img class="style-thumbnail" src="styles/male/style16.png" alt="Textured Buzz Fade">
-                    <p>Textured Buzz Fade</p>
-                </div>
-                <div class="style-option" data-prompt="A voluminous pompadour with smooth finish, black-brown color, clean and polished sides.">
-                    <img class="style-thumbnail" src="styles/male/style17.png" alt="Smooth Pompadour">
-                    <p>Smooth Pompadour</p>
-                </div>
-                <div class="style-option" data-prompt="A relaxed surfer-style wave with medium length, sandy blonde color, natural movement.">
-                    <img class="style-thumbnail" src="styles/male/style18.png" alt="Surfer Waves">
-                    <p>Surfer Waves</p>
-                </div>
-                <div class="style-option" data-prompt="A detailed crop with high contrast fade, smoky black color, strong forehead line.">
-                    <img class="style-thumbnail" src="styles/male/style19.png" alt="High-Contrast Crop">
-                    <p>High-Contrast Crop</p>
-                </div>
-                <div class="style-option" data-prompt="A medium layered cut with side sweep, warm auburn brown color, gentle taper.">
-                    <img class="style-thumbnail" src="styles/male/style20.png" alt="Layered Side Sweep">
-                    <p>Layered Side Sweep</p>
-                </div>
-                <div class="style-option" data-prompt="A modern mullet with short front and layered back flow, dark charcoal color, bold silhouette.">
-                    <img class="style-thumbnail" src="styles/male/style21.png" alt="Modern Mullet">
-                    <p>Modern Mullet</p>
-                </div>
-                
-            </div>
-            
-            <div id="dark-skin-male-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;">
-                
-                <div class="style-option" data-prompt="A low fade with short tight coils on top, natural black color, clean hairline finish.">
-                    <img class="style-thumbnail" src="styles/male/ds/1.png" alt="Low Fade Coils">
-                    <p>Low Fade Coils</p>
-                </div>
-                <div class="style-option" data-prompt="A classic afro with rounded shape, dense texture, bold and balanced silhouette.">
-                    <img class="style-thumbnail" src="styles/male/ds/2.png" alt="Classic Afro">
-                    <p>Classic Afro</p>
-                </div>
-                <div class="style-option" data-prompt="Short twists with a taper fade, deep black color, neat and modern profile.">
-                    <img class="style-thumbnail" src="styles/male/ds/3.png" alt="Short Twists Fade">
-                    <p>Short Twists Fade</p>
-                </div>
-                <div class="style-option" data-prompt="A cropped cut with waves brushed forward, jet black color, sharp temple lines.">
-                    <img class="style-thumbnail" src="styles/male/ds/4.png" alt="Wave Crop">
-                    <p>Wave Crop</p>
-                </div>
-                <div class="style-option" data-prompt="A high-top fade with structured volume, natural black color, strong vertical shape.">
-                    <img class="style-thumbnail" src="styles/male/ds/5.png" alt="High-Top Fade">
-                    <p>High-Top Fade</p>
-                </div>
-                <div class="style-option" data-prompt="A buzz cut with precise edge-up, dark black color, minimal and clean look.">
-                    <img class="style-thumbnail" src="styles/male/ds/6.png" alt="Clean Buzz Cut">
-                    <p>Clean Buzz Cut</p>
-                </div>
-                <div class="style-option" data-prompt="Medium-length locs pulled back, natural black color, relaxed and confident style.">
-                    <img class="style-thumbnail" src="styles/male/ds/7.png" alt="Pulled-Back Locs">
-                    <p>Pulled-Back Locs</p>
-                </div>
-                <div class="style-option" data-prompt="A short curly fade with sponge-textured top, dense coils, smooth side blend.">
-                    <img class="style-thumbnail" src="styles/male/ds/8.png" alt="Sponge Curl Fade">
-                    <p>Sponge Curl Fade</p>
-                </div>
-                <div class="style-option" data-prompt="Cornrow braids with straight-back pattern, natural black color, clean scalp lines.">
-                    <img class="style-thumbnail" src="styles/male/ds/9.png" alt="Straight Cornrows">
-                    <p>Straight Cornrows</p>
-                </div>
-                <div class="style-option" data-prompt="A tapered afro with controlled volume, matte black color, soft rounded outline.">
-                    <img class="style-thumbnail" src="styles/male/ds/10.png" alt="Tapered Afro">
-                    <p>Tapered Afro</p>
-                </div>
-                <div class="style-option" data-prompt="A short frohawk with faded sides, tight curls, bold center emphasis.">
-                    <img class="style-thumbnail" src="styles/male/ds/11.png" alt="Curly Frohawk">
-                    <p>Curly Frohawk</p>
-                </div>
-                <div class="style-option" data-prompt="Defined finger coils with low taper, black color, glossy textured finish.">
-                    <img class="style-thumbnail" src="styles/male/ds/12.png" alt="Finger Coils">
-                    <p>Finger Coils</p>
-                </div>
-                <div class="style-option" data-prompt="A bald fade with very short, naturally lying curls on top, dark black tone, crisp contrast.">
-                    <img class="style-thumbnail" src="styles/male/ds/13.png" alt="Bald Fade Curls">
-                    <p>Bald Fade Curls</p>
-                </div>
-                <div class="style-option" data-prompt="Freeform locs with medium length, natural texture, organic silhouette.">
-                    <img class="style-thumbnail" src="styles/male/ds/14.png" alt="Freeform Locs">
-                    <p>Freeform Locs</p>
-                </div>
-                <div class="style-option" data-prompt="A burst fade with curly top, black color, rounded side profile.">
-                    <img class="style-thumbnail" src="styles/male/ds/15.png" alt="Burst Fade Curls">
-                    <p>Burst Fade Curls</p>
-                </div>
-                <div class="style-option" data-prompt="Short box braids with neat parting, dark black color, uniform structure.">
-                    <img class="style-thumbnail" src="styles/male/ds/16.png" alt="Short Box Braids">
-                    <p>Short Box Braids</p>
-                </div>
-                <div class="style-option" data-prompt="A flat brush cut with subtle wave pattern, jet black color, sharp geometry.">
-                    <img class="style-thumbnail" src="styles/male/ds/17.png" alt="Flat Brush Cut">
-                    <p>Flat Brush Cut</p>
-                </div>
-                <div class="style-option" data-prompt="A short afro crop with even density, natural black tone.">
-                    <img class="style-thumbnail" src="styles/male/ds/18.png" alt="Short Afro Crop">
-                    <p>Short Afro Crop</p>
-                </div>
                 </div>
             
             <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;">
@@ -960,8 +799,8 @@ body {
                 </div>
                 
             </div>
-
-        </div>
+            
+            </div>
 
     </div> <canvas id="hidden-canvas" style="display: none;"></canvas>
 
@@ -1007,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cameraCaptureBtn = document.getElementById('camera-capture-btn');
     const redoSelfieBtn = document.getElementById('redo-selfie-btn');
     const generateLookBtn = document.getElementById('generate-look-btn');
-    const bookAppointmentBtn = document.getElementById('book-appointment-btn'); // NEW
+    const bookAppointmentBtn = document.getElementById('book-appointment-btn'); 
     const spinner = document.getElementById('loading-spinner');
     const statusMessage = document.getElementById('status-message');
 
@@ -1018,7 +857,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // References to all style groups
     const maleStyleOptionsGroup = document.getElementById('male-hairstyle-options-group');
     const femaleStyleOptionsGroup = document.getElementById('female-hairstyle-options-group');
-    const darkSkinMaleStyleOptionsGroup = document.getElementById('dark-skin-male-hairstyle-options-group'); // NEW REF
     
     // Gender buttons
     const maleGenderBtn = document.getElementById('male-gender-btn');
@@ -1037,14 +875,141 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedStyleLabel = null; 
     let cameraStarted = false;
     let selectedGender = 'Male';
-    let selectedComplexion = null;
+    let selectedComplexionCode = null; // Stores 'default', 'ds', etc.
     let imageCaptured = false;
     let aiGenerationComplete = false; 
 
     // --- CONSTANTS ---
     const NEGATIVE_PROMPT = "extra fingers, blurry, low resolution, bad hands, deformed face, mask artifact, bad blending, unnatural hair hair color, ugly, tiling, duplicate, abstract, cartoon, distorted pupils, bad lighting, cropped, grainy, noise, poor lighting, poor composition, low quality, changed clothing, changed background, new outfit, new background, different lighting";
 
+    // --- CONSOLIDATED MALE STYLE DATA ---
+    // This array holds ALL male styles for randomization and filtering
+    const ALL_MALE_STYLES = [
+        // Default Skin Styles (for Light/Medium complexions)
+        { code: 'default', src: "styles/male/style1.png", label: "Tousled Short Crop", prompt: "A short haircut with a tousled and textured top, dark brown color, sharp side profile." },
+        { code: 'default', src: "styles/male/style2.png", label: "Wavy Clean Fade", prompt: "A clean fade with a slightly messy wavy top, medium brown color, defined jawline framing" },
+        { code: 'default', src: "styles/male/style3.png", label: "Classic Side-Part", prompt: "A classic side-part with a smooth combed finish, ash black color, crisp temple blend." },
+        { code: 'default', src: "styles/male/style4.png", label: "Curly Short Crop", prompt: "A short curly crop with tight texture, deep black color, taper fade around the ears." },
+        { code: 'default', src: "styles/male/style5.png", label: "Layered Shag Cut", prompt: "A medium-length shag with layered volume, chestnut brown color, soft silhouette." },
+        { code: 'default', src: "styles/male/style6.png", label: "Textured Buzz", prompt: "A buzz cut with subtle texture on top, dark blonde color, strong and structured profile." },
+        { code: 'default', src: "styles/male/style7.png", label: "Modern Quiff", prompt: "A modern quiff with height and soft edges, dark brown color, low fade on the sides." },
+        { code: 'default', src: "styles/male/style8.png", label: "Textured Fringe", prompt: "A textured fringe with choppy layers, sandy brown color, relaxed and youthful feel." },
+        { code: 'default', src: "styles/male/style9.png", label: "Wavy Slick-Back", prompt: "A slick-back style with slight wave, espresso black color, clean undercut detail." },
+        { code: 'default', src: "styles/male/style10.png", label: "Caesar Crop", prompt: "A cropped Caesar cut with short bangs, warm brown color, sharp and tidy shape." },
+        { code: 'default', src: "styles/male/style11.png", label: "Swept-Back Medium", prompt: "A medium-length swept-back style with natural flow, golden brown color, tapered sides." },
+        { code: 'default', src: "styles/male/style12.png", label: "Curly Undercut", prompt: "A curly undercut with defined top volume, jet black color, bold contrast in lengths." },
+        { code: 'default', src: "styles/male/style13.png", label: "Messy Medium Crop", prompt: "A messy medium crop with subtle waves, chocolate brown color, soft shadow fade." },
+        { code: 'default', src: "styles/male/style14.png", label: "Spiky Short Fade", prompt: "A spiky short top with controlled texture, dark brown color, sharp high fade." },
+        { code: 'default', src: "styles/male/style15.png", label: "Forward Brush Cut", prompt: "A long top with brushed-forward texture, deep mahogany color, tight sides for structure." },
+        { code: 'default', src: "styles/male/style16.png", label: "Textured Buzz Fade", prompt: "A low-maintenance textured buzz with slight stubble blend, dark ash brown color." },
+        { code: 'default', src: "styles/male/style17.png", label: "Smooth Pompadour", prompt: "A voluminous pompadour with smooth finish, black-brown color, clean and polished sides." },
+        { code: 'default', src: "styles/male/style18.png", label: "Surfer Waves", prompt: "A relaxed surfer-style wave with medium length, sandy blonde color, natural movement." },
+        { code: 'default', src: "styles/male/style19.png", label: "High-Contrast Crop", prompt: "A detailed crop with high contrast fade, smoky black color, strong forehead line." },
+        { code: 'default', src: "styles/male/style20.png", label: "Layered Side Sweep", prompt: "A medium layered cut with side sweep, warm auburn brown color, gentle taper." },
+        { code: 'default', src: "styles/male/style21.png", label: "Modern Mullet", prompt: "A modern mullet with short front and layered back flow, dark charcoal color, bold silhouette." },
+        
+        // Dark Skin Styles (for Dark/Deep complexions)
+        { code: 'ds', src: "styles/male/ds/1.png", label: "Low Fade Coils", prompt: "A low fade with short tight coils on top, natural black color, clean hairline finish." },
+        { code: 'ds', src: "styles/male/ds/2.png", label: "Classic Afro", prompt: "A classic afro with rounded shape, dense texture, bold and balanced silhouette." },
+        { code: 'ds', src: "styles/male/ds/3.png", label: "Short Twists Fade", prompt: "Short twists with a taper fade, deep black color, neat and modern profile." },
+        { code: 'ds', src: "styles/male/ds/4.png", label: "Wave Crop", prompt: "A cropped cut with waves brushed forward, jet black color, sharp temple lines." },
+        { code: 'ds', src: "styles/male/ds/5.png", label: "High-Top Fade", prompt: "A high-top fade with structured volume, natural black color, strong vertical shape." },
+        { code: 'ds', src: "styles/male/ds/6.png", label: "Clean Buzz Cut", prompt: "A buzz cut with precise edge-up, dark black color, minimal and clean look." },
+        { code: 'ds', src: "styles/male/ds/7.png", label: "Pulled-Back Locs", prompt: "Medium-length locs pulled back, natural black color, relaxed and confident style." },
+        { code: 'ds', src: "styles/male/ds/8.png", label: "Sponge Curl Fade", prompt: "A short curly fade with sponge-textured top, dense coils, smooth side blend." },
+        { code: 'ds', src: "styles/male/ds/9.png", label: "Straight Cornrows", prompt: "Cornrow braids with straight-back pattern, natural black color, clean scalp lines." },
+        { code: 'ds', src: "styles/male/ds/10.png", label: "Tapered Afro", prompt: "A tapered afro with controlled volume, matte black color, soft rounded outline." },
+        { code: 'ds', src: "styles/male/ds/11.png", label: "Curly Frohawk", prompt: "A short frohawk with faded sides, tight curls, bold center emphasis." },
+        { code: 'ds', src: "styles/male/ds/12.png", label: "Finger Coils", prompt: "Defined finger coils with low taper, black color, glossy textured finish." },
+        { code: 'ds', src: "styles/male/ds/13.png", label: "Bald Fade Curls", prompt: "A bald fade with very short, naturally lying curls on top, dark black tone, crisp contrast." },
+        { code: 'ds', src: "styles/male/ds/14.png", label: "Freeform Locs", prompt: "Freeform locs with medium length, natural texture, organic silhouette." },
+        { code: 'ds', src: "styles/male/ds/15.png", label: "Burst Fade Curls", prompt: "A burst fade with curly top, black color, rounded side profile." },
+        { code: 'ds', src: "styles/male/ds/16.png", label: "Short Box Braids", prompt: "Short box braids with neat parting, dark black color, uniform structure." },
+        { code: 'ds', src: "styles/male/ds/17.png", label: "Flat Brush Cut", prompt: "A flat brush cut with subtle wave pattern, jet black color, sharp geometry." },
+        { code: 'ds', src: "styles/male/ds/18.png", label: "Short Afro Crop", prompt: "A short afro crop with even density, natural black tone." }
+    ];
+
     // --- Helper Functions ---
+
+    /**
+     * Fisher-Yates (Knuth) Shuffle algorithm.
+     * @param {Array} array - The array to shuffle.
+     * @returns {Array} - The shuffled array.
+     */
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+    
+    function createStyleElement(style) {
+        const div = document.createElement('div');
+        div.className = 'style-option';
+        div.dataset.prompt = style.prompt;
+        div.dataset.complexionCode = style.code; // Store the filter code
+        
+        const img = document.createElement('img');
+        img.className = 'style-thumbnail';
+        img.src = style.src;
+        img.alt = style.label;
+        
+        const p = document.createElement('p');
+        p.textContent = style.label;
+
+        div.appendChild(img);
+        div.appendChild(p);
+        
+        div.addEventListener('click', () => handleStyleSelect(div));
+        return div;
+    }
+    
+    /**
+     * Renders a list of style objects into the specified container.
+     * @param {HTMLElement} container - The gallery wrapper.
+     * @param {Array<Object>} stylesArray - The array of style objects to render.
+     */
+    function renderStyles(container, stylesArray) {
+        container.innerHTML = ''; // Clear existing styles
+        stylesArray.forEach(style => {
+            container.appendChild(createStyleElement(style));
+        });
+
+        // Set up scroll listeners after content is rendered
+        setupScrollListeners(container);
+    }
+
+    // New: Function to handle filtering and rendering for male styles
+    function updateMaleStyleGallery(filterCode = null) {
+        let filteredStyles;
+        
+        if (filterCode) {
+            // Filter mode: Show only styles matching the selected code
+            filteredStyles = ALL_MALE_STYLES.filter(style => style.code === filterCode);
+        } else {
+            // Default mode: Show ALL male styles in random order
+            filteredStyles = ALL_MALE_STYLES;
+        }
+
+        // Shuffle the results before rendering
+        const shuffledStyles = shuffle([...filteredStyles]);
+        
+        // Render the filtered/shuffled list
+        renderStyles(maleStyleOptionsGroup, shuffledStyles);
+        
+        // Since the gallery content changed, reset prompt state and visibility
+        selectedPrompt = null;
+        selectedStyleLabel = null;
+        updateButtonVisibility();
+        
+        // Scroll to start after rendering
+        maleStyleOptionsGroup.scrollLeft = 0;
+    }
+
+    // Existing functions (minor updates)
 
     function updateButtonVisibility() {
         // Reset all buttons
@@ -1055,26 +1020,26 @@ document.addEventListener('DOMContentLoaded', () => {
         spinner.style.display = 'none';
 
         if (spinner.classList.contains('active')) {
-            // Processing State: Hide all buttons and show spinner
+            // Processing State
             spinner.style.display = 'block';
         } else if (aiGenerationComplete) {
-            // AI Complete State: Show Redo and Book
+            // AI Complete State
             redoSelfieBtn.style.display = 'flex'; 
             bookAppointmentBtn.style.display = 'flex'; 
             statusMessage.textContent = `Success! Your new look is ready. Book an appointment or click 🔄 to redo.`;
         } else if (imageCaptured) {
-            // Image Captured State: Show Redo and Generate (if prompt selected)
+            // Image Captured State
             redoSelfieBtn.style.display = 'flex'; 
             if (selectedPrompt) {
                 generateLookBtn.style.display = 'flex'; 
                 generateLookBtn.disabled = false;
-                const complexionStatus = selectedComplexion ? `(${selectedComplexion} Complexion selected)` : '';
+                const complexionStatus = selectedComplexionCode ? `(Complexion Filter Active)` : '';
                 statusMessage.textContent = `Style selected: ${selectedStyleLabel}. Click ✨ to generate ${complexionStatus}.`;
             } else {
                 statusMessage.textContent = "Image captured. Select a hairstyle to unlock the 'Generate' button.";
             }
         } else {
-            // Camera/Initial State: Show Capture
+            // Camera/Initial State
             cameraCaptureBtn.style.display = 'flex';
             cameraCaptureBtn.disabled = !cameraStarted; 
             if (cameraStarted) {
@@ -1084,18 +1049,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
-    // NEW: Scroll-driven selection logic utilities ------------------------
+    
     function findClosestToCenter(scrollContainer, styleOptions) {
+        // ... (No changes needed to this helper logic) ...
         const containerCenter = scrollContainer.scrollLeft + (scrollContainer.clientWidth / 2);
         let closestOption = null;
         let minDifference = Infinity;
 
         styleOptions.forEach(option => {
-            // Calculate the center of the option relative to the scroll container's start
             const optionCenter = option.offsetLeft + (option.offsetWidth / 2);
-            
-            // Calculate the difference between the option's center and the container's center
             const difference = Math.abs(optionCenter - containerCenter);
 
             if (difference < minDifference) {
@@ -1108,6 +1070,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateStyleSelectionOnScroll(scrollContainer, allOptions) {
+        // Only run if the current container is visible
+        if (scrollContainer.style.display === 'none') return;
+        
         const closestOption = findClosestToCenter(scrollContainer, allOptions);
 
         if (closestOption) {
@@ -1117,18 +1082,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 closestOption.classList.add('selected');
             }
             
-            // 2. Update the internal state (only if a change is detected)
+            // 2. Update the internal state 
             if (selectedPrompt !== closestOption.dataset.prompt) {
                 selectedPrompt = closestOption.dataset.prompt;
-                // Get the human-readable label from the custom attribute (if needed, otherwise prompt is enough)
+                // Use dataset.prompt as the fallback label
                 selectedStyleLabel = closestOption.querySelector('p').textContent || closestOption.dataset.prompt; 
                 updateButtonVisibility(); 
             }
         }
     }
 
-    // FIX: Refactored setup function to correctly handle listener attachment/detachment
     const setupScrollListeners = (groupWrapper) => {
+        // Need to get the children *after* content is rendered by renderStyles
         const allOptions = groupWrapper.querySelectorAll('.style-option');
         if (allOptions.length === 0) return;
 
@@ -1145,66 +1110,41 @@ document.addEventListener('DOMContentLoaded', () => {
         
         groupWrapper._scrollHandler = scrollHandler;
         
+        // Force initial selection after content is rendered
         scrollHandler(); 
-
-        updateButtonVisibility();
     };
 
-    function setupGalleryListeners(gender, complexion) {
-        let currentGroup;
-        
-        // Hide all style groups initially
-        maleStyleOptionsGroup.style.display = 'none';
-        femaleStyleOptionsGroup.style.display = 'none';
-        darkSkinMaleStyleOptionsGroup.style.display = 'none';
-        
-        // Determine the correct group to show
-        if (gender === 'Female') {
-            currentGroup = femaleStyleOptionsGroup;
-        } else { 
-            // Gender is Male
-            if (complexion === 'Dark' || complexion === 'Deep') {
-                currentGroup = darkSkinMaleStyleOptionsGroup;
-            } else {
-                currentGroup = maleStyleOptionsGroup;
-            }
-        }
-        
-        // Ensure current group is visible
-        currentGroup.style.display = 'flex'; 
-
-        // Reset the scroll position to the start
-        currentGroup.scrollLeft = 0;
-        
-        // Set up scroll logic for the active group
-        setupScrollListeners(currentGroup);
-        
-        // Re-apply click listeners for the currently active group
-        currentGroup.querySelectorAll('.style-option').forEach(option => {
-            option.removeEventListener('click', handleStyleSelect); // Remove old listener
-            option.addEventListener('click', () => handleStyleSelect(option));
-        });
-    }
-
-    // MODIFIED: Function to handle gender selection and switch style lists
     function handleGenderSelect(gender) {
+        // Reset complexion selection when switching gender
+        selectedComplexionCode = null;
+        complexionGroup.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
+        
         selectedGender = gender;
         
-        // Update button appearance
         maleGenderBtn.classList.remove('selected');
         femaleGenderBtn.classList.remove('selected');
         
         if (gender === 'Male') {
             maleGenderBtn.classList.add('selected');
+            maleStyleOptionsGroup.style.display = 'flex';
+            femaleStyleOptionsGroup.style.display = 'none';
+            filtersAccordion.style.display = 'block';
+            
+            // Initial render of randomized male styles
+            updateMaleStyleGallery(null); 
+            
         } else if (gender === 'Female') {
             femaleGenderBtn.classList.add('selected');
-            // Female styles currently don't use complexion filters, so reset selectedComplexion
-            selectedComplexion = null; 
-            complexionGroup.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
+            maleStyleOptionsGroup.style.display = 'none';
+            femaleStyleOptionsGroup.style.display = 'flex';
+            filtersAccordion.style.display = 'none';
+            
+            // Female styles are static for now, re-apply scroll listener
+            setupScrollListeners(femaleStyleOptionsGroup);
         }
-
-        // Setup the correct gallery
-        setupGalleryListeners(gender, selectedComplexion);
+        
+        // Reset image state if a switch occurred
+        if (imageCaptured) resetSession();
     }
     
     function toggleFilterSection(section) {
@@ -1217,32 +1157,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // MODIFIED: Function to handle complexion selection
+    // MODIFIED: Function to handle complexion selection and filtering
     function handleComplexionSelect(tile) {
-        if (selectedGender !== 'Male') {
-            // Only allow complexion selection for male styles
-            return;
-        }
+        if (selectedGender !== 'Male') return;
         
         const isSelected = tile.classList.contains('selected');
         const complexionTiles = complexionGroup.querySelectorAll('.complexion-tile');
+        const code = tile.dataset.complexionCode;
 
         // Clear previous selection
         complexionTiles.forEach(t => t.classList.remove('selected'));
+        
+        let newFilterCode = null;
 
         if (!isSelected) {
             tile.classList.add('selected');
-            selectedComplexion = tile.dataset.complexion;
-        } else {
-            // Deselecting the tile
-            selectedComplexion = null;
-        }
-
-        // Re-run setup to switch style gallery based on the new complexion state
-        setupGalleryListeners(selectedGender, selectedComplexion);
-        updateButtonVisibility();
+            newFilterCode = code; 
+        } 
+        
+        selectedComplexionCode = newFilterCode;
+        
+        // Update the visible style gallery by filtering the main list
+        updateMaleStyleGallery(selectedComplexionCode);
     }
-
+    
     // Click handler to scroll the clicked item into the center
     function handleStyleSelect(styleOption) {
         const scrollContainer = styleOption.closest('.hairstyle-options-group-wrapper');
@@ -1258,11 +1196,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Camera Functions ---
-
+    // --- Camera Functions (No changes needed) ---
     async function startCamera() {
         if (cameraStarted) return; 
-
         statusMessage.textContent = "Requesting camera access...";
         cameraCaptureBtn.disabled = true;
 
@@ -1275,7 +1211,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
             const stream = await navigator.mediaDevices.getUserMedia(constraints);
-            
             videoFeed.srcObject = stream;
             
             await new Promise(resolve => {
@@ -1294,11 +1229,9 @@ document.addEventListener('DOMContentLoaded', () => {
             videoFeed.style.display = 'block'; 
 
             updateButtonVisibility();
-
         } catch (error) {
             console.error('Error accessing camera:', error);
             statusMessage.textContent = `Error: Cannot start camera. Check permissions/device settings. (${error.name})`;
-            
             cameraPlaceholderIcon.style.display = 'block';
             videoFeed.style.display = 'none';
             cameraStarted = false;
@@ -1323,11 +1256,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         canvas.width = width;
         canvas.height = height;
-        
         context.drawImage(videoFeed, 0, 0, width, width); 
 
         const fullDataURL = canvas.toDataURL('image/jpeg');
-
         const parts = fullDataURL.split(',');
         capturedImageBase64 = parts.length > 1 ? parts[1] : fullDataURL;
 
@@ -1339,7 +1270,6 @@ document.addEventListener('DOMContentLoaded', () => {
         aiResultImg.src = fullDataURL; 
 
         stopCamera();
-
         updateButtonVisibility();
     }
 
@@ -1352,65 +1282,53 @@ document.addEventListener('DOMContentLoaded', () => {
         capturedImageBase64 = null;
         spinner.classList.remove('active');
 
-        // Re-setup the current gallery to reset selection and scroll position
-        setupGalleryListeners(selectedGender, selectedComplexion);
+        // Re-render the current style gallery to reset selection
+        if(selectedGender === 'Male') {
+            updateMaleStyleGallery(selectedComplexionCode);
+        } else {
+            setupScrollListeners(femaleStyleOptionsGroup);
+        }
 
-        // Ensure filters are reset or collapsed if needed on restart
         filtersAccordion.classList.remove('expanded');
         filtersAccordion.classList.add('collapsed');
 
         updateButtonVisibility();
     }
 
-    // --- Button Event Listeners ---
+    // --- Button Event Listeners (No changes needed) ---
 
-    // 1. Capture/Start Camera (Click on the button)
-    cameraCaptureBtn.addEventListener('click', () => {
-        captureImage();
-    });
-
-    // Capture/Start Camera (Click on the placeholder)
+    cameraCaptureBtn.addEventListener('click', captureImage);
     cameraPlaceholderIcon.addEventListener('click', () => {
         if (!cameraStarted && !imageCaptured) {
             startCamera();
         }
     });
-
-    // 2. Redo Selfie Button (🔄)
     redoSelfieBtn.addEventListener('click', () => {
         resetSession();
-        startCamera(); // Immediately start camera after reset
+        startCamera(); 
     });
 
-    // 3. Generate Button (✨)
     generateLookBtn.addEventListener('click', async () => {
         if (!capturedImageBase64 || !selectedPrompt) {
             statusMessage.textContent = "Please capture a selfie and select a hairstyle first.";
             return;
         }
 
-        // --- START LOADING STATE ---
         spinner.classList.add('active');
         updateButtonVisibility();
-        
         statusMessage.textContent = "Uploading image and defining style...";
 
-        const complexionClause = selectedComplexion
-            ? ` with a ${selectedComplexion} complexion`
+        const complexionClause = selectedComplexionCode
+            ? ` with a ${selectedComplexionCode === 'ds' ? 'darkest' : 'standard'} complexion`
             : ``;
 
-        // AGGRESSIVELY OPTIMIZED PROMPT FOR STRICT INPAINTING/EDITING
         const finalPrompt = `STRICTLY operate in an inpainting/editing mode. The ONLY element to be changed is the subject's hair. PRESERVE the subject's face, identity, expression, clothing, and background EXACTLY as they appear in the original photograph. Apply the following hairstyle, matching its texture, color, and shape: ${selectedPrompt}. The final result must be a high quality, professional studio portrait of a ${selectedGender} model${complexionClause} with NO other changes besides the hair.`;
 
         try {
             statusMessage.textContent = "Processing your new look"; 
-
-            // NOTE: Replace this with your actual API call endpoint
             const response = await fetch('/api/run_model', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     baseImage: capturedImageBase64,
                     prompt: finalPrompt,
@@ -1425,126 +1343,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
-            // --- SUCCESS BLOCK ---
             aiResultImg.src = `data:image/jpeg;base64,${data.generatedImageBase64}`;
             aiResultImg.style.display = 'block';
             videoFeed.style.display = 'none';
             cameraPlaceholderIcon.style.display = 'none';
 
-            // NEW: Set completion state
             aiGenerationComplete = true; 
             imageCaptured = true; 
-
-            // Update capturedImageBase64 to the new AI result for booking reference
             capturedImageBase64 = data.generatedImageBase64; 
             
-            // Exit loading state and update buttons (will show Book Now)
             spinner.classList.remove('active');
             updateButtonVisibility();
 
         } catch (error) {
-            // --- ERROR BLOCK ---
             console.error('AI Processing Error:', error);
             statusMessage.textContent = `Error during AI try-on: ${error.message}. Please check console and retry.`;
-
-            // Reset controls to allow retry
             spinner.classList.remove('active');
             updateButtonVisibility();
         }
     });
 
-    // 4. Book Appointment Button (Book Now)
     bookAppointmentBtn.addEventListener('click', () => {
         if (!aiGenerationComplete) {
             statusMessage.textContent = "Please generate a look first before booking.";
             return;
         }
 
-        // Populate and show the modal
         referenceImagePreview.src = aiResultImg.src;
         selectedStyleNameSpan.textContent = selectedStyleLabel;
         bookingModalOverlay.classList.add('visible');
     });
 
-    // Modal Close Button
     modalCloseBtn.addEventListener('click', () => {
         bookingModalOverlay.classList.remove('visible');
     });
 
-    // --- BOOKING FORM SUBMISSION (Placeholder) ---
     bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const bookingStatusMessage = document.getElementById('booking-status-message');
         const submitButton = bookingForm.querySelector('.submit-btn');
 
-        // Disable button and show message
         submitButton.textContent = "Processing...";
         submitButton.disabled = true;
         bookingStatusMessage.style.color = '#ffc107';
         bookingStatusMessage.textContent = "Connecting to scheduling service...";
         
-        // --- THIS IS WHERE THE ACUITY/BOULEVARD API CALL WOULD GO ---
-        // 1. Get client data from form
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const date = document.getElementById('date').value;
         const time = document.getElementById('time').value;
 
-        // 2. Data to send to Netlify Function for Acuity Integration
         const bookingData = {
             firstName: name.split(' ')[0] || '',
             lastName: name.split(' ').slice(1).join(' ') || '',
             email: email,
             datetime: `${date}T${time}:00`,
-            // Logic to determine the service based on current style and gender
             appointmentType: selectedGender === 'Male' ? 'Men\'s Cut' : 'Women\'s Cut', 
             styleName: selectedStyleLabel,
             stylePrompt: selectedPrompt,
-            // Pass the generated image as a reference
             imageReference: aiResultImg.src, 
         };
         
         console.log("Booking data prepared:", bookingData);
 
-        // Placeholder for API call: Simulate success/failure after a delay
         setTimeout(() => {
-            // Simulate successful booking
-            bookingStatusMessage.style.color = 'var(--highlight-color)'; // Green
+            bookingStatusMessage.style.color = 'var(--highlight-color)'; 
             bookingStatusMessage.textContent = "Booking Confirmed! Check your email for details.";
             submitButton.textContent = "Confirmed!";
-            
-            // In a real application, you would close the modal here:
-            // bookingModalOverlay.classList.remove('visible'); 
-
         }, 2000); 
     });
 
 
     // --- INITIALIZATION and EVENT LISTENERS ---
+    function initialize() {
+        // Gender Button Listeners
+        if (maleGenderBtn) {
+            maleGenderBtn.addEventListener('click', () => handleGenderSelect('Male'));
+        }
 
-    // Gender Button Listeners
-    if (maleGenderBtn) {
-        maleGenderBtn.addEventListener('click', () => handleGenderSelect('Male'));
+        if (femaleGenderBtn) {
+            femaleGenderBtn.addEventListener('click', () => handleGenderSelect('Female'));
+        }
+
+        // Filter Listeners
+        if (filtersAccordion) {
+            filtersAccordion.querySelector('h3').addEventListener('click', () => toggleFilterSection(filtersAccordion));
+            filtersAccordion.classList.add('collapsed');
+        }
+
+        if (complexionGroup) {
+            complexionGroup.querySelectorAll('.complexion-tile').forEach(tile => {
+                tile.addEventListener('click', () => handleComplexionSelect(tile));
+            });
+        }
+        
+        // **INITIAL STATE: Select Male and Render All Styles Randomized**
+        handleGenderSelect('Male');
     }
 
-    if (femaleGenderBtn) {
-        femaleGenderBtn.addEventListener('click', () => handleGenderSelect('Female'));
-    }
-
-    // Filter Listeners
-    if (filtersAccordion) {
-        filtersAccordion.querySelector('h3').addEventListener('click', () => toggleFilterSection(filtersAccordion));
-        filtersAccordion.classList.add('collapsed');
-    }
-
-    if (complexionGroup) {
-        complexionGroup.querySelectorAll('.complexion-tile').forEach(tile => {
-            tile.addEventListener('click', () => handleComplexionSelect(tile));
-        });
-    }
-
-    // Initial state setup (Male is default)
-    handleGenderSelect('Male');
+    initialize();
 });
     </script>
 </body>
