@@ -81,14 +81,14 @@ body {
 /* ================================================== */
 
 #main-app-container {
-    flex-grow: 1; /* Pushes footer down if content is short */
+    flex-grow: 1; 
     width: 100%;
     padding: 20px 0;
     margin: 0 auto; 
     display: flex;
     flex-direction: column;
     align-items: center; 
-    gap: 15px; /* Consistent spacing between blocks */
+    gap: 15px; 
 }
 
 /* --- 1. GENDER BUTTONS --- */
@@ -143,18 +143,17 @@ body {
     padding: 0 10px;
 }
 
+/* UPDATED: Viewport is now a circle and larger than inspiration thumbnails */
 #central-viewport {
     position: relative; 
-    width: var(--viewport-size-mobile) !important; 
-    height: var(--viewport-size-mobile) !important;
-    max-width: var(--viewport-size-desktop) !important; 
-    max-height: var(--viewport-size-desktop) !important;
+    width: 160px !important; 
+    height: 160px !important;
     margin: 0; 
-    border-radius: 6px; 
+    border-radius: 50%; /* Circle shape */
     overflow: hidden;
     background-color: #e0e0e0; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-    
+    border: 3px solid #FFFFFF; /* White border to separate from background */
     display: flex; 
     align-items: center;
     justify-content: center;
@@ -165,14 +164,12 @@ body {
 /* --- DOTTED HEADSHOT SILHOUETTE STYLES --- */
 #camera-placeholder-icon {
     position: relative;
-    width: 60%; 
-    height: 60%; 
+    width: 100%; 
+    height: 100%; 
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border: 3px dashed #777; 
-    border-radius: 6px;
     background-color: #e8e8e8;
     box-sizing: border-box;
 }
@@ -214,9 +211,9 @@ body {
     width: 100%;
     background: rgba(0, 0, 0, 0.6);
     color: white;
-    padding: 8px 5px;
+    padding: 4px 5px;
     margin: 0;
-    font-size: 0.85em;
+    font-size: 0.7em;
     text-align: center;
     z-index: 100; 
 }
@@ -604,29 +601,6 @@ body {
         box-sizing: border-box;
         padding: 0 10px;
     }
-    
-    #central-viewport {
-        width: 100% !important;
-        height: auto !important;
-        aspect-ratio: 1 / 1; 
-        max-width: var(--viewport-size-mobile) !important;
-    }
-    
-    #complexion-options-group {
-        justify-content: space-around;
-        flex-wrap: nowrap;
-        overflow-x: scroll;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        scroll-snap-type: x mandatory;
-    }
-    
-    .complexion-tile {
-        width: 40px;
-        height: 40px; 
-        flex-shrink: 0;
-        position: relative;
-    }
 }
     </style>
 </head>
@@ -667,31 +641,27 @@ body {
                 
                 <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
                 
-                <p id="status-message">Tap the silhouette above to take a selfie.</p>
+                <p id="status-message">Tap the circle to take a selfie.</p>
             </div>
         </div>
         
         <div id="controls-footer-row">
             <button id="camera-capture-btn" class="circular-action-btn main-action-btn" disabled>📸</button> 
-            
             <button id="redo-selfie-btn" class="circular-action-btn main-action-btn" style="display: none;">🔄</button>
-            
             <button id="generate-look-btn" class="circular-action-btn main-action-btn" style="display: none;">✨</button>
-            
             <div id="loading-spinner" class="spinner" style="display: none;"></div>
-            
             <button id="book-appointment-btn" class="main-action-btn" style="display: none;">Book Appointment</button>
         </div>
 
         <div id="style-inspiration-section">
             <p>Get the Look</p>
-            <div id="male-hairstyle-options-group" class="hairstyle-options-group-wrapper">
-                </div>
-            <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;">
-                </div>
+            <div id="male-hairstyle-options-group" class="hairstyle-options-group-wrapper"></div>
+            <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;"></div>
         </div>
 
-    </div> <canvas id="hidden-canvas" style="display: none;"></canvas>
+    </div>
+
+    <canvas id="hidden-canvas" style="display: none;"></canvas>
 
     <div id="booking-modal-overlay" class="modal-overlay">
         <div class="booking-modal">
@@ -718,7 +688,6 @@ body {
                     </select>
 
                     <button type="submit" class="submit-btn" id="booking-submit-btn" disabled>Confirm Booking</button>
-                    
                     <p id="booking-status-message" style="margin-top: 10px; color: #dc3545; font-weight: bold;"></p>
                 </form>
             </div>
@@ -752,9 +721,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedStyleLabel = null;
     let currentFilterCode = 'default';
 
-    // --- STYLE DATA: MALE (21 STYLES TOTAL) ---
+    // --- STYLE DATA ---
     const ALL_MALE_STYLES = [
-        // Default Set (21)
         { code: 'default', src: "styles/male/style1.png", label: "Tousled Short Crop", prompt: "A short haircut with a tousled top and natural texture, clean sides, modern masculine look." },
         { code: 'default', src: "styles/male/style2.png", label: "Wavy Clean Fade", prompt: "A clean mid-fade on sides with a messy wavy top, styled with light cream, natural finish." },
         { code: 'default', src: "styles/male/style3.png", label: "Classic Side-Part", prompt: "A classic side-part with a smooth taper, professional polished finish, short length." },
@@ -776,55 +744,21 @@ document.addEventListener('DOMContentLoaded', () => {
         { code: 'default', src: "styles/male/style19.png", prompt: "A messy surfer hair look, chin-length layers with salt-spray texture." },
         { code: 'default', src: "styles/male/style20.png", prompt: "A classic slick-back with long taper, hair groomed straight back, traditional." },
         { code: 'default', src: "styles/male/style21.png", prompt: "A faux-hawk with low fade, hair styled to a point in center, bold and textured." },
-
-        // Dark Skin / Curly Texture (DS) Set (18)
         { code: 'ds', src: "styles/male/ds/1.png", label: "Low Fade Coils", prompt: "A low taper fade with short tight sponge coils on top, clean hairline, natural texture." },
         { code: 'ds', src: "styles/male/ds/2.png", label: "Classic Afro", prompt: "A classic medium-length afro with a perfectly rounded shape, natural volume and density." },
         { code: 'ds', src: "styles/male/ds/3.png", label: "Tapered Twists", prompt: "Short hair twists with a sharp taper fade on the sides and back, neat and modern." },
-        { code: 'ds', src: "styles/male/ds/4.png", label: "360 Waves", prompt: "A short haircut with deep 360 wave pattern, high gloss finish, with a clean drop fade." },
-        { code: 'ds', src: "styles/male/ds/5.png", prompt: "A high-top fade with clean square shape, short sides, classic 90s inspired look." },
-        { code: 'ds', src: "styles/male/ds/6.png", prompt: "A burst fade mohawk with natural curls, short sides, bold and textured profile." },
-        { code: 'ds', src: "styles/male/ds/7.png", prompt: "A buzz cut with a decorative lightning bolt hair design, high skin fade, sharp edges." },
-        { code: 'ds', src: "styles/male/ds/8.png", prompt: "Longer dreadlocks gathered into a ponytail, clean undercut on the sides." },
-        { code: 'ds', src: "styles/male/ds/9.png", prompt: "Short box braids with a mid-fade, neat parting, modern protective style." },
-        { code: 'ds', src: "styles/male/ds/10.png", prompt: "A temple fade with a natural curly fro-hawk, hair length concentrated in the center." },
-        { code: 'ds', src: "styles/male/ds/11.png", prompt: "A clean bald fade with a short beard transition, groomed and sharp aesthetic." },
-        { code: 'ds', src: "styles/male/ds/12.png", prompt: "A flat-top with a step-cut design, high contrast fade, retro-modern look." },
-        { code: 'ds', src: "styles/male/ds/13.png", prompt: "Natural twist-out with medium volume, soft curls, low taper fade." },
-        { code: 'ds', src: "styles/male/ds/14.png", prompt: "A short wave-over cut with a hard side part, polished and traditional." },
-        { code: 'ds', src: "styles/male/ds/15.png", prompt: "Small bantu knots across the head, high fashion protective style." },
-        { code: 'ds', src: "styles/male/ds/16.png", prompt: "A sponge twist high-top with disconnected fade, edgy urban style." },
-        { code: 'ds', src: "styles/male/ds/17.png", prompt: "A long afro-taper, maximum natural volume on top with short sideburns." },
-        { code: 'ds', src: "styles/male/ds/18.png", prompt: "Shoulder-length twists with beads, traditional and expressive protective style." }
+        { code: 'ds', src: "styles/male/ds/4.png", label: "360 Waves", prompt: "A short haircut with deep 360 wave pattern, high gloss finish, with a clean drop fade." }
     ];
 
-    // --- STYLE DATA: FEMALE (21 STYLES TOTAL) ---
     const ALL_FEMALE_STYLES = [
         { src: "styles/female/style1.png", label: "Soft Wavy Layers", prompt: "A shoulder-length cut with soft waves and natural volume, warm brunette color, gentle face-framing layers." },
         { src: "styles/female/style2.png", label: "Long Loose Curls", prompt: "A long layered hairstyle with loose romantic curls, dark brown with subtle caramel highlights, high shine." },
         { src: "styles/female/style3.png", label: "Sleek Chin Bob", prompt: "A sleek straight bob cut at chin length, jet black, sharp clean edges, sophisticated look." },
         { src: "styles/female/style4.png", label: "Textured Wavy Lob", prompt: "A textured lob (long bob) with subtle beachy waves, ash blonde with dark roots, effortless messy finish." },
-        { src: "styles/female/style5.png", label: "Choppy Pixie Cut", prompt: "A short pixie cut with choppy layers and a side-swept fringe, platinum blonde, edgy and modern." },
-        { src: "styles/female/style6.png", prompt: "A long sleek haircut with smooth straight strands, center part, high gloss mahogany color." },
-        { src: "styles/female/style7.png", prompt: "A curly shoulder-length style with maximum volume, honey blonde highlights, natural bounce." },
-        { src: "styles/female/style8.png", prompt: "A layered shag cut with curtain bangs, medium length, messy cool-girl texture, auburn color." },
-        { src: "styles/female/style9.png", prompt: "A high sleek ponytail with a wrapped base, long straight extension, polished and sharp." },
-        { src: "styles/female/style10.png", prompt: "Short finger waves, vintage 1920s inspired look, sleek and shiny jet black finish." },
-        { src: "styles/female/style11.png", prompt: "A messy top-knot bun with loose face-framing strands, casual and effortless chic." },
-        { src: "styles/female/style12.png", prompt: "French braids into a low messy bun, bohemian romantic style, light brown hair." },
-        { src: "styles/female/style13.png", prompt: "A blunt cut bob with heavy straight-across bangs, futuristic and bold, neon pink color." },
-        { src: "styles/female/style14.png", prompt: "Long dreadlocks adorned with gold rings, gathered partially back, natural texture." },
-        { src: "styles/female/style15.png", prompt: "A voluminous afro with tight curls, perfectly round shape, deep raven black color." },
-        { src: "styles/female/style16.png", prompt: "Side-swept Hollywood waves, deep side part, glamorous classic red carpet look." },
-        { src: "styles/female/style17.png", prompt: "A short blunt bowl cut, ash grey color, artistic and minimalist aesthetic." },
-        { src: "styles/female/style18.png", prompt: "Box braids with waist-length extensions, ombre effect from black to silver." },
-        { src: "styles/female/style19.png", prompt: "A half-up half-down style with a top small braid, wavy texture on the bottom." },
-        { src: "styles/female/style20.png", prompt: "A sleek low bun with a deep side part, professional and elegant, dark chocolate color." },
-        { src: "styles/female/style21.png", prompt: "Shoulder-length hair with flipped-out ends, 90s supermodel inspired, blonde balayage." }
+        { src: "styles/female/style5.png", label: "Choppy Pixie Cut", prompt: "A short pixie cut with choppy layers and a side-swept fringe, platinum blonde, edgy and modern." }
     ];
 
-
-    // --- UTILITY: Shuffle Array (Fisher-Yates) ---
+    // --- UTILITY ---
     function shuffleArray(array) {
         let currentIndex = array.length, randomIndex;
         while (currentIndex !== 0) {
@@ -835,267 +769,104 @@ document.addEventListener('DOMContentLoaded', () => {
         return array;
     }
 
-
-    // --- CORE LOGIC: CAMERA ---
+    // --- CAMERA ---
     async function startCamera() {
-        console.log("Starting camera...");
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
             videoFeed.srcObject = stream;
             videoFeed.style.display = 'block';
             cameraPlaceholder.style.display = 'none';
-            statusMessage.textContent = "Great! Now position your face and tap 📸";
+            statusMessage.textContent = "Position your face and tap 📸";
             cameraCaptureBtn.disabled = false;
             cameraStarted = true;
         } catch (err) {
-            console.error("Camera error:", err);
-            statusMessage.textContent = "Camera access denied. Please enable it in settings.";
+            statusMessage.textContent = "Camera access denied.";
         }
     }
 
-
     function captureImage() {
         if (!cameraStarted) return;
-        
         const canvas = document.getElementById('hidden-canvas');
         const context = canvas.getContext('2d');
         canvas.width = videoFeed.videoWidth;
         canvas.height = videoFeed.videoHeight;
         context.drawImage(videoFeed, 0, 0, canvas.width, canvas.height);
-        
-        const imageData = canvas.toDataURL('image/jpeg');
-        aiResultImg.src = imageData;
+        aiResultImg.src = canvas.toDataURL('image/jpeg');
         aiResultImg.style.display = 'block';
         videoFeed.style.display = 'none';
-        
-        statusMessage.textContent = "Looking good! Select a style below then tap ✨";
         cameraCaptureBtn.style.display = 'none';
         redoSelfieBtn.style.display = 'flex';
-        
-        // Show Generate button if a style is already selected
-        if (selectedPrompt) {
-            generateLookBtn.style.display = 'flex';
-        }
+        if (selectedPrompt) generateLookBtn.style.display = 'flex';
+        statusMessage.textContent = "Select a style then tap ✨";
     }
 
-
-    // --- CORE LOGIC: GENDER & STYLES ---
+    // --- GALLERY ---
     function handleGenderSelect(gender) {
         selectedGender = gender;
-        selectedPrompt = null; 
-        selectedStyleLabel = null;
-        generateLookBtn.style.display = 'none'; 
-
-
-        // UI Toggle
+        selectedPrompt = null;
         if (gender === 'Male') {
             maleGenderBtn.classList.add('selected');
             femaleGenderBtn.classList.remove('selected');
             maleStyleOptionsGroup.style.display = 'flex';
             femaleStyleOptionsGroup.style.display = 'none';
-            filtersAccordion.style.display = 'block'; 
+            filtersAccordion.style.display = 'block';
             updateMaleStyleGallery(currentFilterCode);
         } else {
             femaleGenderBtn.classList.add('selected');
             maleGenderBtn.classList.remove('selected');
             maleStyleOptionsGroup.style.display = 'none';
             femaleStyleOptionsGroup.style.display = 'flex';
-            filtersAccordion.style.display = 'none'; 
+            filtersAccordion.style.display = 'none';
             updateFemaleStyleGallery();
         }
     }
 
-
     function updateMaleStyleGallery(filterCode) {
         currentFilterCode = filterCode;
         maleStyleOptionsGroup.innerHTML = '';
-        
-        let stylesToRender = ALL_MALE_STYLES.filter(s => s.code === filterCode);
-        stylesToRender = shuffleArray([...stylesToRender]); 
-
-
-        stylesToRender.forEach(style => {
-            const styleOption = createStyleOption(style);
-            maleStyleOptionsGroup.appendChild(styleOption);
+        let styles = ALL_MALE_STYLES.filter(s => s.code === filterCode);
+        shuffleArray([...styles]).forEach(style => {
+            maleStyleOptionsGroup.appendChild(createStyleOption(style));
         });
     }
-
 
     function updateFemaleStyleGallery() {
         femaleStyleOptionsGroup.innerHTML = '';
-        const randomizedFemale = shuffleArray([...ALL_FEMALE_STYLES]);
-        randomizedFemale.forEach(style => {
-            const styleOption = createStyleOption(style);
-            femaleStyleOptionsGroup.appendChild(styleOption);
+        shuffleArray([...ALL_FEMALE_STYLES]).forEach(style => {
+            femaleStyleOptionsGroup.appendChild(createStyleOption(style));
         });
     }
-
 
     function createStyleOption(style) {
         const div = document.createElement('div');
         div.className = 'style-option';
-        div.dataset.prompt = style.prompt;
-        div.dataset.label = style.label || "Custom Style";
-        
-        div.innerHTML = `
-            <img class="style-thumbnail" src="${style.src}" alt="${style.label}">
-            <p>${style.label}</p>
-        `;
-
-
+        div.innerHTML = `<img class="style-thumbnail" src="${style.src}" alt="${style.label}"><p>${style.label}</p>`;
         div.addEventListener('click', () => {
             document.querySelectorAll('.style-option').forEach(el => el.classList.remove('selected'));
             div.classList.add('selected');
             selectedPrompt = style.prompt;
             selectedStyleLabel = style.label || "the style";
-
-
-            if (aiResultImg.style.display === 'block') {
-                generateLookBtn.style.display = 'flex';
-                statusMessage.textContent = "Ready? Tap ✨ to see yourself in " + selectedStyleLabel;
-            } else {
-                statusMessage.textContent = "Now tap the silhouette to take your selfie!";
-            }
+            if (aiResultImg.style.display === 'block') generateLookBtn.style.display = 'flex';
         });
-
-
         return div;
     }
 
-
-    // --- CORE LOGIC: FILTER & COMPLEXION ---
-    function toggleFilterSection(section) {
-        section.classList.toggle('collapsed');
-        section.classList.toggle('expanded');
-    }
-
-
-    function handleComplexionSelect(tile) {
-        document.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
-        tile.classList.add('selected');
-        const code = tile.dataset.complexionCode;
-        updateMaleStyleGallery(code);
-    }
-
-
-    // --- CORE LOGIC: GENERATION & BOOKING ---
-    function generateHairstyleAI() {
-        statusMessage.textContent = "AI is crafting your new look...";
-        generateLookBtn.style.display = 'none';
-        redoSelfieBtn.style.display = 'none';
-        
-        const spinner = document.getElementById('loading-spinner');
-        spinner.style.display = 'block';
-
-
-        // Simulation of AI Processing
-        setTimeout(() => {
-            spinner.style.display = 'none';
-            statusMessage.textContent = "Style Generated! What do you think?";
-            redoSelfieBtn.style.display = 'flex';
-            bookAppointmentBtn.style.display = 'block';
-            
-            // In a real app, aiResultImg.src would be updated with the AI result URL
-            console.log("AI Generation Triggered for prompt:", selectedPrompt);
-        }, 3000);
-    }
-
-
-    function openBookingModal() {
-        const preview = document.getElementById('reference-image-preview');
-        const styleNameDisplay = document.getElementById('selected-style-name');
-        
-        preview.src = aiResultImg.src;
-        styleNameDisplay.textContent = selectedStyleLabel;
-        
-        bookingModal.classList.add('visible');
-        populateTimeSlots();
-    }
-
-
-    function populateTimeSlots() {
-        const timeSelect = document.getElementById('time');
-        const slots = ["9:00 AM", "10:30 AM", "1:00 PM", "3:30 PM", "5:00 PM"];
-        timeSelect.innerHTML = '<option value="">Choose a time</option>';
-        slots.forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = s;
-            opt.textContent = s;
-            timeSelect.appendChild(opt);
-        });
-        document.getElementById('booking-submit-btn').disabled = false;
-    }
-
-
-    // --- EVENT LISTENERS: CAMERA/ACTIONS ---
+    // --- INITIALIZE ---
     cameraPlaceholder.addEventListener('click', startCamera);
     cameraCaptureBtn.addEventListener('click', captureImage);
-    generateLookBtn.addEventListener('click', generateHairstyleAI);
-    redoSelfieBtn.addEventListener('click', () => {
-        location.reload(); // Simple reset for now
-    });
-
-
-    // --- EVENT LISTENERS: MODAL & FORM ---
-    bookAppointmentBtn.addEventListener('click', openBookingModal);
-    closeBookingBtn.addEventListener('click', () => bookingModal.classList.remove('visible'));
+    maleGenderBtn.addEventListener('click', () => handleGenderSelect('Male'));
+    femaleGenderBtn.addEventListener('click', () => handleGenderSelect('Female'));
+    filtersAccordion.querySelector('h3').addEventListener('click', () => filtersAccordion.classList.toggle('collapsed'));
     
-    document.getElementById('booking-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const bookingStatusMessage = document.getElementById('booking-status-message');
-        const submitButton = document.getElementById('booking-submit-btn');
-        
-        submitButton.disabled = true;
-        submitButton.textContent = "Processing...";
-        
-        const bookingData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            date: document.getElementById('date').value,
-            time: document.getElementById('time').value,
-            styleName: selectedStyleLabel,
-            stylePrompt: selectedPrompt,
-            imageReference: aiResultImg.src, 
-        };
-        
-        console.log("Booking data prepared:", bookingData);
-
-        setTimeout(() => {
-            bookingStatusMessage.style.color = 'var(--highlight-color)'; 
-            bookingStatusMessage.textContent = "Booking Confirmed! Check your email for details.";
-            submitButton.textContent = "Confirmed!";
-        }, 2000); 
+    document.querySelectorAll('.complexion-tile').forEach(tile => {
+        tile.addEventListener('click', () => {
+            document.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
+            tile.classList.add('selected');
+            updateMaleStyleGallery(tile.dataset.complexionCode);
+        });
     });
 
-
-    // --- INITIALIZATION and EVENT LISTENERS ---
-    function initialize() {
-        // Gender Button Listeners
-        if (maleGenderBtn) {
-            maleGenderBtn.addEventListener('click', () => handleGenderSelect('Male'));
-        }
-
-        if (femaleGenderBtn) {
-            femaleGenderBtn.addEventListener('click', () => handleGenderSelect('Female'));
-        }
-
-        // Filter Listeners
-        if (filtersAccordion) {
-            filtersAccordion.querySelector('h3').addEventListener('click', () => toggleFilterSection(filtersAccordion));
-            filtersAccordion.classList.add('collapsed');
-        }
-
-        if (complexionGroup) {
-            complexionGroup.querySelectorAll('.complexion-tile').forEach(tile => {
-                tile.addEventListener('click', () => handleComplexionSelect(tile));
-            });
-        }
-        
-        // **INITIAL STATE: Select Male and Render All Styles Randomized**
-        handleGenderSelect('Male');
-    }
-
-    initialize();
+    handleGenderSelect('Male');
 });
     </script>
 </body>
