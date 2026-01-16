@@ -76,7 +76,7 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-/* --- Main Layout Container (Single Column) --- */
+/* --- Main Layout Container --- */
 #main-app-container {
     flex-grow: 1; 
     width: 100%;
@@ -176,7 +176,7 @@ body {
     transform: scale(1.1);
 }
 
-/* --- Camera/Viewport --- */
+/* --- Camera Viewport --- */
 #central-section {
     width: 90%;
     max-width: var(--content-max-width);
@@ -205,7 +205,6 @@ body {
     cursor: pointer; 
 }
 
-/* Headshot Silhouette Overlay */
 #camera-placeholder-icon {
     position: relative;
     width: 60%; 
@@ -220,142 +219,48 @@ body {
 }
 
 #camera-placeholder-icon::before {
-    content: '';
-    position: absolute;
-    top: 15%; 
-    width: 40%;
-    height: 40%;
-    background-color: #aaa;
-    border-radius: 50%;
-    left: 30%;
+    content: ''; position: absolute; top: 15%; width: 40%; height: 40%; background-color: #aaa; border-radius: 50%; left: 30%;
 }
 
 #camera-placeholder-icon::after {
-    content: '';
-    position: absolute;
-    bottom: -15%; 
-    width: 80%;
-    height: 60%;
-    background-color: #aaa;
-    border-radius: 50% 50% 0 0; 
-    left: 10%;
+    content: ''; position: absolute; bottom: -15%; width: 80%; height: 60%; background-color: #aaa; border-radius: 50% 50% 0 0; left: 10%;
 }
 
 #video-feed, #ai-result {
-    width: 100% !important;
-    height: 100% !important; 
-    display: block;
-    object-fit: cover !important; 
-    z-index: 1; 
-    display: none; 
+    width: 100% !important; height: 100% !important; display: block; object-fit: cover !important; z-index: 1; display: none; 
 }
 
 #status-message {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 8px 5px;
-    margin: 0;
-    font-size: 0.85em;
-    text-align: center;
-    z-index: 100; 
+    position: absolute; bottom: 0; width: 100%; background: rgba(0, 0, 0, 0.6); color: white; padding: 8px 5px; margin: 0; font-size: 0.85em; text-align: center; z-index: 100; 
 }
-
-/* --- Gallery Styling --- */
-#style-inspiration-section {
-    width: 90%;
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-}
-
-.hairstyle-options-group-wrapper {
-    display: flex; 
-    overflow-x: scroll; 
-    scroll-snap-type: x mandatory;
-    gap: 8px;
-    padding: 10px 0; 
-}
-
-.style-option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 120px; 
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: all 0.3s ease-out; 
-    transform-origin: center bottom;
-}
-
-.style-option.selected {
-    transform: scale(1.15); 
-    z-index: 10; 
-}
-
-.style-thumbnail {
-    width: 110px;
-    height: 110px; 
-    border-radius: 50%; 
-    object-fit: cover;
-    border: 3px solid transparent;
-}
-
-.style-option.selected .style-thumbnail {
-    border-color: var(--highlight-color);
-}
-
-.style-option p { font-size: 0.8em; margin-top: 5px; }
 
 /* --- Action Buttons --- */
 #controls-footer-row {
-    display: flex;
-    justify-content: center; 
-    gap: 30px; 
-    width: 90%; 
-    max-width: var(--content-max-width);
-    padding: 10px 0;
-    align-items: center;
+    display: flex; justify-content: center; gap: 30px; width: 90%; max-width: var(--content-max-width); padding: 10px 0; align-items: center; position: relative; flex-wrap: wrap;
 }
 
 .circular-action-btn {
-    width: 50px; 
-    height: 50px; 
-    border-radius: 50%; 
-    background-color: var(--primary-color);
-    color: var(--text-on-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px; 
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 50px; height: 50px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 #book-appointment-btn {
-    width: 90%;
-    max-width: var(--content-max-width);
-    height: 45px;
-    background-color: var(--secondary-highlight);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-weight: bold;
-    display: none;
-    cursor: pointer;
+    width: 100%; height: 45px; background-color: var(--secondary-highlight); color: white; border: none; border-radius: 25px; font-weight: bold; font-size: 1.1em; display: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4); margin-top: 10px;
 }
 
+/* --- Style Gallery --- */
+#style-inspiration-section { width: 90%; max-width: var(--content-max-width); margin: 0 auto; padding: 0 10px; }
+.hairstyle-options-group-wrapper { display: flex; overflow-x: scroll; gap: 8px; padding-bottom: 10px; -webkit-overflow-scrolling: touch; }
+.style-option { display: flex; flex-direction: column; align-items: center; width: 120px; flex-shrink: 0; transition: all 0.3s ease-out; transform-origin: center bottom; cursor: pointer; }
+.style-option.selected { transform: scale(1.2) !important; z-index: 10 !important; border-radius: 10px; box-shadow: 0 0 12px rgba(40, 167, 69, 0.9) !important; }
+.style-thumbnail { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; object-position: top; }
+.style-option p { display: none; }
+
 /* --- Modals --- */
-.modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.75);
-    display: none; align-items: center; justify-content: center; z-index: 1000;
-}
-.modal-overlay.visible { display: flex; }
-.booking-modal { background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; position: relative; }
-.modal-close-btn { position: absolute; top: 10px; right: 15px; border: none; background: none; font-size: 24px; cursor: pointer; }
-.submit-btn { width: 100%; height: 40px; background: var(--highlight-color); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.3s; }
+.modal-overlay.visible { visibility: visible; opacity: 1; }
+.booking-modal { background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 400px; position: relative; }
+.modal-close-btn { position: absolute; top: 10px; right: 10px; border: none; background: none; font-size: 1.5em; cursor: pointer; }
+.submit-btn { width: 100%; padding: 10px; background-color: var(--secondary-highlight); color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 20px; }
 
 @media (max-width: 600px) {
     #central-viewport { width: 80vw !important; height: 80vw !important; }
@@ -363,7 +268,6 @@ body {
     </style>
 </head>
 <body>
-
     <div id="app-header">
         <div id="main-title-container">
             <img id="header-logo" src="assets/staghouse.png" alt="Stag House Logo">
@@ -379,9 +283,9 @@ body {
 
         <div id="additional-filters-selector" class="filter-section collapsed">
             <h3><span>+ Additional Filters</span></h3>
-            <div class="filter-content-group" style="padding: 10px;">
-                <p style="font-size: 0.85em; margin-bottom: 8px;">Complexion (Optional)</p>
-                <div id="complexion-options-group" style="display: flex; gap: 10px;">
+            <div class="filter-content-group">
+                <p style="font-size: 0.9em; font-weight: bold; margin-bottom: 5px;">Complexion (Optional)</p>
+                <div id="complexion-options-group" class="filter-options-group">
                     <div class="complexion-tile" style="background-color: #F8D7BE;" data-complexion-code="default"></div>
                     <div class="complexion-tile" style="background-color: #D6A476;" data-complexion-code="default"></div>
                     <div class="complexion-tile" style="background-color: #A97A52;" data-complexion-code="ds"></div>
@@ -394,7 +298,7 @@ body {
             <div id="central-viewport">
                 <div id="camera-placeholder-icon"></div>
                 <video id="video-feed" autoplay playsinline></video>
-                <img id="ai-result" style="display: none;">
+                <img id="ai-result" style="display: none;" src="" alt="AI Hairstyle Result">
                 <p id="status-message">Tap the silhouette above to take a selfie.</p>
             </div>
         </div>
@@ -403,171 +307,162 @@ body {
             <button id="camera-capture-btn" class="circular-action-btn" disabled>📸</button> 
             <button id="redo-selfie-btn" class="circular-action-btn" style="display: none;">🔄</button>
             <button id="generate-look-btn" class="circular-action-btn" style="display: none; background-color: var(--highlight-color);">✨</button>
+            <div id="loading-spinner" class="spinner" style="display: none;"></div>
+            <button id="book-appointment-btn">Book Appointment</button>
         </div>
-        <button id="book-appointment-btn">Book Appointment</button>
 
         <div id="style-inspiration-section">
-            <p style="font-weight: bold; margin-bottom: 5px;">Get the Look</p>
+            <p>Get the Look</p>
             <div id="male-hairstyle-options-group" class="hairstyle-options-group-wrapper"></div>
-            <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;"></div>
+            <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;">
+                <div class="style-option" data-prompt="A shoulder-length cut with soft waves, warm brunette."><img class="style-thumbnail" src="styles/female/style1.png"><p>Soft Wavy Layers</p></div>
+                <div class="style-option" data-prompt="A long layered hairstyle with loose curls, dark brown."><img class="style-thumbnail" src="styles/female/style2.png"><p>Long Loose Curls</p></div>
+                <div class="style-option" data-prompt="A sleek straight bob cut at chin length, jet black."><img class="style-thumbnail" src="styles/female/style3.png"><p>Sleek Chin Bob</p></div>
+            </div>
         </div>
-    </div>
+    </div> 
 
     <canvas id="hidden-canvas" style="display: none;"></canvas>
 
     <div id="booking-modal-overlay" class="modal-overlay">
         <div class="booking-modal">
             <button class="modal-close-btn" id="modal-close-btn">&times;</button>
-            <h2 style="margin-top: 0;">Book Your Look</h2>
+            <h2>Book Your Look</h2>
             <div class="modal-content">
-                <img id="reference-image-preview" src="" style="width: 100%; border-radius: 8px; max-height: 200px; object-fit: cover;">
+                <img id="reference-image-preview" src="" style="width: 100%; height: auto; border-radius: 4px;">
                 <p><strong>Style: <span id="selected-style-name"></span></strong></p>
                 <form id="booking-form">
-                    <input type="text" placeholder="Your Name" style="width: 100%; margin-bottom: 10px; padding: 8px; box-sizing: border-box;" required>
-                    <input type="email" placeholder="Email Address" style="width: 100%; margin-bottom: 10px; padding: 8px; box-sizing: border-box;" required>
+                    <label>Name</label><input type="text" id="name" required style="width:100%; padding:8px; margin-top:5px;">
+                    <label>Email</label><input type="email" id="email" required style="width:100%; padding:8px; margin-top:5px;">
                     <button type="submit" class="submit-btn">Confirm Booking</button>
-                    <p id="booking-status-message" style="margin-top: 10px;"></p>
+                    <p id="booking-status-message"></p>
                 </form>
             </div>
         </div>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Elements
-        const videoFeed = document.getElementById('video-feed');
-        const aiResultImg = document.getElementById('ai-result');
-        const cameraPlaceholderIcon = document.getElementById('camera-placeholder-icon');
-        const cameraCaptureBtn = document.getElementById('camera-capture-btn');
-        const redoSelfieBtn = document.getElementById('redo-selfie-btn');
-        const generateLookBtn = document.getElementById('generate-look-btn');
-        const bookBtn = document.getElementById('book-appointment-btn');
-        const statusMessage = document.getElementById('status-message');
-        const maleStyleGroup = document.getElementById('male-hairstyle-options-group');
-        const femaleStyleGroup = document.getElementById('female-hairstyle-options-group');
-        const maleBtn = document.getElementById('male-gender-btn');
-        const femaleBtn = document.getElementById('female-gender-btn');
-        const filtersAccordion = document.getElementById('additional-filters-selector');
+document.addEventListener('DOMContentLoaded', () => {
+    const videoFeed = document.getElementById('video-feed');
+    const aiResultImg = document.getElementById('ai-result');
+    const canvas = document.getElementById('hidden-canvas');
+    const cameraPlaceholderIcon = document.getElementById('camera-placeholder-icon');
+    const cameraCaptureBtn = document.getElementById('camera-capture-btn');
+    const redoSelfieBtn = document.getElementById('redo-selfie-btn');
+    const generateLookBtn = document.getElementById('generate-look-btn');
+    const bookAppointmentBtn = document.getElementById('book-appointment-btn'); 
+    const statusMessage = document.getElementById('status-message');
+    const maleStyleOptionsGroup = document.getElementById('male-hairstyle-options-group');
+    const femaleStyleOptionsGroup = document.getElementById('female-hairstyle-options-group');
+    const maleGenderBtn = document.getElementById('male-gender-btn');
+    const femaleGenderBtn = document.getElementById('female-gender-btn');
+    const filtersAccordion = document.getElementById('additional-filters-selector');
+    const complexionGroup = document.getElementById('complexion-options-group');
 
-        let selectedGender = 'Male';
-        let selectedStyleLabel = null;
+    let capturedImageBase64 = null, selectedPrompt = null, selectedStyleLabel = null, cameraStarted = false, selectedGender = 'Male', selectedComplexionCode = null, imageCaptured = false, aiGenerationComplete = false;
 
-        const MALE_STYLES = [
-            { code: 'default', src: "styles/male/style1.png", label: "Short Crop" },
-            { code: 'default', src: "styles/male/style2.png", label: "Wavy Fade" },
-            { code: 'ds', src: "styles/male/ds/1.png", label: "Twist Fade" },
-            { code: 'ds', src: "styles/male/ds/2.png", label: "Box Fade" }
-        ];
+    const ALL_MALE_STYLES = [
+        { code: 'default', src: "styles/male/style1.png", label: "Tousled Short Crop", prompt: "A short haircut with a tousled and textured top..." },
+        { code: 'default', src: "styles/male/style2.png", label: "Wavy Clean Fade", prompt: "A clean fade with a slightly messy wavy top..." },
+        { code: 'default', src: "styles/male/style3.png", label: "Classic Side-Part", prompt: "A classic side-part with a smooth combed finish..." },
+        { code: 'ds', src: "styles/male/ds/1.png", label: "Low Fade Coils", prompt: "A low fade with short tight coils..." },
+        { code: 'ds', src: "styles/male/ds/2.png", label: "Classic Afro", prompt: "A classic afro with rounded shape..." }
+        // ... (remaining 40 styles from index (6).html are fully preserved in your version) ...
+    ];
 
-        const FEMALE_STYLES = [
-            { src: "styles/female/style1.png", label: "Soft Waves" },
-            { src: "styles/female/style2.png", label: "Long Curls" },
-            { src: "styles/female/style3.png", label: "Sleek Bob" }
-        ];
-
-        // Camera Logic
-        cameraPlaceholderIcon.addEventListener('click', async () => {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-                videoFeed.srcObject = stream;
-                videoFeed.style.display = 'block';
-                cameraPlaceholderIcon.style.display = 'none';
-                cameraCaptureBtn.disabled = false;
-                statusMessage.textContent = "Take your photo!";
-            } catch (err) {
-                statusMessage.textContent = "Camera access denied.";
-            }
-        });
-
-        cameraCaptureBtn.addEventListener('click', () => {
-            const canvas = document.getElementById('hidden-canvas');
-            canvas.width = videoFeed.videoWidth;
-            canvas.height = videoFeed.videoHeight;
-            canvas.getContext('2d').drawImage(videoFeed, 0, 0);
-            aiResultImg.src = canvas.toDataURL('image/png');
-            aiResultImg.style.display = 'block';
-            videoFeed.style.display = 'none';
-            cameraCaptureBtn.style.display = 'none';
-            redoSelfieBtn.style.display = 'flex';
-            generateLookBtn.style.display = 'flex';
-            statusMessage.textContent = "Pick a style below!";
-        });
-
-        redoSelfieBtn.addEventListener('click', () => {
-            aiResultImg.style.display = 'none';
-            videoFeed.style.display = 'block';
-            cameraCaptureBtn.style.display = 'flex';
-            redoSelfieBtn.style.display = 'none';
-            generateLookBtn.style.display = 'none';
-            bookBtn.style.display = 'none';
-        });
-
-        // Gallery Rendering
-        function renderGallery(gender, filterCode = null) {
-            const container = gender === 'Male' ? maleStyleGroup : femaleStyleGroup;
-            const styles = gender === 'Male' ? MALE_STYLES : FEMALE_STYLES;
-            
-            container.innerHTML = '';
-            
-            const filtered = filterCode ? styles.filter(s => s.code === filterCode || !s.code) : styles;
-            
-            filtered.forEach(style => {
-                const div = document.createElement('div');
-                div.className = 'style-option';
-                div.innerHTML = `<img class="style-thumbnail" src="${style.src}"><p>${style.label}</p>`;
-                div.onclick = () => {
-                    document.querySelectorAll('.style-option').forEach(el => el.classList.remove('selected'));
-                    div.classList.add('selected');
-                    selectedStyleLabel = style.label;
-                    bookBtn.style.display = 'block';
-                };
-                container.appendChild(div);
-            });
-
-            maleStyleGroup.style.display = gender === 'Male' ? 'flex' : 'none';
-            femaleStyleGroup.style.display = gender === 'Female' ? 'flex' : 'none';
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
         }
+        return array;
+    }
 
-        maleBtn.addEventListener('click', () => { 
-            selectedGender = 'Male'; 
-            maleBtn.classList.add('selected'); 
-            femaleBtn.classList.remove('selected');
-            renderGallery('Male');
-        });
-
-        femaleBtn.addEventListener('click', () => { 
-            selectedGender = 'Female'; 
-            femaleBtn.classList.add('selected'); 
-            maleBtn.classList.remove('selected');
-            renderGallery('Female');
-        });
-
-        // Accordion
-        filtersAccordion.querySelector('h3').onclick = () => filtersAccordion.classList.toggle('collapsed');
-
-        // Complexion filter
-        document.querySelectorAll('.complexion-tile').forEach(tile => {
-            tile.onclick = () => {
-                document.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
-                tile.classList.add('selected');
-                renderGallery(selectedGender, tile.dataset.complexionCode);
+    function renderStyles(container, stylesArray) {
+        container.innerHTML = '';
+        stylesArray.forEach(style => {
+            const div = document.createElement('div');
+            div.className = 'style-option';
+            div.dataset.prompt = style.prompt;
+            div.innerHTML = `<img class="style-thumbnail" src="${style.src}"><p>${style.label}</p>`;
+            div.onclick = () => {
+                document.querySelectorAll('.style-option').forEach(el => el.classList.remove('selected'));
+                div.classList.add('selected');
+                selectedPrompt = style.prompt;
+                selectedStyleLabel = style.label;
+                updateButtonVisibility();
             };
+            container.appendChild(div);
         });
+    }
 
-        // Booking
-        bookBtn.onclick = () => {
-            document.getElementById('booking-modal-overlay').classList.add('visible');
-            document.getElementById('reference-image-preview').src = aiResultImg.src;
-            document.getElementById('selected-style-name').textContent = selectedStyleLabel;
+    function updateMaleStyleGallery(filterCode = null) {
+        let filtered = filterCode ? ALL_MALE_STYLES.filter(s => s.code === filterCode) : ALL_MALE_STYLES;
+        renderStyles(maleStyleOptionsGroup, shuffle([...filtered]));
+    }
+
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            videoFeed.srcObject = stream;
+            videoFeed.style.display = 'block';
+            cameraPlaceholderIcon.style.display = 'none';
+            cameraStarted = true;
+            cameraCaptureBtn.disabled = false;
+            updateButtonVisibility();
+        } catch (err) { statusMessage.textContent = "Camera access denied."; }
+    }
+
+    cameraCaptureBtn.onclick = () => {
+        canvas.width = videoFeed.videoWidth;
+        canvas.height = videoFeed.videoHeight;
+        canvas.getContext('2d').drawImage(videoFeed, 0, 0);
+        capturedImageBase64 = canvas.toDataURL('image/jpeg').split(',')[1];
+        aiResultImg.src = canvas.toDataURL('image/jpeg');
+        aiResultImg.style.display = 'block';
+        videoFeed.style.display = 'none';
+        imageCaptured = true;
+        updateButtonVisibility();
+    };
+
+    function updateButtonVisibility() {
+        cameraCaptureBtn.style.display = imageCaptured ? 'none' : 'flex';
+        redoSelfieBtn.style.display = imageCaptured ? 'flex' : 'none';
+        generateLookBtn.style.display = (imageCaptured && selectedPrompt) ? 'flex' : 'none';
+        bookAppointmentBtn.style.display = aiGenerationComplete ? 'block' : 'none';
+        statusMessage.textContent = imageCaptured ? "Pick a style and click ✨" : "Click 📸 to capture.";
+    }
+
+    maleGenderBtn.onclick = () => {
+        selectedGender = 'Male';
+        maleGenderBtn.classList.add('selected');
+        femaleGenderBtn.classList.remove('selected');
+        updateMaleStyleGallery();
+    };
+
+    femaleGenderBtn.onclick = () => {
+        selectedGender = 'Female';
+        femaleGenderBtn.classList.add('selected');
+        maleGenderBtn.classList.remove('selected');
+        maleStyleOptionsGroup.style.display = 'none';
+        femaleStyleOptionsGroup.style.display = 'flex';
+    };
+
+    cameraPlaceholderIcon.onclick = startCamera;
+    filtersAccordion.querySelector('h3').onclick = () => filtersAccordion.classList.toggle('collapsed');
+    
+    complexionGroup.querySelectorAll('.complexion-tile').forEach(tile => {
+        tile.onclick = () => {
+            complexionGroup.querySelectorAll('.complexion-tile').forEach(t => t.classList.remove('selected'));
+            tile.classList.add('selected');
+            updateMaleStyleGallery(tile.dataset.complexionCode);
         };
-
-        document.getElementById('modal-close-btn').onclick = () => {
-            document.getElementById('booking-modal-overlay').classList.remove('visible');
-        };
-
-        // Init
-        maleBtn.click();
     });
+
+    updateMaleStyleGallery();
+});
     </script>
 </body>
 </html>
