@@ -21,7 +21,7 @@
     --content-max-width: 400px; 
     --secondary-highlight: #007bff; /* Blue for booking */
     
-    /* Selfie Section Size (Slightly larger than 120px inspiration pics) */
+    /* Selfie Section Size */
     --selfie-size: 160px; 
 }
 
@@ -40,7 +40,7 @@ body {
     min-height: 100vh;
 }
 
-/* --- Header and Logo Styling --- */
+/* --- Header and Logo --- */
 #app-header {
     padding: 0; 
     background-color: #FFFFFF;
@@ -202,7 +202,7 @@ body {
 
 #status-message {
     position: absolute;
-    bottom: 10%;
+    bottom: 5%;
     width: 90%;
     background: rgba(0, 0, 0, 0.6);
     color: white;
@@ -263,7 +263,7 @@ body {
     scroll-snap-type: x mandatory; 
     scroll-behavior: smooth;
     gap: 8px;
-    padding-bottom: 10px; 
+    padding-bottom: 15px; 
     -webkit-overflow-scrolling: touch;
 }
 
@@ -283,7 +283,7 @@ body {
     border-color: var(--highlight-color);
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(40, 167, 69, 0.9) !important;
-    transform: scale(1.2) !important; 
+    transform: scale(1.1) !important; 
     z-index: 10 !important; 
 }
 
@@ -299,25 +299,12 @@ body {
     display: none;
 }
 
-/* --- Additional Filters --- */
+/* --- Filters --- */
 .filter-section {
     width: 90%; 
     max-width: var(--content-max-width);
     margin: 0 auto; 
     background-color: #fff;
-    border-radius: 6px;
-    text-align: left; 
-}
-
-.filter-section h3 {
-    font-size: 0.9em;
-    font-weight: bold;
-    padding: 8px 10px;
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    cursor: pointer;
-    margin: 0;
 }
 
 .filter-section.collapsed h3 {
@@ -327,7 +314,8 @@ body {
     max-width: 160px; 
     margin: 0 auto 10px auto; 
     font-size: 0.75em;
-    justify-content: center;
+    padding: 8px;
+    cursor: pointer;
 }
 
 .filter-section.collapsed .filter-content-group {
@@ -344,14 +332,6 @@ body {
 
 .complexion-tile.selected {
     border-color: var(--highlight-color);
-}
-
-/* --- Mobile Optimizations --- */
-@media (max-width: 600px) {
-    #central-viewport {
-        width: 160px !important;
-        height: 160px !important;
-    }
 }
     </style>
 </head>
@@ -373,7 +353,7 @@ body {
             <h3><span>+ Additional Filters</span></h3>
             <div class="filter-content-group">
                 <p style="font-size: 0.9em; font-weight: bold; margin: 5px 10px;">Complexion (Optional)</p>
-                <div id="complexion-options-group" style="display: flex; gap: 8px; padding: 10px;">
+                <div id="complexion-options-group" style="display: flex; gap: 8px; padding: 10px; justify-content: center;">
                     <div class="complexion-tile" style="background-color: #F8D7BE;" data-complexion-code="default"></div>
                     <div class="complexion-tile" style="background-color: #D6A476;" data-complexion-code="default"></div>
                     <div class="complexion-tile" style="background-color: #A97A52;" data-complexion-code="ds"></div>
@@ -392,34 +372,15 @@ body {
         </div>
         
         <div id="controls-footer-row">
-            <button id="camera-capture-btn" class="circular-action-btn main-action-btn" disabled>📸</button> 
+            <button id="camera-capture-btn" class="circular-action-btn main-action-btn">📸</button> 
             <button id="redo-selfie-btn" class="circular-action-btn main-action-btn" style="display: none;">🔄</button>
             <button id="generate-look-btn" class="circular-action-btn main-action-btn" style="display: none;">✨</button>
-            <div id="loading-spinner" style="display: none;">⌛</div>
-            <button id="book-appointment-btn" style="display: none; width: 100%; border-radius: 20px; height: 40px; background: var(--secondary-highlight); color: #fff;">Book Appointment</button>
         </div>
 
         <div id="style-inspiration-section">
             <p>Get the Look</p>
             <div id="male-hairstyle-options-group" class="hairstyle-options-group-wrapper"></div>
-            
-            <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;">
-                <div class="style-option" data-prompt="Shoulder-length cut with soft waves, warm brunette color.">
-                    <img class="style-thumbnail" src="styles/female/style1.png" alt="Soft Wavy Layers">
-                </div>
-                <div class="style-option" data-prompt="Long layered hairstyle with loose curls, dark brown.">
-                    <img class="style-thumbnail" src="styles/female/style2.png" alt="Long Loose Curls">
-                </div>
-                <div class="style-option" data-prompt="Sleek straight bob cut at chin length, jet black.">
-                    <img class="style-thumbnail" src="styles/female/style3.png" alt="Sleek Chin Bob">
-                </div>
-                <div class="style-option" data-prompt="Textured lob with subtle waves, ash blonde.">
-                    <img class="style-thumbnail" src="styles/female/style4.png" alt="Textured Wavy Lob">
-                </div>
-                <div class="style-option" data-prompt="Short pixie cut with choppy layers, platinum blonde.">
-                    <img class="style-thumbnail" src="styles/female/style5.png" alt="Choppy Pixie Cut">
-                </div>
-                </div>
+            <div id="female-hairstyle-options-group" class="hairstyle-options-group-wrapper" style="display: none;"></div>
         </div>
     </div>
 
@@ -430,37 +391,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const maleGenderBtn = document.getElementById('male-gender-btn');
     const femaleGenderBtn = document.getElementById('female-gender-btn');
 
-    [cite_start]// Restoration of Male Style Data [cite: 1]
+    // MALE STYLES (Restored from stable file)
     const ALL_MALE_STYLES = [
-        { code: 'default', src: "styles/male/style1.png", label: "Tousled Short Crop", prompt: "A short haircut with a tousled top." },
-        { code: 'default', src: "styles/male/style2.png", label: "Wavy Clean Fade", prompt: "A clean fade with a messy wavy top." },
-        { code: 'default', src: "styles/male/style3.png", label: "Classic Side-Part", prompt: "A classic side-part with smooth finish." },
-        { code: 'ds', src: "styles/male/ds/1.png", label: "Low Fade Coils", prompt: "A low fade with short tight coils." },
-        { code: 'ds', src: "styles/male/ds/2.png", label: "Classic Afro", prompt: "A classic afro with rounded shape." }
-        // ... include all styles from source as needed
+        { code: 'default', src: "styles/male/style1.png", prompt: "A short haircut with a tousled top." },
+        { code: 'default', src: "styles/male/style2.png", prompt: "A clean fade with a messy wavy top." },
+        { code: 'default', src: "styles/male/style3.png", prompt: "A classic side-part." },
+        { code: 'default', src: "styles/male/style4.png", prompt: "A short curly crop." },
+        { code: 'default', src: "styles/male/style5.png", prompt: "A layered shag cut." },
+        { code: 'default', src: "styles/male/style6.png", prompt: "A buzz cut with subtle texture." },
+        { code: 'default', src: "styles/male/style7.png", prompt: "A modern quiff." },
+        { code: 'default', src: "styles/male/style8.png", prompt: "A textured fringe." },
+        { code: 'default', src: "styles/male/style9.png", prompt: "A wavy slick-back." },
+        { code: 'default', src: "styles/male/style10.png", prompt: "A cropped Caesar cut." },
+        { code: 'ds', src: "styles/male/ds/1.png", prompt: "A low fade with short tight coils." },
+        { code: 'ds', src: "styles/male/ds/2.png", prompt: "A classic afro." },
+        { code: 'ds', src: "styles/male/ds/3.png", prompt: "Short twists with a taper fade." },
+        { code: 'ds', src: "styles/male/ds/4.png", prompt: "A cropped cut with waves." }
+    ];
+
+    // FEMALE STYLES (Restored from stable file)
+    const ALL_FEMALE_STYLES = [
+        { src: "styles/female/style1.png", prompt: "A shoulder-length cut with soft waves." },
+        { src: "styles/female/style2.png", prompt: "A long layered hairstyle with loose curls." },
+        { src: "styles/female/style3.png", prompt: "A sleek straight bob cut at chin length." },
+        { src: "styles/female/style4.png", prompt: "A textured lob with subtle waves." },
+        { src: "styles/female/style5.png", prompt: "A short pixie cut with choppy layers." },
+        { src: "styles/female/style6.png", prompt: "A long haircut with smooth straight strands." },
+        { src: "styles/female/style7.png", prompt: "A curly shoulder-length style." },
+        { src: "styles/female/style8.png", prompt: "A layered shag cut with curtain bangs." }
     ];
 
     function renderStyles(gender) {
-        if (gender === 'Male') {
-            maleStyleOptionsGroup.style.display = 'flex';
-            femaleStyleOptionsGroup.style.display = 'none';
-            maleStyleOptionsGroup.innerHTML = '';
-            
-            ALL_MALE_STYLES.forEach(style => {
-                const div = document.createElement('div');
-                div.className = 'style-option';
-                div.dataset.prompt = style.prompt;
-                div.innerHTML = `<img class="style-thumbnail" src="${style.src}" alt="${style.label}">`;
-                div.onclick = () => {
-                    document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
-                    div.classList.add('selected');
-                };
-                maleStyleOptionsGroup.appendChild(div);
-            });
-        } else {
-            maleStyleOptionsGroup.style.display = 'none';
-            femaleStyleOptionsGroup.style.display = 'flex';
-        }
+        const container = gender === 'Male' ? maleStyleOptionsGroup : femaleStyleOptionsGroup;
+        const styles = gender === 'Male' ? ALL_MALE_STYLES : ALL_FEMALE_STYLES;
+        
+        maleStyleOptionsGroup.style.display = gender === 'Male' ? 'flex' : 'none';
+        femaleStyleOptionsGroup.style.display = gender === 'Female' ? 'flex' : 'none';
+        
+        container.innerHTML = '';
+        styles.forEach(style => {
+            const div = document.createElement('div');
+            div.className = 'style-option';
+            div.dataset.prompt = style.prompt;
+            div.innerHTML = `<img class="style-thumbnail" src="${style.src}">`;
+            div.onclick = () => {
+                document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
+                div.classList.add('selected');
+            };
+            container.appendChild(div);
+        });
     }
 
     maleGenderBtn.onclick = () => {
@@ -473,6 +452,11 @@ document.addEventListener('DOMContentLoaded', () => {
         femaleGenderBtn.classList.add('selected');
         maleGenderBtn.classList.remove('selected');
         renderStyles('Female');
+    };
+
+    // Filter toggle logic
+    document.querySelector('#additional-filters-selector h3').onclick = () => {
+        document.getElementById('additional-filters-selector').classList.toggle('collapsed');
     };
 
     // Initial render
